@@ -1,9 +1,7 @@
 import React, { useContext, useState } from "react";
-import { StepsData } from "../providers/stepsdata"
+import { DBContextProvider } from "../providers/dbprovider";
 
 const Test = (props) => {
-    const hookthevalue = useContext(StepsData);
-
     const [formdata, setFormData] = useState([
         {
             points: 200, 
@@ -27,15 +25,14 @@ const Test = (props) => {
     ]);
     return(
         <>
-        {/* <StepsData.Consumer> */}
+        <DBContextProvider/>
         "HELLO"
         {formdata.map(m => {
             return(
                 <li>{m.evaluator}</li>    
             )
         })}
-        <div>{hookthevalue.user}</div>
-        {/* </StepsData.Consumer> */}
+        <div>user</div>
         </>
     );
 }

@@ -3,15 +3,14 @@ import { Db } from "../../firebase-config/db";
 import UnitStepForm from "./UnitStepForm";
 import { collection, getDocs } from "firebase/firestore";
 import Typography from '@mui/material/Typography';
-import { StepsData } from "../../providers/stepsdata";
+import { DBContextProvider } from "../../providers/dbprovider";
+import { DBContext } from "../../providers/dbcontext"
 
 function MultiStepForm() {
   const [features, setFeatures] = useState([]);
   const [persons, setPersons] = useState([]);
   const [page, setPage] = useState(1)
   
-  const stepData = useContext(StepsData);
-
   const NextPage = () => {
     setPage(currPage => currPage + 1);
   };
@@ -44,17 +43,16 @@ function MultiStepForm() {
     getPersons();
   }, [])
 
+  // const [user, setUser] = useContext(DBContext);
+
   return (
-    <div>      
-      <Typography variant="p" gutterBottom component="div">
-      Here it is new Context Type:  {typeof(stepData)},  <br />
-      {/* Here it is new Context {stepData.user} <br /> */}
-      
-        {/* {stepData.map(d=>(
-          <li>d.feature</li>
-        ))} */}
-        Features
-      </Typography>
+    <DBContextProvider>
+        <Typography variant="p" gutterBottom component="div">
+        {/* Here it is new Context Type:  {typeof(stepData)},  <br />
+        Here it is new Context {stepData.dark} <br /> */}
+        {/* <h1>{`Hello ${user}!`}</h1> */}
+          Features
+        </Typography>
 
       {features.length > 0 && 
       <UnitStepForm featureName={ features[page].feature } scores={ features[page].total_score } featureId={ features[page].id } personsList={ persons }/> }
@@ -62,7 +60,7 @@ function MultiStepForm() {
         | Current Page is: { page } | 
         { page < (features.length - 1) ? <button onClick={NextPage}>Next</button> : <button onClick={Submit}>Submit</button>}
 
-    </div>
+    </DBContextProvider>
   );
 }
 
