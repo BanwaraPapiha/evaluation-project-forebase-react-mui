@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Db } from "../../firebase-config/db";
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
+import Only_Table from '../common/onlyTable';
 
 import {
   collection,
@@ -55,26 +56,7 @@ function Charts() {
             shows record of what other users have evaluated a specific username <br/>
             ac/de-celerate <br/>
 
-            <div>
-                <h1>Persons</h1>
-                {persons.map((prsn) => {
-                return (
-                    <div style={{border: "2px dotted red", color: "blue"}}>
-                        <h5>id: {prsn.id} | Name: {prsn.Name} | Email: {prsn.Email}</h5>
-                        <h5>accelerated: {prsn.Accelerated} | decelerated: {prsn.Decelerated} |
-                         ac_de_by: {prsn.Accelrated_or_decelerated_by} | Total_sum_Score: {prsn.Total_sum_Score} |
-                          acc_dec_score: {prsn.acc_dec_score} | 
-                          <button>Accelerate</button> |
-                          <button>Decelerate</button> |
-                          <label htmlFor="customChange">Custom Increase or Decrease: </label>
-                          <input type="text" value="1" />
-                          <button type="submit">Change</button> |
-                          <button>View Graphical Form</button>
-                        </h5>
-                    </div>
-                );
-                })}
-            </div>
+            <Only_Table table_datum={persons}/> 
 
             <div>
               <LineChart width={600} height={300} data={persons} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>

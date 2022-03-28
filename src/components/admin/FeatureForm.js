@@ -5,6 +5,8 @@ import {
   collection,
   addDoc } from "firebase/firestore";
 
+import { TextField, Container, Button, Grid, Stack, Paper } from '@mui/material';
+
 export default function FeatureForm() {
   const usersCollectionRef = collection(Db, "features for evaluation");
 
@@ -20,11 +22,23 @@ export default function FeatureForm() {
   console.log(errors);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <input type="text" placeholder="Feature to evaluate" {...register("Feature", {required: true, maxLength: 80})} />
-      <input type="number" placeholder="Total Possible Scores" {...register("Total_Scores", {required: true, maxLength: 4})} />
-
-      <input type="submit" />
-    </form>
+    <Grid item xs={12} md={6}>
+      <Paper elevation={3}>
+        <Container maxWidth="xl">
+          <form onSubmit={handleSubmit(onSubmit)}>
+          <Stack spacing={3}>
+            <TextField fullWidth label="Feature to evaluate" variant="standard" {...register("Feature", {required: true, maxLength: 80})}/>
+            <TextField fullWidth label="Total Possible Scores" variant="standard" {...register("Total_Scores", {required: true, maxLength: 4})}/>
+            <Button fullWidth
+              onClick={handleSubmit(onSubmit)} 
+              type="submit" variant="contained" component="span">
+            Submit
+            </Button>
+            <br />
+          </Stack>
+          </form>
+        </Container>
+      </Paper>
+    </Grid>
   );
 }

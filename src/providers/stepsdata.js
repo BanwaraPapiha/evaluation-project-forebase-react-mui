@@ -2,15 +2,12 @@ import { useState, createContext } from "react";
 
 const StepsData = createContext();
 
-function StepsDataComp(children) {
+function StepsDataComp(props) {
   const [usersDataList, setUsersDataList] = useState("Hello, Testing New state");
-  const [stepData, setStepData] = useState([
-    {"being_evaluated": "", "evaluator": "", "feature": "", "score_awarded": "", "timestamp": "", "total_score": ""}, 
-  ]);
-
+  const user= "Undefined";
   return (
-    <StepsData.Provider value={usersDataList}>
-        { children }
+    <StepsData.Provider value={user}>
+        { props.children }
     </StepsData.Provider>
   );
 }

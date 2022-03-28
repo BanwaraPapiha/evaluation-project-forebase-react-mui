@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { Db } from "../../firebase-config/db";
-import { Paper, Typography, Button, TextField, Container } from '@mui/material';
+import { Paper, Typography, Button, TextField, Container, Stack } from '@mui/material';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import AnalyticsOutlinedIcon from '@mui/icons-material/AnalyticsOutlined';
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -18,18 +21,7 @@ import {
   // doc,
 } from "firebase/firestore";
 
-function BountyMini() {
-    const [persons, setPersons] = useState([]);
-    const usersCollectionRef_persons = collection(Db, "persons to be evaluated");
-
-    useEffect(() => {
-        const getPersons = async () => {
-          const data = await getDocs(usersCollectionRef_persons);
-          console.log(data.docs);
-          setPersons(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-        };
-        getPersons();
-      }, []);
+function Only_Table(props) {
 
     function createData(
         name: string,
@@ -41,10 +33,11 @@ function BountyMini() {
         acc_dec_score: number,
       ) {
         return { name, email, acc, dec, acc_dec_by, Total_sum_Score, acc_dec_score };
-      }
+    }
       
     const newRow =[]
-    {persons.map((prsn) => {
+
+    {props.table_datum.map((prsn) => {
       return (
         newRow.push(createData(prsn.Name, prsn.Email, prsn.Accelerated, prsn.Decelerated, prsn.Accelrated_or_decelerated_by, prsn.Total_sum_Score, prsn.acc_dec_score))
         )
@@ -52,31 +45,7 @@ function BountyMini() {
     console.log(newRow);
 
     return (
-      <>
-        <Typography variant="h5" gutterBottom component="div">
-            Bounty <br/>
-            visible to admin only for each username <br/>
-            divide money relatively <br/>
-            Total Points Calculated are: {persons.length > 1 ? persons.map(k => k.acc_dec_score).reduce((acc, k) => Number(k) + Number(acc)) : "Not Loaded"}
-        </Typography>
-        <Paper elevation={5} >
-            <Container>
-            <Typography variant="h6" gutterBottom component="div">
-                divide money relatively <br/>
-            </Typography>
-            <TextField
-              id="outlined-number"
-              label="Number"
-              type="number"
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-            <Button variant="contained">Submit</Button>
-          </Container>
-        </Paper>
-        
-        <TableContainer component={Paper}>
+      <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -92,6 +61,7 @@ function BountyMini() {
               <TableCell align="right">Actions</TableCell>
             </TableRow>
           </TableHead>
+
           <TableBody>
             {newRow.map((row) => (
               <TableRow
@@ -103,20 +73,19 @@ function BountyMini() {
                 </TableCell>
                 <TableCell align="right">{row.email}</TableCell>
                 <TableCell align="right">{row.acc}</TableCell>
-                <TableCell align="right"><button>Accelerate</button></TableCell>
+                <TableCell align="right"><ArrowUpwardIcon onClick={()=>{alert("upward")}}/></TableCell>
                 <TableCell align="right">{row.dec}</TableCell>
-                <TableCell align="right"><button>Decelerate</button></TableCell>
+                <TableCell align="right"><ArrowDownwardIcon onClick={()=>{alert("downward")}}/></TableCell>
                 <TableCell align="right">{row.acc_dec_by}</TableCell>
                 <TableCell align="right">{row.Total_sum_Score}</TableCell>
                 <TableCell align="right">{row.acc_dec_score}</TableCell>
-                <TableCell align="right"><button>View Graphical Form</button></TableCell>
+                <TableCell align="right"><AnalyticsOutlinedIcon onClick={()=>{alert("graphs")}}/></TableCell>
               </TableRow>
             ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </>
+          </TableBody>
+        </Table>
+      </TableContainer>
     );
   }
 
-export default BountyMini;
+export default Only_Table;

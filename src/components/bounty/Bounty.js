@@ -1,16 +1,8 @@
 import { useState, useEffect } from "react";
 import { Db } from "../../firebase-config/db";
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
-// import DataGridProDemo from '../common/table';
-import BountyMini from '../common/table';
-import {
-  collection,
-  getDocs,
-  // addDoc,
-  // updateDoc,
-  // deleteDoc,
-  // doc,
-} from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
+import { Paper, Typography, Button, TextField, Container, Stack } from '@mui/material';
+import Only_Table from '../common/onlyTable';
 
 function Bounty() {
     const [persons, setPersons] = useState([]);
@@ -24,49 +16,42 @@ function Bounty() {
         };
         getPersons();
       }, []);
-    //   var res = persons.map(bill => bill.acc_dec_score).reduce((acc, bill) => bill + acc);
-    //   console.log(res)
   
     return (
-        <>
-        <BountyMini/>
-            <div>
-                Bounty <br/>
-                visible to admin only for each username <br/>
-                divide money relatively <br/>
-                <h2>Total Points Calculated are: {persons.length > 1 ? persons.map(k => k.acc_dec_score).reduce((acc, k) => Number(k) + Number(acc)) : "Not Loaded"}</h2>
-            </div>
-            <div>
-                <h1>Persons</h1>
-                {persons.map((prsn) => {
-                return (
-                    <div style={{border: "2px dotted red", color: "blue"}}>
-                        <h5>Name: {prsn.Name} | Email: {prsn.Email}</h5>
-                        <h5>accelerated: {prsn.Accelerated} | decelerated: {prsn.Decelerated} |
-                         ac_de_by: {prsn.Accelrated_or_decelerated_by} | Total_sum_Score: {prsn.Total_sum_Score} |
-                          acc_dec_score: {prsn.acc_dec_score} | 
-                          <button>Accelerate</button> |
-                          <button>Decelerate</button> |
-                          <label htmlFor="customChange">Custom Increase or Decrease: </label>
-                          <input type="text" value="1" />
-                          <button type="submit">Change</button> |
-                          <button>View Graphical Form</button>
-                        </h5>
-                    </div>
-                );
-                })}
-            </div>
+      <Stack spacing={4}>
+        <br />
+        {/* <Typography variant="h5" gutterBottom component="div">
+            Bounty <br/>
+            visible to admin only for each username <br/>
+            divide money relatively <br/>
+            Total Points Calculated are: {persons.length > 1 ? persons.map(k => k.acc_dec_score).reduce((acc, k) => Number(k) + Number(acc)) : "Not Loaded"}
+        </Typography> */}
 
-            <div>
-              <LineChart width={600} height={300} data={persons} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-                <Line type="monotone" dataKey="acc_dec_score" stroke="#8884d8" />
-                <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-                <XAxis dataKey="Name" />
-                <YAxis />
-                <Tooltip />
-              </LineChart>
-            </div>
-        </>
+        <Paper elevation={5} >
+          <Container>
+            <Stack spacing={2}>
+              <Typography variant="h6" gutterBottom component="div">
+                  Divide Money Relatively <br/>
+              </Typography>
+
+              <TextField
+              fullWidth
+                id="outlined-number"
+                label="Number"
+                type="number"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+              <Button fullWidth variant="contained">Divide money</Button>
+              <br/><br/>
+
+            </Stack>
+          </Container>
+        </Paper>
+
+      <Only_Table table_datum={persons}/> 
+    </Stack>
     );
   }
   

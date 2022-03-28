@@ -1,7 +1,5 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-
-// import { useState, useEffect } from "react";
 import { Db } from "../../firebase-config/db";
 import {
   collection,
@@ -11,6 +9,8 @@ import {
   // deleteDoc,
   // doc,
 } from "firebase/firestore";
+
+import { TextField, Container, Button, Grid, Stack, Paper } from '@mui/material';
 
 
 export default function PersonForm() {
@@ -30,18 +30,37 @@ export default function PersonForm() {
   console.log(errors);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <input type="text" placeholder="Name" {...register("Name", {required: true, maxLength: 80})} />
-      <input type="text" placeholder="Email" {...register("Email", {required: true, pattern: /^\S+@\S+$/i})} />
-      <label>Accelerated</label>
-      <input type="checkbox" placeholder="Accelerated" {...register("Accelerated", {required: false})} />
-      <label>Decelerated</label>
-      <input type="checkbox" placeholder="Decelerated" {...register("Decelerated", {})} />
-      <input type="number" placeholder="Accelrated or decelerated by" {...register("Accelrated_or_decelerated_by", {})} />
-      <input type="text" placeholder="Total Sum of Score" {...register("Total_sum_Score", {})} />
-      <input type="text" placeholder="Ac/de-celerated Score" {...register("acc_dec_score", {})} />
+    <Grid item xs={12} md={6}>
+      <Paper elevation={3}>
+        <Container maxWidth="xl">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Stack spacing={3}>
+              <TextField fullWidth label="Name" variant="standard" {...register("Name", {required: true, maxLength: 80})} />
+              <TextField fullWidth label="Email" variant="standard" {...register("Email", {required: true, pattern: /^\S+@\S+$/i})} />
+              
+              <Container>
+              <label>Accelerated</label>
+              <input type="checkbox" placeholder="Accelerated" {...register("Accelerated", {required: false})} />          
+              <label>Decelerated</label>
+              <input type="checkbox" placeholder="Decelerated" {...register("Decelerated", {})} />
 
-      <input type="submit" />
-    </form>
+              </Container>
+
+              <TextField fullWidth label="Accelrated or decelerated by" variant="standard" {...register("Accelrated_or_decelerated_by", {})} />
+              <TextField fullWidth label="Total Sum of Score" variant="standard" {...register("Total_sum_Score", {})} />       
+              <TextField fullWidth label="Ac/de-celerated Score" variant="standard" {...register("acc_dec_score", {})} />
+              <Button fullWidth
+                onClick={handleSubmit(onSubmit)} 
+                type="submit" variant="contained" component="span">
+              Submit
+              </Button>
+              <br />
+            </Stack>
+          </form>
+
+        </Container>
+      </Paper>
+    </Grid>
+
   );
 }

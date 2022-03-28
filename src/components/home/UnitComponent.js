@@ -65,6 +65,7 @@ function UnitComponent(props) {
               <Slider defaultValue={0}  max={props.scores} step={0.5} aria-label="Default" valueLabelDisplay="auto" onChange={HandleChange} />
             </Container>
           </CardActions>
+
           <Typography variant="caption" display="block" gutterBottom>
             id: { props.person.id }
           </Typography>
