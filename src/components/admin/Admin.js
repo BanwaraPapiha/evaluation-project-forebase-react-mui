@@ -47,18 +47,7 @@ function Admin() {
       <Container>
       <br />
       <Grid container spacing={2} columnSpacing={{ xs: 1, sm: 2, md: 3 }} alignItems="center" justify="center">
-        {/* <Grid item xs={8} md={8}>
-          <Typography variant="h5" gutterBottom component="div">
-              Admin <br/>
-              special login <br/>
-              control <br/>
-              manuaally add new persons <br/>
-              connect emails accounts <br/>
-              remove google accounts <br/>
-              add faetures and their scoring <br/>
-          </Typography>
-        </Grid> */}
-
+        
         <PersonForm />
         <FeatureForm />
 

@@ -1,28 +1,10 @@
-import { useState, useEffect } from "react";
-import { Db } from "../../firebase-config/db";
 import { Paper, Typography, Button, TextField, Container, Stack } from '@mui/material';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import AnalyticsOutlinedIcon from '@mui/icons-material/AnalyticsOutlined';
-
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-
-import {
-  collection,
-  getDocs,
-  // addDoc,
-  // updateDoc,
-  // deleteDoc,
-  // doc,
-} from "firebase/firestore";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 
 function Only_Table(props) {
-
     function createData(
         name: string,
         email: number,
@@ -34,14 +16,13 @@ function Only_Table(props) {
       ) {
         return { name, email, acc, dec, acc_dec_by, Total_sum_Score, acc_dec_score };
     }
-      
-    const newRow =[]
 
+    const newRow =[]
     {props.table_datum.map((prsn) => {
       return (
         newRow.push(createData(prsn.Name, prsn.Email, prsn.Accelerated, prsn.Decelerated, prsn.Accelrated_or_decelerated_by, prsn.Total_sum_Score, prsn.acc_dec_score))
-        )
-      })}
+        )})
+    }
     console.log(newRow);
 
     return (

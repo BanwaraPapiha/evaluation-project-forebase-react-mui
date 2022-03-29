@@ -2,15 +2,7 @@ import { useState, useEffect } from "react";
 import { Db } from "../../firebase-config/db";
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 import Only_Table from '../common/onlyTable';
-
-import {
-  collection,
-  getDocs,
-  // addDoc,
-  // updateDoc,
-  // deleteDoc,
-  // doc,
-} from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 
 function Charts() {
     const [features, setFeatures] = useState([]);

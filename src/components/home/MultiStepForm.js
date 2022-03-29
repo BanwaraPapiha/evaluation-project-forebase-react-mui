@@ -2,15 +2,18 @@ import { useState, useEffect, useContext } from "react";
 import { Db } from "../../firebase-config/db";
 import UnitStepForm from "./UnitStepForm";
 import { collection, getDocs } from "firebase/firestore";
-import Typography from '@mui/material/Typography';
+import { Typography, Container } from '@mui/material';
 import { DBContextProvider } from "../../providers/dbprovider";
 import { DBContext } from "../../providers/dbcontext"
 
-function MultiStepForm() {
+function MultiStep() {
   const [features, setFeatures] = useState([]);
   const [persons, setPersons] = useState([]);
   const [page, setPage] = useState(1)
-  
+  const {user, setUser, formdata, setFormData} = useContext(DBContext);
+  const usersCollectionRef_features = collection(Db, "features for evaluation");
+  const usersCollectionRef_persons = collection(Db, "persons to be evaluated");
+
   const NextPage = () => {
     setPage(currPage => currPage + 1);
   };
@@ -20,9 +23,6 @@ function MultiStepForm() {
   const Submit = () => {
     alert("Submit!");
   };
-
-  const usersCollectionRef_features = collection(Db, "features for evaluation");
-  const usersCollectionRef_persons = collection(Db, "persons to be evaluated");
 
   useEffect(() => {
     const getFeatures = async () => {
@@ -43,25 +43,38 @@ function MultiStepForm() {
     getPersons();
   }, [])
 
-  // const [user, setUser] = useContext(DBContext);
+  console.log("this is special experiment for: ")
+  console.log()
 
   return (
-    <DBContextProvider>
-        <Typography variant="p" gutterBottom component="div">
-        {/* Here it is new Context Type:  {typeof(stepData)},  <br />
-        Here it is new Context {stepData.dark} <br /> */}
-        {/* <h1>{`Hello ${user}!`}</h1> */}
-          Features
-        </Typography>
+    <>
+      <Typography variant="p" gutterBottom component="div">
+        <h1>Hello, {typeof(user)}!</h1>
+        {console.log(user)}
+        {console.log(formdata)}
+        <h1>Hello, {user}!</h1>
+        Features
+      </Typography>
 
       {features.length > 0 && 
       <UnitStepForm featureName={ features[page].feature } scores={ features[page].total_score } featureId={ features[page].id } personsList={ persons }/> }
-      { page > 1 && <button onClick={PrevPage}>Previous</button>}
-        | Current Page is: { page } | 
-        { page < (features.length - 1) ? <button onClick={NextPage}>Next</button> : <button onClick={Submit}>Submit</button>}
 
+      <Container style={{padding: "10px", margin: "auto 10px"}}>
+        { page > 1 && <button onClick={PrevPage}>Previous</button>}
+        &nbsp; Current Page is: { page } &nbsp;
+        { page < (features.length - 1) ? <button onClick={NextPage}>Next</button> : <button onClick={Submit}>Submit</button>}
+      </Container>
+
+    </>
+  );
+}
+
+function MultiStepFormCtx() {
+  return (
+    <DBContextProvider>    
+      <MultiStep/>
     </DBContextProvider>
   );
 }
 
-export default MultiStepForm;
+export default MultiStepFormCtx;

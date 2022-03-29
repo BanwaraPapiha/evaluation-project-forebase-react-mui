@@ -1,3 +1,3 @@
 import { createContext } from "react";
-const DBContext = createContext()
+const DBContext = createContext("Empty")
 export { DBContext };
