@@ -3,14 +3,17 @@ import { Db } from "../../firebase-config/db";
 import UnitStepForm from "./UnitStepForm";
 import { collection, getDocs } from "firebase/firestore";
 import { Typography, Container } from '@mui/material';
+import { DBContext } from "../../providers/dbcontext";
+import { PointsCtx } from "../../providers/pointsctx";
 import { DBContextProvider } from "../../providers/dbprovider";
-import { DBContext } from "../../providers/dbcontext"
+import { PointsCtxProvider } from "../../providers/pointsProvider";
 
 function MultiStep() {
   const [features, setFeatures] = useState([]);
   const [persons, setPersons] = useState([]);
   const [page, setPage] = useState(1)
-  const {user, setUser, formdata, setFormData} = useContext(DBContext);
+  const {formdata, setFormData} = useContext(DBContext);
+  const {pointsdata, setPointsdata} = useContext(PointsCtx);
   const usersCollectionRef_features = collection(Db, "features for evaluation");
   const usersCollectionRef_persons = collection(Db, "persons to be evaluated");
 
@@ -44,22 +47,29 @@ function MultiStep() {
   }, [])
 
   console.log("this is special experiment for: ")
-  console.log()
 
   return (
     <>
       <Typography variant="p" gutterBottom component="div">
-        <h1>Hello, {typeof(user)}!</h1>
-        {console.log(user)}
-        {console.log(formdata)}
-        <h1>Hello, {user}!</h1>
+        <p>
+          {formdata.map(d => {
+            return(
+              <span>&nbsp;{d.being_eval}&nbsp;</span>
+            )
+          })}
+        </p>
         Features
       </Typography>
 
       {features.length > 0 && 
-      <UnitStepForm featureName={ features[page].feature } scores={ features[page].total_score } featureId={ features[page].id } personsList={ persons }/> }
+      <UnitStepForm 
+        personsList={ persons }
+        featureName={features[page].feature} 
+        scores={features[page].total_score} 
+        featureId={features[page].id} 
+      /> }
 
-      <Container style={{padding: "10px", margin: "auto 10px"}}>
+      <Container style={{padding: "10px", margin: "10px auto", width: "50%"}}>
         { page > 1 && <button onClick={PrevPage}>Previous</button>}
         &nbsp; Current Page is: { page } &nbsp;
         { page < (features.length - 1) ? <button onClick={NextPage}>Next</button> : <button onClick={Submit}>Submit</button>}
@@ -71,8 +81,10 @@ function MultiStep() {
 
 function MultiStepFormCtx() {
   return (
-    <DBContextProvider>    
-      <MultiStep/>
+    <DBContextProvider> 
+      <PointsCtxProvider>
+        <MultiStep/>
+      </PointsCtxProvider>   
     </DBContextProvider>
   );
 }

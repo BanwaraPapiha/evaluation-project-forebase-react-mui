@@ -2,7 +2,6 @@ import { DBContext } from "./dbcontext"
 import { useState } from "react";
 
 export function DBContextProvider(props) {
-    const [user, setUser] = useState("Jesse Hall");
     const [formdata, setFormData] = useState([
       {
           points: 200, 
@@ -25,7 +24,7 @@ export function DBContextProvider(props) {
   ]);
 
   return (
-      <DBContext.Provider value={{user, setUser, formdata, setFormData}}>
+      <DBContext.Provider value={{formdata, setFormData}}>
         {props.children}
       </DBContext.Provider>
     );
