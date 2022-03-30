@@ -5,10 +5,14 @@ import UnitComponent from "./UnitComponent";
 function UnitStepForm(props) {
   const items = []
   const [availableScore, setAvailableScore] = useState(items);
+  const [childdata, setChildData] = useState([]);
 
   const updateScore = (state) => {
     setAvailableScore(state);
   }
+  // const updateChildData = (state) => {
+  //   setChildData(state);
+  // }
 
   return (
     <div>
@@ -25,6 +29,9 @@ function UnitStepForm(props) {
             featureId={props.featureId} updateScore={updateScore}
             feature_score={ props.scores }
             availableScoreList={availableScore[props.featureId]={}} 
+            parentData={childdata} 
+            updateParent={setChildData}
+            // updateParent={updateChildData}
           />
         );
         })}

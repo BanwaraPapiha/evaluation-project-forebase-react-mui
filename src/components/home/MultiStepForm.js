@@ -46,8 +46,6 @@ function MultiStep() {
     getPersons();
   }, [])
 
-  console.log("this is special experiment for: ")
-
   return (
     <>
       <Typography variant="p" gutterBottom component="div">
