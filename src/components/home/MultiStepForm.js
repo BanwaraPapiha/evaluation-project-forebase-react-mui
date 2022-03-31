@@ -1,11 +1,11 @@
 import { useState, useEffect, useContext } from "react";
 import { Db } from "../../firebase-config/db";
-import UnitStepForm from "./UnitStepForm";
 import { collection, getDocs } from "firebase/firestore";
+import UnitStepForm from "./UnitStepForm";
 import { Typography, Container } from '@mui/material';
 import { DBContext } from "../../providers/dbcontext";
-import { PointsCtx } from "../../providers/pointsctx";
 import { DBContextProvider } from "../../providers/dbprovider";
+import { PointsCtx } from "../../providers/pointsctx";
 import { PointsCtxProvider } from "../../providers/pointsProvider";
 
 function MultiStep() {
@@ -13,7 +13,6 @@ function MultiStep() {
   const [persons, setPersons] = useState([]);
   const [page, setPage] = useState(1)
   const {formdata, setFormData} = useContext(DBContext);
-  const {pointsdata, setPointsdata} = useContext(PointsCtx);
   const usersCollectionRef_features = collection(Db, "features for evaluation");
   const usersCollectionRef_persons = collection(Db, "persons to be evaluated");
 

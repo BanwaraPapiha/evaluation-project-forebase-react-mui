@@ -1,25 +1,30 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Slider, Grid, Paper, Typography, Container, Chip, 
   Card, CardActions, CardContent } from '@mui/material';
-
+  import { PointsCtx } from "../../providers/pointsctx";
+  
 function UnitComponent(props) {
   const [slide_score, setSlide_score] = useState(0);
-  const [val, setVal] = useState({});
+  // const [val, setVal] = useState({});
+  const points = useContext(PointsCtx)
 
   const HandleChange = (e) => {
     let slide_score = e.target.value; 
     setSlide_score(e.target.value)
     const response = {
       evaluator: props.person.Email, 
-      being_eval: props.person.Email,
       feature: props.featureId,
       points: slide_score, 
-    }
-    setVal(response)
-    console.log(val)
+    };
+    let keyName1 = props.person.Email;
+    const test = {...props.parentData};
+    test[keyName1] = response;
+    // console.log(test);
+
     console.log(props.parentData)
-    const arr = [...props.parentData, val]
-    props.updateParent(arr)
+    props.updateParent(test)
+    // setVal(test)
+    // console.log(val)
   }
 
   return (
