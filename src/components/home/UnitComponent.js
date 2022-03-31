@@ -1,33 +1,25 @@
 import { useState, useContext } from "react";
 import { Slider, Grid, Paper, Typography, Container, Chip, 
   Card, CardActions, CardContent } from '@mui/material';
-  import { PointsCtx } from "../../providers/pointsctx";
   
 function UnitComponent(props) {
   const [slide_score, setSlide_score] = useState(0);
-  // const [val, setVal] = useState({});
-  const points = useContext(PointsCtx)
   let keyName1 = props.person.Email;
 
   const HandleChange = (e) => {
-    let slide_score = e.target.value; 
-    setSlide_score(e.target.value)
-    // const response = {
-    //   evaluator: props.person.Email, 
-    //   feature: props.featureId,
-    //   points: slide_score, 
-    // };
-    const response = {
-      slide_score, 
-    };
+    let score_change = e.target.value;
+    setSlide_score(score_change)
     const test = {...props.parentData};
-    test[keyName1] = slide_score;
-    // console.log(test);
+    test[keyName1] = score_change;
+    // test[keyName1] = {
+    //   points: 200, 
+    //   evaluator: "Me", 
+    //   being_eval: "You",
+    //   feature: "Truthfulness"
+    // }
 
     console.log(props.parentData)
     props.updateParent(test)
-    // setVal(test)
-    // console.log(val)
     console.log(props.parentData[keyName1])
   }
 
@@ -36,9 +28,8 @@ function UnitComponent(props) {
       <Card elevation={10}>
         <CardContent>
         <Paper elevation={6} style={{padding: "10px"}}>
-        {/* Score Awarded: <Chip variant="outlined" label={props.parentData[keyName1]} color="info" /> */}
-        Score Awarded: <Chip variant="outlined" label={props.parentData[keyName1]} color="info" />
-        {/* Score Awarded: <Chip variant="outlined" label={slide_score} color="info" /> */}
+        Score Awarded: <Chip variant="outlined" label={typeof(props.parentData[keyName1])==='undefined' ? 0 :props.parentData[keyName1]} color="info" />
+        {/* Score Awarded: <Chip variant="outlined" label={typeof(props.parentData[keyName1]) ? props.parentData[keyName1]: 0} color="info" /> */}
           </Paper>
 
           <Typography gutterBottom variant="h5" component="div">

@@ -19,9 +19,11 @@ function MultiStep() {
   const newtest1 = {...points.pointsdata};
 
   const NextPage = () => {
+    storeSteps();
     setPage(currPage => currPage + 1);
   };
   const PrevPage = () => {
+    storeSteps();
     setPage(currPage => currPage - 1);
   };
   const Submit = () => {
@@ -43,16 +45,16 @@ function MultiStep() {
       console.log(data.docs);
       setPersons(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     };
-
     getPersons();
   }, [])
 
-  console.log(`Here is the Details................................`);
-  let keyName2 = features[page].feature;
-  console.log(features[page].feature);
-  newtest1[keyName2] = [];
-  // newtest1[keyName2] = [];
-  console.log(newtest1);
+  const storeSteps = () => {
+    console.log(`Here is the Details................................`);
+    let keyName2 = features[page].feature;
+    console.log(features[page].feature);
+    newtest1[keyName2] = [];
+    console.log(newtest1);
+  }
 
   return (
     <>
