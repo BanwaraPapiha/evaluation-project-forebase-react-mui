@@ -59,13 +59,13 @@ function MultiStep() {
   return (
     <>
       <Typography variant="p" gutterBottom component="div">
-        <p>
+        {/* <p>
           {formdata.map(d => {
             return(
               <span>&nbsp;{d.being_eval}&nbsp;</span>
             )
           })}
-        </p>
+        </p> */}
         Features
       </Typography>
 

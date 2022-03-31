@@ -1,26 +1,31 @@
 import { useState, useContext } from "react";
 import { Slider, Grid, Paper, Typography, Container, Chip, 
   Card, CardActions, CardContent } from '@mui/material';
-  
+import { PointsCtx } from "../../providers/pointsctx";
+
 function UnitComponent(props) {
   const [slide_score, setSlide_score] = useState(0);
-  let keyName1 = props.person.Email;
+  const points = useContext(PointsCtx)
+  let PersonEmail = props.person.Email;
+  let FeatureName = props.featureId;
 
   const HandleChange = (e) => {
     let score_change = e.target.value;
     setSlide_score(score_change)
-    const test = {...props.parentData};
-    test[keyName1] = score_change;
-    // test[keyName1] = {
-    //   points: 200, 
-    //   evaluator: "Me", 
-    //   being_eval: "You",
-    //   feature: "Truthfulness"
-    // }
+    let UniqId = PersonEmail.concat(FeatureName)
+    console.log(UniqId);
+    const newObj = {
+      evaluator: PersonEmail, 
+      being_eval: PersonEmail,
+      feature: FeatureName,
+      points: score_change,
+    }
 
-    console.log(props.parentData)
-    props.updateParent(test)
-    console.log(props.parentData[keyName1])
+    const test = {...props.parentData};
+    test[UniqId] = newObj;
+
+    points.setPointsdata(test);
+    console.log(points.pointsdata)
   }
 
   return (
@@ -28,7 +33,7 @@ function UnitComponent(props) {
       <Card elevation={10}>
         <CardContent>
         <Paper elevation={6} style={{padding: "10px"}}>
-        Score Awarded: <Chip variant="outlined" label={typeof(props.parentData[keyName1])==='undefined' ? 0 :props.parentData[keyName1]} color="info" />
+        Score Awarded: <Chip variant="outlined" label={typeof(props.parentData[PersonEmail])==='undefined' ? 0 :props.parentData[PersonEmail]} color="info" />
         {/* Score Awarded: <Chip variant="outlined" label={typeof(props.parentData[keyName1]) ? props.parentData[keyName1]: 0} color="info" /> */}
           </Paper>
 
