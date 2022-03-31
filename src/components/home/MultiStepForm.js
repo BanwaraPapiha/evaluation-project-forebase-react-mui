@@ -15,6 +15,8 @@ function MultiStep() {
   const {formdata, setFormData} = useContext(DBContext);
   const usersCollectionRef_features = collection(Db, "features for evaluation");
   const usersCollectionRef_persons = collection(Db, "persons to be evaluated");
+  const points = useContext(PointsCtx)
+  const newtest1 = {...points.pointsdata};
 
   const NextPage = () => {
     setPage(currPage => currPage + 1);
@@ -44,6 +46,13 @@ function MultiStep() {
 
     getPersons();
   }, [])
+
+  console.log(`Here is the Details................................`);
+  let keyName2 = features[page].feature;
+  console.log(features[page].feature);
+  newtest1[keyName2] = [];
+  // newtest1[keyName2] = [];
+  console.log(newtest1);
 
   return (
     <>
