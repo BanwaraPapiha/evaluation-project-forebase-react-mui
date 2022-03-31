@@ -5,7 +5,7 @@ import UnitComponent from "./UnitComponent";
 function UnitStepForm(props) {
   const items = []
   const [availableScore, setAvailableScore] = useState(items);
-  const [childdata, setChildData] = useState([]);
+  const [childdata, setChildData] = useState({});
   
   const updateScore = (state) => {
     setAvailableScore(state);

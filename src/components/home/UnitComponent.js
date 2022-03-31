@@ -7,32 +7,38 @@ function UnitComponent(props) {
   const [slide_score, setSlide_score] = useState(0);
   // const [val, setVal] = useState({});
   const points = useContext(PointsCtx)
+  let keyName1 = props.person.Email;
 
   const HandleChange = (e) => {
     let slide_score = e.target.value; 
     setSlide_score(e.target.value)
+    // const response = {
+    //   evaluator: props.person.Email, 
+    //   feature: props.featureId,
+    //   points: slide_score, 
+    // };
     const response = {
-      evaluator: props.person.Email, 
-      feature: props.featureId,
-      points: slide_score, 
+      slide_score, 
     };
-    let keyName1 = props.person.Email;
     const test = {...props.parentData};
-    test[keyName1] = response;
+    test[keyName1] = slide_score;
     // console.log(test);
 
     console.log(props.parentData)
     props.updateParent(test)
     // setVal(test)
     // console.log(val)
+    console.log(props.parentData[keyName1])
   }
 
   return (
     <Grid item sm={12} md={6}>
       <Card elevation={10}>
         <CardContent>
-          <Paper elevation={6} style={{padding: "10px"}}>
-            Score Awarded: <Chip variant="outlined" label={slide_score} color="info" />
+        <Paper elevation={6} style={{padding: "10px"}}>
+        {/* Score Awarded: <Chip variant="outlined" label={props.parentData[keyName1]} color="info" /> */}
+        Score Awarded: <Chip variant="outlined" label={props.parentData[keyName1]} color="info" />
+        {/* Score Awarded: <Chip variant="outlined" label={slide_score} color="info" /> */}
           </Paper>
 
           <Typography gutterBottom variant="h5" component="div">
