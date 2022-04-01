@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { Db } from "../../firebase-config/db";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, addDoc } from "firebase/firestore";
+// import { collection, addDoc } from "firebase/firestore"; 
 import UnitStepForm from "./UnitStepForm";
 import { Typography, Container } from '@mui/material';
 import { DBContext } from "../../providers/dbcontext";
@@ -15,19 +16,36 @@ function MultiStep() {
   const {formdata, setFormData} = useContext(DBContext);
   const usersCollectionRef_features = collection(Db, "features for evaluation");
   const usersCollectionRef_persons = collection(Db, "persons to be evaluated");
+  const usersCollectionRef_eval = collection(Db, "evaluation data");
   const points = useContext(PointsCtx)
-  const newtest1 = {...points.pointsdata};
 
   const NextPage = () => {
-    storeSteps();
     setPage(currPage => currPage + 1);
   };
   const PrevPage = () => {
-    storeSteps();
     setPage(currPage => currPage - 1);
   };
-  const Submit = () => {
+  const Submit = async () => {
     alert("Submit!");
+    console.log(points.pointsdata)
+
+    for (const row in points.pointsdata) {
+      // console.log(`${row}: ${points.pointsdata[row]}`);
+      console.log(`${points.pointsdata[row]}`);
+      try {
+        const docRef = await addDoc(usersCollectionRef_eval, points.pointsdata[row]);
+        // const docRef = await addDoc(usersCollectionRef_eval), {
+        //   first: "Ada",
+        //   last: "Lovelace",
+        //   born: 1815
+        // });
+        console.log("Document written with ID: ", docRef.id);
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
+
+    }
+    
   };
 
   useEffect(() => {
@@ -47,14 +65,6 @@ function MultiStep() {
     };
     getPersons();
   }, [])
-
-  const storeSteps = () => {
-    console.log(`Here is the Details................................`);
-    let keyName2 = features[page].feature;
-    console.log(features[page].feature);
-    newtest1[keyName2] = [];
-    console.log(newtest1);
-  }
 
   return (
     <>
