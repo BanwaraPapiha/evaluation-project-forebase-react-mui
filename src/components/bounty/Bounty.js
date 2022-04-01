@@ -5,6 +5,7 @@ import { Paper, Typography, Button, TextField, Container, Stack } from '@mui/mat
 import Only_Table from '../common/onlyTable';
 
 function Bounty() {
+    const [ac_de_data, setAc_de_data] = useState({});
     const [persons, setPersons] = useState([]);
     const usersCollectionRef_persons = collection(Db, "persons to be evaluated");
 
@@ -50,7 +51,7 @@ function Bounty() {
           </Container>
         </Paper>
 
-      <Only_Table table_datum={persons}/> 
+      <Only_Table table_datum={persons} ac_de_data={ac_de_data} setAc_de_data={setAc_de_data}/> 
     </Stack>
     );
   }
