@@ -20,12 +20,12 @@ function Bounty() {
     return (
       <Stack spacing={4}>
         <br />
-        {/* <Typography variant="h5" gutterBottom component="div">
+        <Typography variant="h5" gutterBottom component="div">
             Bounty <br/>
             visible to admin only for each username <br/>
-            divide money relatively <br/>
+            divide money relatively not equally <br/>
             Total Points Calculated are: {persons.length > 1 ? persons.map(k => k.acc_dec_score).reduce((acc, k) => Number(k) + Number(acc)) : "Not Loaded"}
-        </Typography> */}
+        </Typography>
 
         <Paper elevation={5} >
           <Container>

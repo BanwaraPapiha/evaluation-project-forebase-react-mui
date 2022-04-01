@@ -14,7 +14,6 @@ const AppRouter = () => {
     return (
       <>
         <BrowserRouter>
-
           <Header/>
           <Container>
             <Routes>

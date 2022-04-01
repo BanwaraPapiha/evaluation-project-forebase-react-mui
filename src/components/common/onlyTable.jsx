@@ -7,14 +7,45 @@ import { useState } from 'react';
 
 const SingleRow = (props) => {
   const [acc_dec_by, setAcc_dec_by] = useState(1);
+  const [acc_dec_score, setAcc_dec_score] = useState(props.Total_sum_Score);
+  const baseScore = props.Total_sum_Score;
+  console.log(props.ac_de_data)
+
   const upward = () => {
-    // alert(props.name)
     setAcc_dec_by(acc_dec_by+0.5)
+    setAcc_dec_score(baseScore*(acc_dec_by))
+    update_tbody()
   }
+
   const downward = () => {
-    // alert(props.name)
     setAcc_dec_by(acc_dec_by-0.25)
+    setAcc_dec_score(baseScore*(acc_dec_by))
+    update_tbody()
   }
+
+  const rowww = {
+    Email: props.email,
+    Name: props.name,
+    Total_sum_Score: baseScore,
+    ac_de_by: acc_dec_by,
+    acc_dec_score: acc_dec_score,
+  }
+
+  const update_tbody = () => {
+    // const rowww = {
+    //   Email: props.email,
+    //   Name: props.name,
+    //   Total_sum_Score: baseScore,
+    //   ac_de_by: acc_dec_by,
+    //   acc_dec_score: acc_dec_score,
+    // }
+    console.log(rowww)
+    var keyRow = props.email
+    var test23 = {...props.ac_de_data}
+    test23[keyRow] = rowww
+    props.setAc_de_data(test23)
+  }
+  
   return(
     <TableRow key={props.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
       <TableCell component="th" scope="row">{props.name}</TableCell>
@@ -23,32 +54,31 @@ const SingleRow = (props) => {
       <TableCell align="right">{acc_dec_by}</TableCell>
       <TableCell align="right"><ArrowDownwardIcon onClick={downward}/></TableCell>
       <TableCell align="right">{props.Total_sum_Score}</TableCell>
-      <TableCell align="right">{props.Total_sum_Score*acc_dec_by}</TableCell>
+      <TableCell align="right">{acc_dec_score}</TableCell>
       <TableCell align="right"><AnalyticsOutlinedIcon onClick={()=>{alert("graphs")}}/></TableCell>
     </TableRow>
   )
 }
 
 function Only_Table(props) {
+  const [ac_de_data, setAc_de_data] = useState({});
   function createData(
       name: string,
       email: number,
-      acc: number,
-      dec: number,
       acc_dec_by: number,
       Total_sum_Score: number,
       acc_dec_score: number,
     ) {
-      return { name, email, acc, dec, acc_dec_by, Total_sum_Score, acc_dec_score };
+      return { name, email, acc_dec_by, Total_sum_Score, acc_dec_score };
   }
 
   const newRow =[]
   {props.table_datum.map((prsn) => {
     return (
-      newRow.push(createData(prsn.Name, prsn.Email, prsn.Accelerated, prsn.Decelerated, prsn.Accelrated_or_decelerated_by, prsn.Total_sum_Score, prsn.acc_dec_score))
+      newRow.push(createData(prsn.Name, prsn.Email, prsn.Accelrated_or_decelerated_by, prsn.Total_sum_Score, prsn.acc_dec_score))
       )})
   }
-  console.log(newRow);
+  // console.log(newRow);
 
   return (
     <TableContainer component={Paper}>
@@ -68,7 +98,10 @@ function Only_Table(props) {
 
         <TableBody>
           {newRow.map((row) => (
-            <SingleRow name={row.name} email={row.email} Total_sum_Score={row.Total_sum_Score}/>
+            <SingleRow 
+            name={row.name} email={row.email} Total_sum_Score={row.Total_sum_Score}
+            ac_de_data={ac_de_data} setAc_de_data={setAc_de_data}
+            />
           ))}
         </TableBody>
 
