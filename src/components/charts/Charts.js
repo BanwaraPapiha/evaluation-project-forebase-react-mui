@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import { Db } from "../../firebase-config/db";
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
-// import Only_Table from '../common/onlyTable';
 import Only_Table from '../common/onlyTable';
-import Rich_Table from '../common/anotherTable'
+import ChartsTable from '../common/anotherTable'
 import { collection, getDocs } from "firebase/firestore";
 
 function Charts() {
@@ -50,8 +49,8 @@ function Charts() {
             shows record of what other users have evaluated a specific username <br/>
             ac/de-celerate <br/>
 
-            {/* <Rich_Table /> */}
-            <Only_Table table_datum={persons}/> 
+            <ChartsTable table_datum={persons}/> 
+            {/* <Only_Table table_datum={persons}/>  */}
 
             <div>
               <LineChart width={600} height={300} data={persons} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>

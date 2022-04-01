@@ -46,9 +46,7 @@ function Bounty() {
       <Stack spacing={4}>
         <br />
         <Typography variant="h5" gutterBottom component="div">
-            Bounty <br/>
             visible to admin only for each username <br/>
-            divide money relatively not equally <br/>
             Total Points Calculated are: {persons.length > 1 ? persons.map(k => k.acc_dec_score).reduce((acc, k) => Number(k) + Number(acc)) : "Not Loaded"}
             <br />
             Total Points Score is: {scoresum}

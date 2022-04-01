@@ -50,6 +50,7 @@ const SingleRow = (props) => {
       <TableCell align="right">{props.Total_sum_Score}</TableCell>
       <TableCell align="right">{acc_dec_score}</TableCell>
       <TableCell align="right">{Number(acc_dec_score/props.scoresum)*Number(props.bountySum)}</TableCell>
+
       <TableCell align="right"><AnalyticsOutlinedIcon onClick={()=>{alert("graphs")}}/></TableCell>
     </TableRow>
   )
