@@ -9,14 +9,11 @@ const SingleRow = (props) => {
   const [acc_dec_by, setAcc_dec_by] = useState(1);
   const [acc_dec_score, setAcc_dec_score] = useState(props.Total_sum_Score);
   const baseScore = props.Total_sum_Score;
-  // console.log(props.ac_de_data)
+  console.log('acc_dec_score')
+  console.log(acc_dec_score)
 
   const upward = () => {
-    const updating = () => {
-      setAcc_dec_by(acc_dec_by+0.5)
-      console.log(acc_dec_by)
-    }
-    updating()
+    setAcc_dec_by(acc_dec_by+0.5)
     setAcc_dec_score(baseScore*(acc_dec_by))
     update_tbody()
   }
@@ -52,14 +49,13 @@ const SingleRow = (props) => {
       <TableCell align="right"><ArrowDownwardIcon onClick={downward}/></TableCell>
       <TableCell align="right">{props.Total_sum_Score}</TableCell>
       <TableCell align="right">{acc_dec_score}</TableCell>
+      <TableCell align="right">{Number(acc_dec_score/props.scoresum)*Number(props.bountySum)}</TableCell>
       <TableCell align="right"><AnalyticsOutlinedIcon onClick={()=>{alert("graphs")}}/></TableCell>
     </TableRow>
   )
 }
 
 function Only_Table(props) {
-  // const [ac_de_data, setAc_de_data] = useState({});
-
   function createData(
       name: string,
       email: number,
@@ -77,29 +73,10 @@ function Only_Table(props) {
       )})
   }
   // console.log(newRow);
-  var total = 0;
-  const countSum = () => {
-    props.ac_de_data.forEach(item => {
-      total += item.acc_dec_score;
-  });
-  console.log(total)
-  }
-
-  props.ac_de_data.length > 1 ?
-  countSum() :
   console.log(props.ac_de_data)
-
-  console.log(total)
 
   return (
     <TableContainer component={Paper}>
-      Total Points Calculated are: {
-      props.ac_de_data.length > 1 ? 
-      props.ac_de_data.map(k => k.acc_dec_score).reduce((acc, k) => Number(k) + Number(acc)) : 
-      "Not Loaded"}
-
-      Total Points Calculated are: {props.ac_de_data.length}
-
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -110,6 +87,7 @@ function Only_Table(props) {
             <TableCell align="right">Decelerate</TableCell>
             <TableCell align="right">Score</TableCell>
             <TableCell align="right">Accelerated/Decelerated Score</TableCell>
+            <TableCell align="right">Bounty</TableCell>
             <TableCell align="right">Actions</TableCell>
           </TableRow>
         </TableHead>
@@ -118,7 +96,8 @@ function Only_Table(props) {
           {newRow.map((row) => (
             <SingleRow 
             name={row.name} email={row.email} Total_sum_Score={row.Total_sum_Score}
-            ac_de_data={props.ac_de_data} setAc_de_data={props.setAc_de_data}
+            ac_de_data={props.ac_de_data} setAc_de_data={props.setAc_de_data} 
+            scoresum={props.scoresum} bountySum={props.bountySum}
             />
           ))}
         </TableBody>
