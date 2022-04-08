@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
 import { Db } from "../../firebase-config/db";
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
+import Only_Table from '../common/onlyTable';
 import ChartsTable from '../common/anotherTable'
 import { collection, getDocs } from "firebase/firestore";
-import EvaluatioonAndCharts from "./EvaluationAndCharts";
-import PersonsAndCharts from "./PersonsAndCharts";
-import FeaturesAndCharts from "./FeaturesAndCharts";
+import { Grid } from '@mui/material';
 
-function Charts() {
+function EvaluatioonAndCharts() {
     const [features, setFeatures] = useState([]);
     const [persons, setPersons] = useState([]);
     const [eval_data, setEval_data] = useState([]);
@@ -45,28 +44,8 @@ function Charts() {
       }, []);
     
       return (
-        <div>
-            Charts <br/>
-            visible to admin only for each username <br/>
-            shows record of what other users have evaluated a specific username <br/>
-            ac/de-celerate <br/>
-
-            <EvaluatioonAndCharts />
-            <PersonsAndCharts />
-            <FeaturesAndCharts />
-
-            {/* <ChartsTable table_datum={persons}/> 
-
-            <div>
-              <LineChart width={600} height={300} data={persons} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-                <Line type="monotone" dataKey="acc_dec_score" stroke="#8884d8" />
-                <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-                <XAxis dataKey="Name" />
-                <YAxis />
-                <Tooltip />
-              </LineChart>
-            </div>
-            <div>
+        <Grid container spacing={1}>
+            <Grid item xs={12} md={6}>
                 <h1>Evaluation Data</h1>
                 {eval_data.map((ed) => {
                 return (
@@ -82,32 +61,8 @@ function Charts() {
                     </div>
                 );
                 })}
-            </div>
-
-            <div>
-              <LineChart width={600} height={300} data={eval_data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-                <Line type="monotone" dataKey="score_awarded" stroke="#8884d8" />
-                <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-                <XAxis dataKey="feature" />
-                <YAxis />
-                <Tooltip />
-              </LineChart>
-            </div>
-
-            <div>
-                <h1>Features</h1>
-                {features.map((fetr) => {
-                  return (
-                      <div>
-                        {" "}
-                        <h5>id: {fetr.id}</h5>
-                        <h5>feature: {fetr.feature}</h5>
-                        <h5>total_score: {fetr.total_score}</h5>
-                      </div>
-                  );
-                })}
-            </div> */}
-        </div>
+            </Grid>
+        </Grid>
     );
   }
-export default Charts;
+export default EvaluatioonAndCharts;

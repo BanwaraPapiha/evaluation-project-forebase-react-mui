@@ -1,7 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { Db } from "../../firebase-config/db";
 import { collection, getDocs, addDoc } from "firebase/firestore";
-// import { collection, addDoc } from "firebase/firestore"; 
 import UnitStepForm from "./UnitStepForm";
 import { Typography, Container } from '@mui/material';
 import { DBContext } from "../../providers/dbcontext";
@@ -13,10 +12,12 @@ function MultiStep() {
   const [features, setFeatures] = useState([]);
   const [persons, setPersons] = useState([]);
   const [page, setPage] = useState(1)
+  const [survey, setSurvey] = useState([]);
   const {formdata, setFormData} = useContext(DBContext);
   const usersCollectionRef_features = collection(Db, "features for evaluation");
   const usersCollectionRef_persons = collection(Db, "persons to be evaluated");
   const usersCollectionRef_eval = collection(Db, "evaluation data");
+  const usersCollectionRef_survey = collection(Db, "surveys");
   const points = useContext(PointsCtx)
 
   const NextPage = () => {
@@ -30,23 +31,24 @@ function MultiStep() {
     console.log(points.pointsdata)
 
     for (const row in points.pointsdata) {
-      // console.log(`${row}: ${points.pointsdata[row]}`);
       console.log(`${points.pointsdata[row]}`);
       try {
         const docRef = await addDoc(usersCollectionRef_eval, points.pointsdata[row]);
-        // const docRef = await addDoc(usersCollectionRef_eval), {
-        //   first: "Ada",
-        //   last: "Lovelace",
-        //   born: 1815
-        // });
         console.log("Document written with ID: ", docRef.id);
       } catch (e) {
         console.error("Error adding document: ", e);
       }
-
     }
-    
   };
+
+  useEffect(() => {
+    const getSurvey = async () => {
+      const data = await getDocs(usersCollectionRef_survey);
+      console.log(data.docs);
+      setSurvey(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    };
+    getSurvey();
+  }, []);
 
   useEffect(() => {
     const getFeatures = async () => {
@@ -68,15 +70,10 @@ function MultiStep() {
 
   return (
     <>
-      <Typography variant="p" gutterBottom component="div">
-        {/* <p>
-          {formdata.map(d => {
-            return(
-              <span>&nbsp;{d.being_eval}&nbsp;</span>
-            )
-          })}
-        </p> */}
-        Features
+      <Typography variant="h5" gutterBottom component="div">
+        Survey {survey.length > 1 && survey[1].name}
+        <br/>
+        Evaluate All the given users in the following Features Step By Step
       </Typography>
 
       {features.length > 0 && 

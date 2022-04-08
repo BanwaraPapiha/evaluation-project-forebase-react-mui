@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Db } from "../../firebase-config/db";
 import { collection, getDocs } from "firebase/firestore";
 import { Paper, Typography, Button, TextField, Container, Stack, Grid } from '@mui/material';
+import FeatureTable from "./FeatureTable";
 
 function FeatureList() {
     const [features, setFeatures] = useState([]);
@@ -20,16 +21,8 @@ function FeatureList() {
       <Container>      
         <Typography variant="h5" gutterBottom component="div">
           <h1>Features</h1>
-          {features.map((fetr) => {
-            return (
-              <div>
-                <h5>id: {fetr.id}</h5>
-                <h5>feature: {fetr.feature}</h5>
-                <h5>total_score: {fetr.total_score}</h5>
-              </div>
-            );
-          })}
         </Typography>
+        <FeatureTable title={["Id", "Feature", "Total Sum of Scores", "Add", "Delete"]} body={features}/>
     </Container>
     );
   }

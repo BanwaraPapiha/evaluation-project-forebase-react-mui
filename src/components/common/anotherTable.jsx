@@ -9,8 +9,8 @@ const SingleRow = (props) => {
   const [acc_dec_by, setAcc_dec_by] = useState(1);
   const [acc_dec_score, setAcc_dec_score] = useState(props.Total_sum_Score);
   const baseScore = props.Total_sum_Score;
-  console.log('acc_dec_score')
-  console.log(acc_dec_score)
+  // console.log('acc_dec_score')
+  // console.log(acc_dec_score)
 
   return(
     <TableRow key={props.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>

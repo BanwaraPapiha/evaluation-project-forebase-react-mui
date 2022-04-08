@@ -12,19 +12,26 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
+import {SurveyCTx} from '../../providers/surveyctx'
 
-const linked_pages = [
-    { "page": "Home", "route": "/"}, 
-    { "page": "Charts", "route": "/charts"}, 
-    { "page": "Bounty", "route": "/bounty"}, 
-    { "page": "Admin", "route": "/admin"},
-    { "page": "Login", "route": "/login"},
-];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const Header = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const SurveyData = useContext(SurveyCTx);
+  const currentSurvey = SurveyData.survey['name']
+  // console.log(SurveyData.survey)
+
+  const linked_pages = [
+    { "page": "Home", "route": "/"}, 
+    { "page": "Charts", "route": "/charts"}, 
+    { "page": "Bounty", "route": "/bounty"}, 
+    { "page": "Admin", "route": "/admin"},
+    { "page": currentSurvey, "route": "/admin"},
+    { "page": "Login", "route": "/login"},
+  ];
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -42,6 +49,7 @@ const Header = () => {
   };
 
   const navigate = useNavigate();
+
 
   return (
     <AppBar position="static">

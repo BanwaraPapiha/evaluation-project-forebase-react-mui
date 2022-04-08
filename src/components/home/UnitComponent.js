@@ -2,45 +2,63 @@ import { useState, useContext } from "react";
 import { Slider, Grid, Paper, Typography, Container, Chip, 
   Card, CardActions, CardContent } from '@mui/material';
 import { PointsCtx } from "../../providers/pointsctx";
+import { SurveyCTx } from "../../providers/surveyctx";
+// import {firestore} from "firebase";
+// import firebase from "firebase/compat/app";
+// import "firebase/compat/auth"
+// import "firebase/compat/firestore"
+
+import firebase from 'firebase/compat/app'
+import 'firebase/firestore'
 
 function UnitComponent(props) {
-  const [slide_score, setSlide_score] = useState(0);
   const [identifier, setIdentifier] = useState('');
+  const [slide_score, setSlide_score] = useState(0);
+  const [feedComponent, setFeedComponent] = useState();
   const points = useContext(PointsCtx)
+  // const [survey, setSurvey] = useContext(SurveyCTx)
+  const surveyCtx = useContext(SurveyCTx)
+  const survey = surveyCtx.survey[0]['name']
   const PersonId = props.person.id;
   const FeatureName = props.featureId;
+  const timestamp = firebase.firestore.FieldValue.serverTimestamp;
+
   let newObj = {
+    survey: survey,
     evaluator: PersonId, 
     being_eval: PersonId,
     feature: FeatureName,
-    points: 0
+    points: 0,
+    timestamp: timestamp,
   }
-  var feedComponent = 0;
+  var feedComponent2 = 0;
 
   const HandleChange = (e) => {
     let score_change = e.target.value;
     setSlide_score(score_change)
     let UniqId = PersonId.concat(FeatureName)
     setIdentifier(String(UniqId));
+    console.log(timestamp)
     newObj = {
+      survey: survey,
       evaluator: PersonId, 
       being_eval: PersonId,
       feature: FeatureName,
-      points: score_change
+      points: score_change,
+      timestamp: timestamp,
     }
-    // const newObj = [PersonId, PersonId, FeatureName, score_change]
     const test = {...points.pointsdata};
     test[UniqId] = newObj;
-    // console.log(identifier)
     points.setPointsdata(test);
     console.log(points.pointsdata)
     const kis = Object.keys(points.pointsdata);
-    // console.log(kis)
     if (identifier!=='' && kis.includes(identifier)){
-      console.log("Hey Yaaaaaaaaaaaa")
-      // feedComponent = points.pointsdata[identifier]['points'];
-      feedComponent = String(points.pointsdata[identifier]['points']);
-      console.log(feedComponent)
+      // console.log("Hey Yaaaaaaaaaaaa")
+      feedComponent2 = String(points.pointsdata[identifier]['points']);
+      // console.log(feedComponent2)
+      // console.log(feedComponent)
+      setFeedComponent(feedComponent2)
+
     }
   }
 
@@ -50,10 +68,12 @@ function UnitComponent(props) {
     <Grid item sm={12} md={6}>
       <Card elevation={10}>
         <CardContent>
+        
         <Paper elevation={6} style={{padding: "10px"}}>
         {/* Score Awarded: <Chip variant="outlined" label={points.pointsdata[identifier]!=='undefined'?points.pointsdata[identifier]['points']:0} color="info" /> */}
         {/* Score Awarded: <Chip variant="outlined" label={0} color="info" /> */}
-        Score Awarded: <Chip variant="outlined" label={feedComponent} color="info" />
+        Score Awarded: <Chip variant="outlined" label={(typeof(feedComponent) === 'undefined') ? 0 : feedComponent} color="info" />
+        {/* Score Awarded: <Chip variant="outlined" label={feedComponent} color="info" /> */}
         </Paper>
 
           <Typography gutterBottom variant="h5" component="div">

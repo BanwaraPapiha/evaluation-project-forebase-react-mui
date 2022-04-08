@@ -17,9 +17,18 @@ import FormLabel from '@mui/material/FormLabel';
 import { TextField, Container, Button, Grid, Stack, Paper } from '@mui/material';
 
 export default function SurveyForm() {
+    const usersCollectionRef_survey = collection(Db, "surveys");
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const onSubmit = data => console.log(data);
+  
+    const onSubmit = data => {
+      const createSurvey = async () => {
+        await addDoc(usersCollectionRef_survey, { name: data.Survey_Name, active: data.Active });
+      };
+      createSurvey();
+      console.log(data);
+    }
     console.log(errors);
+      console.log(errors);
 
   return (
     <Grid item xs={12} md={12}>
@@ -27,8 +36,7 @@ export default function SurveyForm() {
         <Container maxWidth="xl">
         <form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={3}>
-                <br />
-                <TextField fullWidth label="Survey Name" variant="standard" {...register("Survey Name", {required: true, maxLength: 80})} />
+                <TextField fullWidth label="Survey Name" variant="standard" {...register("Survey_Name", {required: true, maxLength: 80})} />
                 <FormLabel>Is the Survey Active</FormLabel>
                 <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group">
                     <FormControlLabel value="Yes" control={<Radio />} label="Yes" {...register("Active", { required: true })}/>
