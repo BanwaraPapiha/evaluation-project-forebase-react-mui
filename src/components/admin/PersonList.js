@@ -10,33 +10,7 @@ function PersonList() {
     const [searchQuery, setSearchQuery] = useState("");
     const [newPerson, setNewPerson] = useState([]);
     const [newPersonObj, setNewPersonObj] = useState({});
-    var results = new Array();
-    //for array
-    const filterData = (query, data) => {
-      if (!query) {
-        return data;
-      } else {
-        return data.filter((d) => String(d).toLowerCase().includes(query));
-      }
-    };
-    //for object
-    function queryObject(q, data){
-      for( let i=0;i<data.length;i++){
-          for(let Key in data[i]){
-              if(String(data[i][Key]).indexOf(q) > -1){
-                results.push(data[i]);
-              }
-          }
-      }
 
-      if(results.length){
-          return JSON.stringify(results);
-          console.log(results);
-      }else{
-          return "No match!";
-      }
-  }
-  
     useEffect(() => {
       const getPersons = async () => {
         const data = await getDocs(usersCollectionRef_persons);
@@ -46,11 +20,56 @@ function PersonList() {
       getPersons();
     }, []);
 
+    var results = new Array();
+    //for array
+    const filterData = (query, data) => {
+      if (!query) {
+        return data;
+      } else {
+        // return data.filter((d) => String(d).toLowerCase().includes(query));
+        return data.filter((d) => String(d).toLowerCase().includes(query));
+      }
+    };
+    //for object
+    function queryObject(q, data){
+      console.log(q)
+      // console.log(persons)
+      for (const [key, value] of Object.entries(persons)) {
+        // console.log(`${key}: ${value}`);
+        for (const [k, v] of Object.entries(persons[key])) {
+          // console.log(JSON.stringify(persons[key]));
+          let found = JSON.stringify(persons[key]).toLowerCase().includes(String(q).toLowerCase())
+          console.log(found);
+          console.log(key);
+          // console.log(JSON.stringify(persons[key]).toLowerCase().includes(String(q).toLowerCase()) === 'true');
+          // console.log(`${k}: ${v}`);
+        }
+  
+      }
+
+      // for( let i=0;i<data.length;i++){
+      //     for(let Key in data[i]){
+      //         if(String(data[i][Key]).indexOf(q) > -1){
+      //           results.push(data[i]);
+      //         }
+      //     }
+      // }
+
+      // if(results.length){
+      //     return JSON.stringify(results);
+      //     console.log(results);
+      // }else{
+      //     return "No match!";
+      // }
+  }
+  
     const handleSearch = (e) => {
       setSearchQuery(e.target.value)
       queryObject(searchQuery, persons)
     }
-    let body = filterData(searchQuery, persons);
+
+    // let body = filterData(searchQuery, persons);
+    let body = persons;
 
     return (
       <Container>

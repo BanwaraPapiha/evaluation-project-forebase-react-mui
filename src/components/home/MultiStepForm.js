@@ -23,26 +23,25 @@ function MultiStep() {
   const surveyCtx = useContext(SurveyCTx)
   const current_survey = surveyCtx.survey['name']
 
-
-  const NextPage = () => {
-    setPage(currPage => currPage + 1);
-  };
-  const PrevPage = () => {
-    setPage(currPage => currPage - 1);
-  };
   const Submit = async () => {
     alert("Submit!");
     console.log(points.pointsdata)
-
     for (const row in points.pointsdata) {
       console.log(`${points.pointsdata[row]}`);
       try {
         const docRef = await addDoc(usersCollectionRef_eval, points.pointsdata[row]);
         console.log("Document written with ID: ", docRef.id);
+
       } catch (e) {
         console.error("Error adding document: ", e);
       }
     }
+  };
+  const NextPage = () => {
+    setPage(currPage => currPage + 1);
+  };
+  const PrevPage = () => {
+    setPage(currPage => currPage - 1);
   };
 
   useEffect(() => {
@@ -100,6 +99,7 @@ function MultiStep() {
         { page < (features.length - 1) ? <button onClick={NextPage}>Next</button> : <button onClick={Submit}>Submit</button>}
       </Container> */}
 
+      <button onClick={Submit}>Submit</button>
     </>
   );
 }
