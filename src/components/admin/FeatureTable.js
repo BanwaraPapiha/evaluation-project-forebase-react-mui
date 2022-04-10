@@ -12,6 +12,7 @@ const Added = (props) => {
       <td onClick={()=>HandleAdd()}>{added? <CheckCircleRoundedIcon style={{color: 'green'}}/>:<AddCircleIcon />}</td>
   )
 }
+
 const FeatureTable = (props) => {     
     const [features, setFeatures] = useState([]);
     const handleDelete = async (id, feature) => {
@@ -43,8 +44,8 @@ const FeatureTable = (props) => {
               <td>{prsn.id} </td>
               <td>{prsn.feature}</td>
               <td>{prsn.total_score}</td>
-              <td><Added/></td>
-              <td onClick={()=>handleDelete(prsn.id, prsn.feature)}><DeleteIcon /></td>
+              <td>{prsn.id?<Added/>:""}</td>
+              <td>{prsn.id?<DeleteIcon onClick={()=>handleDelete(prsn.id, prsn.feature)}/>:"Create New?"}</td>
             </tr>
           );
         })}

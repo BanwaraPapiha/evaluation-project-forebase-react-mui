@@ -1,6 +1,8 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
+import { Db } from "../../firebase-config/db";
+import { doc, deleteDoc} from "firebase/firestore";
 import { useState } from "react";
 
 const Added = (props) => {
@@ -12,6 +14,17 @@ const Added = (props) => {
 }
 
 const PersonTable = (props) => {
+    const [persons, setPersons] = useState([]);
+    const handleDelete = async (id, person) => {
+        alert(`You are going to delete? ${person}`)
+        const taskDocRef = doc(Db, "persons to be evaluated", id)
+        try{
+          await deleteDoc(taskDocRef)
+          setPersons(persons.filter(item => item.person !== person));
+        } catch (err) {
+          alert(err)
+        }
+      }
     return (
         <table>
             <thead>
@@ -32,7 +45,7 @@ const PersonTable = (props) => {
                 <td>{prsn.Name}</td>
                 <td>{prsn.Email}</td>
                 <td>{prsn.id?<Added/>:""}</td>
-                <td>{prsn.id?<DeleteIcon/>:"Create New?"}</td>
+                <td>{prsn.id?<DeleteIcon onClick={()=>handleDelete(prsn.id, prsn.Name)}/>:"Create New?"}</td>
                 </tr>
             );
             })}

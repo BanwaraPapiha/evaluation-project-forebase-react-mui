@@ -20,20 +20,12 @@ function EvaluationList() {
           console.log(doc.id, " => ", doc.data());
           surveyss.push(doc.data().evaluator);
           console.log(doc.id, " => ", doc.data().evaluator);
-          // surveyss.push(doc.data().evaluator);
         });
-        // console.log("Current surveyss in CA: ", surveyss.join(", "));
         console.log("Current surveyss length: ", typeof(surveyss));
 
         for (const property in surveyss) {
           console.log(`${property}: ${surveyss[property]}`);
         }
-
-        // for (const [key, value] of Object.entries(object1)) {
-        //   console.log(`${key}: ${value}`);
-        // }
-        
-        // Set the State
         setEval_data(querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
       });
     }
