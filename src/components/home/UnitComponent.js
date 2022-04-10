@@ -3,25 +3,21 @@ import { Slider, Grid, Paper, Typography, Container, Chip,
   Card, CardActions, CardContent } from '@mui/material';
 import { PointsCtx } from "../../providers/pointsctx";
 import { SurveyCTx } from "../../providers/surveyctx";
-// import {firestore} from "firebase";
-// import firebase from "firebase/compat/app";
-// import "firebase/compat/auth"
-// import "firebase/compat/firestore"
-
 import firebase from 'firebase/compat/app'
-import 'firebase/firestore'
+import { updateDoc, serverTimestamp } from "firebase/firestore";
+
+// import 'firebase/firestore'
 
 function UnitComponent(props) {
   const [identifier, setIdentifier] = useState('');
   const [slide_score, setSlide_score] = useState(0);
   const [feedComponent, setFeedComponent] = useState();
   const points = useContext(PointsCtx)
-  // const [survey, setSurvey] = useContext(SurveyCTx)
   const surveyCtx = useContext(SurveyCTx)
-  const survey = surveyCtx.survey[0]['name']
+  const survey = surveyCtx.survey['name']
   const PersonId = props.person.id;
   const FeatureName = props.featureId;
-  const timestamp = firebase.firestore.FieldValue.serverTimestamp;
+  // const timestamp = firebase.firestore.FieldValue.serverTimestamp;
 
   let newObj = {
     survey: survey,
@@ -29,7 +25,8 @@ function UnitComponent(props) {
     being_eval: PersonId,
     feature: FeatureName,
     points: 0,
-    timestamp: timestamp,
+    timestamp: serverTimestamp(),
+    // timestamp: timestamp,
   }
   var feedComponent2 = 0;
 
@@ -38,14 +35,14 @@ function UnitComponent(props) {
     setSlide_score(score_change)
     let UniqId = PersonId.concat(FeatureName)
     setIdentifier(String(UniqId));
-    console.log(timestamp)
+    console.log(serverTimestamp())
     newObj = {
       survey: survey,
       evaluator: PersonId, 
       being_eval: PersonId,
       feature: FeatureName,
       points: score_change,
-      timestamp: timestamp,
+      timestamp: serverTimestamp(),
     }
     const test = {...points.pointsdata};
     test[UniqId] = newObj;
@@ -53,9 +50,7 @@ function UnitComponent(props) {
     console.log(points.pointsdata)
     const kis = Object.keys(points.pointsdata);
     if (identifier!=='' && kis.includes(identifier)){
-      // console.log("Hey Yaaaaaaaaaaaa")
       feedComponent2 = String(points.pointsdata[identifier]['points']);
-      // console.log(feedComponent2)
       // console.log(feedComponent)
       setFeedComponent(feedComponent2)
 

@@ -12,7 +12,6 @@ const firebaseConfig = {
   measurementId: "G-T50VWGPMD2"
 };
 
-// export const app = initializeApp(firebaseConfig);
 const app = initializeApp(firebaseConfig);
 export default app;
 // const analytics = getAnalytics(app);

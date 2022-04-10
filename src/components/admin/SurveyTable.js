@@ -1,5 +1,4 @@
 import { Stack } from '@mui/material';
-import { PinDropSharp } from "@material-ui/icons";
 import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
@@ -9,16 +8,25 @@ import {SurveyCTx} from "../../providers/surveyctx";
 const Selected = (props) => {
     const CurrentSurvey = useContext(SurveyCTx);
     const [selected, setSelected] = useState(false)
+    let style = {color: 'black'}
     const HandleSelect = () => {
+        // BUGGY FX
         CurrentSurvey.setSurvey(props.sy)
-        if (CurrentSurvey.survey.length === 1 && CurrentSurvey.survey[0] === props.sy) {
+        if (CurrentSurvey.survey.length === 1 && CurrentSurvey.survey[0]['id'] === props.sy['id']) {
+        // if (CurrentSurvey.survey[0] === props.sy) {
             setSelected(!selected)
-            style = "{color: 'green'}"
-            console.log(CurrentSurvey.survey)
+            // CurrentSurvey.setSurvey(props.sy)
+            style = {color: 'green'}
         }
-        setSelected(!selected)
-        // console.log(CurrentSurvey.survey)
-        console.log(CurrentSurvey)
+        else {
+            style = {color: 'black'}
+        }
+        // setSelected(!selected)
+        // console.log(CurrentSurvey.survey[0]['name'])
+        // console.log(props.sy['name'])
+        console.log(CurrentSurvey.survey[0])
+        console.log(props.sy)
+
     }
 
     return(

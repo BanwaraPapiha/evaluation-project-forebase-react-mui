@@ -23,11 +23,13 @@ const EvaluationTable = (props) => {
             // <Stack spacing={2}>
             <tr>
               <td>{prsn.id} </td>
+              <td>{prsn.survey} </td>
               <td>{prsn.being_eval}</td>
               <td>{prsn.evaluator}</td>
               <td>{prsn.feature}</td>
               <td>{prsn.points}</td>
               <td><DeleteIcon /></td>
+              {/* <td>{new Date(prsn.timestamp)}</td> */}
               {/* <td><ModeEditOutlineIcon /></td> */}
             </tr>
             // </Stack>

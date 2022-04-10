@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { Db } from "../../firebase-config/db";
 import { collection, getDocs, addDoc } from "firebase/firestore";
 import UnitStepForm from "./UnitStepForm";
-import { Typography, Container } from '@mui/material';
+import { Typography, Container, Grid } from '@mui/material';
 import { DBContext } from "../../providers/dbcontext";
 import { DBContextProvider } from "../../providers/dbprovider";
 import { PointsCtx } from "../../providers/pointsctx";
@@ -76,19 +76,44 @@ function MultiStep() {
         Evaluate All the given users in the following Features Step By Step
       </Typography>
 
-      {features.length > 0 && 
+      {/* {features.length > 0 && 
+      features[page].feature &&
       <UnitStepForm 
         personsList={ persons }
         featureName={features[page].feature} 
         scores={features[page].total_score} 
         featureId={features[page].id} 
-      /> }
+      /> } */}
 
+      {features.length > 0 ?
+       features.map((x) => {
+         return (
+          <li>{x.feature} {x.total_score}</li>,
+          <UnitStepForm 
+            personsList={ persons }
+            featureName={x.feature} 
+            scores={x.total_score} 
+            featureId={x.id} 
+          />
+          )
+       }) 
+       : 'FALSEEEEEEEEEE'}
+
+      {/* {features.length > 0 && 
+      <UnitStepForm 
+        personsList={ persons }
+        featureName={features[page].feature} 
+        scores={features[page].total_score} 
+        featureId={features[page].id} 
+      /> } */}
+
+
+{/*     
       <Container style={{padding: "10px", margin: "10px auto", width: "50%"}}>
         { page > 1 && <button onClick={PrevPage}>Previous</button>}
         &nbsp; Current Page is: { page } &nbsp;
         { page < (features.length - 1) ? <button onClick={NextPage}>Next</button> : <button onClick={Submit}>Submit</button>}
-      </Container>
+      </Container> */}
 
     </>
   );
