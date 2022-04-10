@@ -6,10 +6,12 @@ import PersonTable from "./PersonTable";
 
 function PersonList() {
     const [persons, setPersons] = useState([]);
+    const [filteredPerson, setFilteredPerson] = useState([]);
     const usersCollectionRef_persons = collection(Db, "persons to be evaluated");
     const [searchQuery, setSearchQuery] = useState("");
     const [newPerson, setNewPerson] = useState([]);
     const [newPersonObj, setNewPersonObj] = useState({});
+    var body = [];
 
     useEffect(() => {
       const getPersons = async () => {
@@ -30,36 +32,48 @@ function PersonList() {
     };
     //for object
     function queryObject(q, data){
+      if (!q) {
+        return data;
+      } else {
+        // return data.filter((d) => String(d).toLowerCase().includes(query));
       var results = [];
       console.log(q)
       for (const [key, value] of Object.entries(persons)) {
         for (const xyz of Object.entries(persons[key])) {
-          // delete persons[key].id; 
-          // console.log("ID is: ", persons[key].id)
           let found = JSON.stringify(persons[key]).toLowerCase().includes(String(q).toLowerCase())
-          console.log("Found ", String(q).toLowerCase(), " Or Not: ", found);
+          // console.log("Found ", String(q).toLowerCase(), " Or Not: ", found);
           if (found) {
-            // results.push(persons[key])
             const index = results.findIndex(object => object.id === persons[key].id);
-
-            if (index === -1) {
-              results.push(persons[key])
-            }
+            if (index === -1) { results.push(persons[key]) }
           }
-          console.log("Length: ", results.length)
-          console.log(results)
+          console.log("Found ", results.length>0?results.length:0, " Results")
+          // console.log(results)
         }
 
       }
+      if (results.length>=1) {
+        return results
+      }
+      else {
+        return [{Name: "No Matches"}];
+      }
+
     }
-  
+
+      // setFilteredPerson(results)
+      // results = body;
+
+    }
+
     const handleSearch = (e) => {
       setSearchQuery(e.target.value)
       queryObject(searchQuery, persons)
+      // body = queryObject(searchQuery, persons)
+      // console.log("Filtered Data: \n", filteredPerson)
     }
 
-    // let body = filterData(searchQuery, persons);
-    let body = persons;
+    body = queryObject(searchQuery, persons);
+    // let body = persons;
 
     return (
       <Container>

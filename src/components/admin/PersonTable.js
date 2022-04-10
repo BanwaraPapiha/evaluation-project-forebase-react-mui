@@ -23,20 +23,20 @@ const PersonTable = (props) => {
                     })}
                 </tr>
             </thead>
-            <tbody>
 
-        {props.body.map((prsn) => {
-          return (
-            <tr>
-              <td>{prsn.id} </td>
-              <td>{prsn.Name}</td>
-              <td>{prsn.Email}</td>
-              <td><Added/></td>
-              <td><DeleteIcon /></td>
-            </tr>
-          );
-        })}
-            </tbody>
+            <tbody>
+            {props.body.map((prsn) => {
+            return (
+                <tr>
+                <td>{prsn.id}</td>
+                <td>{prsn.Name}</td>
+                <td>{prsn.Email}</td>
+                <td>{prsn.id?<Added/>:""}</td>
+                <td>{prsn.id?<DeleteIcon/>:"Create New?"}</td>
+                </tr>
+            );
+            })}
+        </tbody>
         </table>
     )
 }
