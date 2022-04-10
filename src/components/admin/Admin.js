@@ -28,8 +28,8 @@ function Admin() {
 
         {/* <SurveyForm /> */}
         <SurveyList />
-        <PersonForm />
-        <FeatureForm />
+        {/* <PersonForm /> */}
+        {/* <FeatureForm /> */}
         {/* <FeatureList/> */}
         {/* <PersonList/> */}
         <EvaluationList/>

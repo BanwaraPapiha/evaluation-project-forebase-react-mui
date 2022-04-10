@@ -5,6 +5,7 @@ import { Paper, Typography, Button, TextField, Container, Stack, Grid } from '@m
 import FeatureTable from "./FeatureTable";
 import { queryObject } from "./searchFx"
 import { doc, onSnapshot } from "firebase/firestore";
+import FeatureAddOnlyForm from "./FeatureAddOnly";
 
 function FeatureList() {
     const [features, setFeatures] = useState([]);
@@ -12,30 +13,10 @@ function FeatureList() {
     const [searchQuery, setSearchQuery] = useState("");
     var body = [];
 
-    // useEffect(() => {
-    //   const getFeatures = async () => {
-    //     const data = await getDocs(usersCollectionRef_features);
-    //     console.log(data.docs);
-    //     setFeatures(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    //   };
-    //   getFeatures();
-    // }, []);
-
     useEffect(() => {
       const getFeatures = async () => {
         const querySnapshot = await getDocs(usersCollectionRef_features);
         const unsubscribe = onSnapshot(usersCollectionRef_features, (querySnapshot) => {
-            // const featuress = [];
-            // querySnapshot.forEach((doc) => {
-            //   console.log(doc.id, " => ", doc.data());
-            //   personss.push(doc.data().feature);
-            //   console.log(doc.id, " => ", doc.data().feature);
-            // });
-            // console.log("Current featuress length: ", typeof(featuress));
-    
-            // for (const property in featuress) {
-            //   console.log(`${property}: ${featuress[property]}`);
-            // }
             setFeatures(querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
           });
         }
@@ -53,6 +34,7 @@ function FeatureList() {
         <Typography variant="h5" gutterBottom component="div">
           <h1>Features</h1>
         </Typography>
+        <FeatureAddOnlyForm/><br/>
 
         <TextField fullWidth label="Search Feature" id="search-feature" onChange={handleSearch}/>
 

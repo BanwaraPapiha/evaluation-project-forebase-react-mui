@@ -29,11 +29,7 @@ export default function FeatureForm() {
           <Stack spacing={3}>
             <TextField fullWidth label="Feature to evaluate" variant="standard" {...register("Feature", {required: true, maxLength: 80})}/>
             <TextField fullWidth label="Total Possible Scores" variant="standard" {...register("Total_Scores", {required: true, maxLength: 4})}/>
-            <Button fullWidth
-              onClick={handleSubmit(onSubmit)} 
-              type="submit" variant="contained" component="span">
-            Submit
-            </Button>
+            <Button fullWidth onClick={handleSubmit(onSubmit)} type="submit" variant="contained" component="span">Submit</Button>
             <br />
           </Stack>
           </form>
