@@ -20,48 +20,38 @@ function PersonList() {
       getPersons();
     }, []);
 
-    var results = new Array();
     //for array
     const filterData = (query, data) => {
       if (!query) {
         return data;
       } else {
-        // return data.filter((d) => String(d).toLowerCase().includes(query));
         return data.filter((d) => String(d).toLowerCase().includes(query));
       }
     };
     //for object
     function queryObject(q, data){
+      var results = [];
       console.log(q)
-      // console.log(persons)
       for (const [key, value] of Object.entries(persons)) {
-        // console.log(`${key}: ${value}`);
-        for (const [k, v] of Object.entries(persons[key])) {
-          // console.log(JSON.stringify(persons[key]));
+        for (const xyz of Object.entries(persons[key])) {
+          // delete persons[key].id; 
+          // console.log("ID is: ", persons[key].id)
           let found = JSON.stringify(persons[key]).toLowerCase().includes(String(q).toLowerCase())
-          console.log(found);
-          console.log(key);
-          // console.log(JSON.stringify(persons[key]).toLowerCase().includes(String(q).toLowerCase()) === 'true');
-          // console.log(`${k}: ${v}`);
+          console.log("Found ", String(q).toLowerCase(), " Or Not: ", found);
+          if (found) {
+            // results.push(persons[key])
+            const index = results.findIndex(object => object.id === persons[key].id);
+
+            if (index === -1) {
+              results.push(persons[key])
+            }
+          }
+          console.log("Length: ", results.length)
+          console.log(results)
         }
-  
+
       }
-
-      // for( let i=0;i<data.length;i++){
-      //     for(let Key in data[i]){
-      //         if(String(data[i][Key]).indexOf(q) > -1){
-      //           results.push(data[i]);
-      //         }
-      //     }
-      // }
-
-      // if(results.length){
-      //     return JSON.stringify(results);
-      //     console.log(results);
-      // }else{
-      //     return "No match!";
-      // }
-  }
+    }
   
     const handleSearch = (e) => {
       setSearchQuery(e.target.value)
