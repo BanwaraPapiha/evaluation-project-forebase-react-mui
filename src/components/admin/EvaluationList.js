@@ -12,14 +12,6 @@ function EvaluationList() {
     const usersCollectionRef_eval_data = query(collection(Db, "evaluation data"), where("survey", "==", currentSurvey));
 
   useEffect(() => {
-    // const getEvaluationData = async () => {
-    //   const data = await getDocs(usersCollectionRef_eval_data);
-    //   console.log(data);
-    //   console.log(`eval data for ${currentSurvey}`);
-    //   console.log(data.docs);
-    //   setEval_data(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    // };
-
     const getEvaluationData = async () => {
       const querySnapshot = await getDocs(usersCollectionRef_eval_data);
       const unsubscribe = onSnapshot(usersCollectionRef_eval_data, (querySnapshot) => {

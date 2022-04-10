@@ -20,7 +20,6 @@ const EvaluationTable = (props) => {
             
         {props.body.map((prsn) => {
           return (
-            // <Stack spacing={2}>
             <tr>
               <td>{prsn.id} </td>
               <td>{prsn.survey} </td>
@@ -29,10 +28,7 @@ const EvaluationTable = (props) => {
               <td>{prsn.feature}</td>
               <td>{prsn.points}</td>
               <td><DeleteIcon /></td>
-              {/* <td>{new Date(prsn.timestamp)}</td> */}
-              {/* <td><ModeEditOutlineIcon /></td> */}
             </tr>
-            // </Stack>
           );
         })}
 

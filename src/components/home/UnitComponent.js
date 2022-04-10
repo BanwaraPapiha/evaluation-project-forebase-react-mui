@@ -6,8 +6,6 @@ import { SurveyCTx } from "../../providers/surveyctx";
 import firebase from 'firebase/compat/app'
 import { updateDoc, serverTimestamp } from "firebase/firestore";
 
-// import 'firebase/firestore'
-
 function UnitComponent(props) {
   const [identifier, setIdentifier] = useState('');
   const [slide_score, setSlide_score] = useState(0);
@@ -17,7 +15,6 @@ function UnitComponent(props) {
   const survey = surveyCtx.survey['name']
   const PersonId = props.person.id;
   const FeatureName = props.featureId;
-  // const timestamp = firebase.firestore.FieldValue.serverTimestamp;
 
   let newObj = {
     survey: survey,
@@ -26,7 +23,6 @@ function UnitComponent(props) {
     feature: FeatureName,
     points: 0,
     timestamp: serverTimestamp(),
-    // timestamp: timestamp,
   }
   var feedComponent2 = 0;
 
@@ -51,24 +47,17 @@ function UnitComponent(props) {
     const kis = Object.keys(points.pointsdata);
     if (identifier!=='' && kis.includes(identifier)){
       feedComponent2 = String(points.pointsdata[identifier]['points']);
-      // console.log(feedComponent)
       setFeedComponent(feedComponent2)
 
     }
   }
-
-  // console.log(points.pointsdata[identifier]['points'])
-  // console.log(points.pointsdata[identifier])
   return (
     <Grid item sm={12} md={6}>
       <Card elevation={10}>
         <CardContent>
         
         <Paper elevation={6} style={{padding: "10px"}}>
-        {/* Score Awarded: <Chip variant="outlined" label={points.pointsdata[identifier]!=='undefined'?points.pointsdata[identifier]['points']:0} color="info" /> */}
-        {/* Score Awarded: <Chip variant="outlined" label={0} color="info" /> */}
         Score Awarded: <Chip variant="outlined" label={(typeof(feedComponent) === 'undefined') ? 0 : feedComponent} color="info" />
-        {/* Score Awarded: <Chip variant="outlined" label={feedComponent} color="info" /> */}
         </Paper>
 
           <Typography gutterBottom variant="h5" component="div">
@@ -79,9 +68,6 @@ function UnitComponent(props) {
           <Typography variant="body2" color="text.secondary">
           You can give a total scores of: {props.feature_score} <br />
           Your Unique Id is: {identifier} <br />
-          {/* Points left for scoring: {(props.feature_score)-(slide_score)} <br /> */}
-          {/* Points left for scoring: {props.feature_score-feedComponent} <br /> */}
-          {/* Stats =&gt; Given: {points.pointsdata[identifier]['points']} <br /> */}
           Stats =&gt; Given: {feedComponent} <br />
 
           </Typography>

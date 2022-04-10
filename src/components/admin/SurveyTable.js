@@ -13,17 +13,12 @@ const Selected = (props) => {
         // BUGGY FX
         CurrentSurvey.setSurvey(props.sy)
         if (CurrentSurvey.survey.length === 1 && CurrentSurvey.survey[0]['id'] === props.sy['id']) {
-        // if (CurrentSurvey.survey[0] === props.sy) {
             setSelected(!selected)
-            // CurrentSurvey.setSurvey(props.sy)
             style = {color: 'green'}
         }
         else {
             style = {color: 'black'}
         }
-        // setSelected(!selected)
-        // console.log(CurrentSurvey.survey[0]['name'])
-        // console.log(props.sy['name'])
         console.log(CurrentSurvey.survey[0])
         console.log(props.sy)
 
@@ -48,7 +43,6 @@ const SurveyTable = (props) => {
             </thead>
             <tbody>
 
-        {/* <Stack spacing={2}> */}
         {props.body.map((prsn) => {
           return (
               <tr> 
@@ -62,7 +56,6 @@ const SurveyTable = (props) => {
             </tr>
           );
         })}
-        {/* </Stack> */}
 
             </tbody>
         </table>

@@ -7,6 +7,7 @@ import { DBContext } from "../../providers/dbcontext";
 import { DBContextProvider } from "../../providers/dbprovider";
 import { PointsCtx } from "../../providers/pointsctx";
 import { PointsCtxProvider } from "../../providers/pointsProvider";
+import { SurveyCTx } from "../../providers/surveyctx";
 
 function MultiStep() {
   const [features, setFeatures] = useState([]);
@@ -19,6 +20,9 @@ function MultiStep() {
   const usersCollectionRef_eval = collection(Db, "evaluation data");
   const usersCollectionRef_survey = collection(Db, "surveys");
   const points = useContext(PointsCtx)
+  const surveyCtx = useContext(SurveyCTx)
+  const current_survey = surveyCtx.survey['name']
+
 
   const NextPage = () => {
     setPage(currPage => currPage + 1);
@@ -71,19 +75,10 @@ function MultiStep() {
   return (
     <>
       <Typography variant="h5" gutterBottom component="div">
-        Survey {survey.length > 1 && survey[1].name}
+        Survey {current_survey}
         <br/>
         Evaluate All the given users in the following Features Step By Step
       </Typography>
-
-      {/* {features.length > 0 && 
-      features[page].feature &&
-      <UnitStepForm 
-        personsList={ persons }
-        featureName={features[page].feature} 
-        scores={features[page].total_score} 
-        featureId={features[page].id} 
-      /> } */}
 
       {features.length > 0 ?
        features.map((x) => {
@@ -97,19 +92,9 @@ function MultiStep() {
           />
           )
        }) 
-       : 'FALSEEEEEEEEEE'}
+       : 'Loading'}
 
-      {/* {features.length > 0 && 
-      <UnitStepForm 
-        personsList={ persons }
-        featureName={features[page].feature} 
-        scores={features[page].total_score} 
-        featureId={features[page].id} 
-      /> } */}
-
-
-{/*     
-      <Container style={{padding: "10px", margin: "10px auto", width: "50%"}}>
+      {/* <Container style={{padding: "10px", margin: "10px auto", width: "50%"}}>
         { page > 1 && <button onClick={PrevPage}>Previous</button>}
         &nbsp; Current Page is: { page } &nbsp;
         { page < (features.length - 1) ? <button onClick={NextPage}>Next</button> : <button onClick={Submit}>Submit</button>}

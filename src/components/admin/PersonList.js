@@ -21,12 +21,10 @@ function PersonList() {
     };
     //for object
     function queryObject(q, data){
-      // var results = new Array();
       for( let i=0;i<data.length;i++){
           for(let Key in data[i]){
               if(String(data[i][Key]).indexOf(q) > -1){
                 results.push(data[i]);
-                // setNewPersonObj({...newPersonObj, data[index]: data[index]})
               }
           }
       }
@@ -53,7 +51,6 @@ function PersonList() {
       queryObject(searchQuery, persons)
     }
     let body = filterData(searchQuery, persons);
-    // console.log(persons)
 
     return (
       <Container>

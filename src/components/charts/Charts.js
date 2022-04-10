@@ -54,59 +54,6 @@ function Charts() {
             <EvaluatioonAndCharts />
             <PersonsAndCharts />
             <FeaturesAndCharts />
-
-            {/* <ChartsTable table_datum={persons}/> 
-
-            <div>
-              <LineChart width={600} height={300} data={persons} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-                <Line type="monotone" dataKey="acc_dec_score" stroke="#8884d8" />
-                <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-                <XAxis dataKey="Name" />
-                <YAxis />
-                <Tooltip />
-              </LineChart>
-            </div>
-            <div>
-                <h1>Evaluation Data</h1>
-                {eval_data.map((ed) => {
-                return (
-                    <div>
-                        <h5>
-                        id: {ed.id}
-                        | being_evaluated: {ed.being_evaluated} 
-                        | evaluator: {ed.evaluator}
-                        | feature: {ed.feature}
-                        | score_awarded: {ed.score_awarded}
-                        | total_score: {ed.total_score}
-                        </h5>
-                    </div>
-                );
-                })}
-            </div>
-
-            <div>
-              <LineChart width={600} height={300} data={eval_data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-                <Line type="monotone" dataKey="score_awarded" stroke="#8884d8" />
-                <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-                <XAxis dataKey="feature" />
-                <YAxis />
-                <Tooltip />
-              </LineChart>
-            </div>
-
-            <div>
-                <h1>Features</h1>
-                {features.map((fetr) => {
-                  return (
-                      <div>
-                        {" "}
-                        <h5>id: {fetr.id}</h5>
-                        <h5>feature: {fetr.feature}</h5>
-                        <h5>total_score: {fetr.total_score}</h5>
-                      </div>
-                  );
-                })}
-            </div> */}
         </div>
     );
   }
