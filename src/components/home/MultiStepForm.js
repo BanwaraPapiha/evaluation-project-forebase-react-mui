@@ -15,21 +15,22 @@ function MultiStep() {
   const [page, setPage] = useState(1)
   const [survey, setSurvey] = useState([]);
   const {formdata, setFormData} = useContext(DBContext);
-  const usersCollectionRef_features = collection(Db, "features for evaluation");
-  const usersCollectionRef_persons = collection(Db, "persons to be evaluated");
-  const usersCollectionRef_eval = collection(Db, "evaluation data");
-  const usersCollectionRef_survey = collection(Db, "surveys");
   const points = useContext(PointsCtx)
   const surveyCtx = useContext(SurveyCTx)
   const current_survey = surveyCtx.survey['name']
+  const usersCollectionRef_features = collection(Db, "features for evaluation");
+  const usersCollectionRef_persons = collection(Db, "persons to be evaluated");
+  const usersCollectionRef_eval = collection(Db, "evaluation data");
+  const usersCollectionRef_CurrSur = collection(Db, current_survey);
+  const usersCollectionRef_survey = collection(Db, "surveys");
 
   const Submit = async () => {
     alert("Submit!");
     console.log(points.pointsdata)
     for (const row in points.pointsdata) {
-      console.log(`${points.pointsdata[row]}`);
+      // console.log(`${points.pointsdata[row]}`);
       try {
-        const docRef = await addDoc(usersCollectionRef_eval, points.pointsdata[row]);
+        const docRef = await addDoc(usersCollectionRef_CurrSur, points.pointsdata[row]);
         console.log("Document written with ID: ", docRef.id);
 
       } catch (e) {

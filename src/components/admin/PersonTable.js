@@ -4,6 +4,7 @@ import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import { Db } from "../../firebase-config/db";
 import { doc, deleteDoc} from "firebase/firestore";
 import { useState } from "react";
+import { Link } from '@mui/material';
 
 const Added = (props) => {
     const [added, setAdded] = useState(false)
@@ -26,7 +27,8 @@ const PersonTable = (props) => {
         }
       }
     return (
-        <table>
+        <div style={{"overflow-x":"auto"}}>
+        <table style={{width: "100%"}}>
             <thead>
                 <tr>
                     {props.title.map(t=>{
@@ -45,12 +47,14 @@ const PersonTable = (props) => {
                 <td>{prsn.Name}</td>
                 <td>{prsn.Email}</td>
                 <td>{prsn.id?<Added/>:""}</td>
-                <td>{prsn.id?<DeleteIcon onClick={()=>handleDelete(prsn.id, prsn.Name)}/>:"Create New?"}</td>
+                <td>{prsn.id?<DeleteIcon onClick={()=>handleDelete(prsn.id, prsn.Name)}/>:<Link href="#PersonAddOnlyForm">No Matches. Create New Person?</Link>}</td>
                 </tr>
             );
             })}
         </tbody>
         </table>
+
+        </div>
     )
 }
 

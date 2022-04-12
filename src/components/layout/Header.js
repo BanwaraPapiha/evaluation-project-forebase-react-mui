@@ -50,7 +50,6 @@ const Header = () => {
 
   const navigate = useNavigate();
 
-
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -119,10 +118,7 @@ const Header = () => {
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             
             {linked_pages.map((page) => (
-              <Button
-                key={page}
-                onClick={() => {
-                    navigate(page.route);
+              <Button key={page} onClick={() => {navigate(page.route);
                     // handleCloseNavMenu();
             }}
                 sx={{ my: 2, color: 'white', display: 'block' }}

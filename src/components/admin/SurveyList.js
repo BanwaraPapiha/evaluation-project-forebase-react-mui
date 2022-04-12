@@ -20,12 +20,12 @@ function SurveyList() {
     return (
       <Container>      
         <Typography variant="h5" gutterBottom component="div">
-          <h1>survey</h1>
+          Survey
         </Typography>
         <SurveyTable title={["Id", "Name", "Start Date", "End Date", "Active", "Participants", "Select"]} body={eval_data}/>
     </Container>
     );
   }
-  
-  export default SurveyList;
+
+export default SurveyList;
   

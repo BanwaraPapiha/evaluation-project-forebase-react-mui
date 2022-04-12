@@ -25,18 +25,19 @@ const Selected = (props) => {
     }
 
     return(
-        <td onClick={()=>HandleSelect()}>{selected? <CheckBoxIcon style={style}/>:<CheckBoxIcon />}</td>
+        <div onClick={()=>HandleSelect()}>{selected? <CheckBoxIcon style={style}/>:<CheckBoxIcon />}</div>
     )
 }
 
 const SurveyTable = (props) => {      
     return (
-        <table>
+        <div style={{"overflow-x":"auto"}}>
+        <table style={{width: "100%"}}>
             <thead>
                 <tr>
                     {props.title.map(t=>{
                         return(
-                            <th>{t}</th>
+                            <th key={t}>{t}</th>
                         )
                     })}
                 </tr>
@@ -45,7 +46,7 @@ const SurveyTable = (props) => {
 
         {props.body.map((prsn) => {
           return (
-              <tr> 
+            <tr key={prsn.id}> 
               <td>{prsn.id} </td>
               <td>{prsn.name}</td>
               <td>{prsn.startDate}</td>
@@ -59,6 +60,8 @@ const SurveyTable = (props) => {
 
             </tbody>
         </table>
+
+        </div>
     )
 }
 

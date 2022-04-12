@@ -4,6 +4,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import { Db } from "../../firebase-config/db";
 import { doc, deleteDoc} from "firebase/firestore";
+import { Link } from '@mui/material';
 
 const Added = (props) => {
   const [added, setAdded] = useState(false)
@@ -45,7 +46,7 @@ const FeatureTable = (props) => {
               <td>{prsn.feature}</td>
               <td>{prsn.total_score}</td>
               <td>{prsn.id?<Added/>:""}</td>
-              <td>{prsn.id?<DeleteIcon onClick={()=>handleDelete(prsn.id, prsn.feature)}/>:"Create New?"}</td>
+              <td>{prsn.id?<DeleteIcon onClick={()=>handleDelete(prsn.id, prsn.feature)}/>:<Link href="#FeatureAddOnlyForm">No Matches. Create New Feature?</Link>}</td>
             </tr>
           );
         })}

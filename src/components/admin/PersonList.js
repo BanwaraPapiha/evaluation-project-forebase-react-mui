@@ -35,9 +35,9 @@ function PersonList() {
     return (
       <Container>
         <Typography variant="h5" gutterBottom component="div">Persons</Typography>
-        <PersonAddOnlyForm/><br/>
         <TextField fullWidth label="Search Persons" id="search-persons" onChange={handleSearch}/>
         <PersonTable title={["Id", "Name", "Email", "Add", "Delete"]} body={body}/>
+        <PersonAddOnlyForm id="PersonAddOnlyForm" /><br/>
       </Container>
     );
   }

@@ -36,7 +36,7 @@ export default function PersonAddOnlyForm() {
     <Container maxWidth="xl">
         <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={3}>
-            <br/>
+            {/* <br/> */}
             <TextField fullWidth label="Name" variant="standard" inputRef={nameInput} {...register("Name", {required: true, maxLength: 80})} />
             <TextField fullWidth label="Email" variant="standard" inputRef={emailInput} {...register("Email", {required: true, pattern: /^\S+@\S+$/i})} />
             <Button fullWidth onClick={handleSubmit(onSubmit)} type="submit" variant="contained" component="span">Submit</Button>

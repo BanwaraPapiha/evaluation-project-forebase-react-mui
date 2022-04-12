@@ -5,37 +5,28 @@ import FeatureList from ".//FeatureList";
 import PersonList from "./PersonList";
 import EvaluationList from "./EvaluationList";
 import SurveyList from "./SurveyList";
-import { Container, Grid, Paper, Button, Stepper, Step, StepLabel } from '@mui/material';
+import { Container, Grid, Paper, Button } from '@mui/material';
 import { useState } from 'react';
+import HorizontalLinearStepper from "./testingStep"
 
 function Admin() {
-  const [adminpage, setAadminpage] = useState(0)
-  const steps = ['Select campaign settings', 'Create an ad group', 'Create an ad'];
+  const [add, setAdd] = useState(false)
+  const [page, setPage] = useState(1)
 
-  const pages = {0: '', 1:<SurveyForm />, 2: <PersonList/>, 3: <FeatureList/>}
   return (
     <Container>
-      {/* <br/>
-    <Stepper activeStep={1} alternativeLabel>
-      {steps.map((label) => (
-        <Step key={label}>
-          <StepLabel>{label}</StepLabel>
-        </Step>
-      ))}
-    </Stepper> */}
-
       <br/>
-      <Paper elevation={3} style={{margin: "auto"}}>
-      <Button variant="outlined" onClick={()=>{setAadminpage(adminpage + 1);alert(adminpage)}}>
-        Start New Survey
-      </Button>
-      {pages[adminpage]}
+      <Paper elevation={3} style={{textAlign: "center"}}>
 
+      <Button variant="outlined" style={{}} onClick={()=>{setAdd(!add)}}>
+        {add===false?"Create New Survey":"Hide"}
+      </Button><br/>
+
+      {add===true? <HorizontalLinearStepper show={setAdd}/>: null}
       </Paper>
-    {/* </Grid> */}
-
-    <SurveyList />
-    <EvaluationList/>
+      
+      <SurveyList />
+    {/* <EvaluationList/> */}
 
   </Container>
   );

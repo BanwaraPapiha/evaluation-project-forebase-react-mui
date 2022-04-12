@@ -31,14 +31,11 @@ function FeatureList() {
 
     return (
       <Container>      
-        <Typography variant="h5" gutterBottom component="div">
-          <h1>Features</h1>
-        </Typography>
-        <FeatureAddOnlyForm/><br/>
-
+        <Typography variant="h5" gutterBottom component="div">Features</Typography>
         <TextField fullWidth label="Search Feature" id="search-feature" onChange={handleSearch}/>
-
         <FeatureTable title={["Id", "Feature", "Total Sum of Scores", "Add", "Delete"]} body={body}/>
+        <FeatureAddOnlyForm id="FeatureAddOnlyForm"/><br/>
+
     </Container>
     );
   }
