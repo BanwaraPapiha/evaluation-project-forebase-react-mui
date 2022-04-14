@@ -20,19 +20,15 @@ const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 const Header = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-
-
   const SurveyData = useContext(SurveyCTx);
-  const currentSurvey = SurveyData.survey['name']
-  // console.log(SurveyData.survey)
-
+  const currentSurvey = SurveyData.survey[0]['name']
 
   const linked_pages = [
     { "page": "Home", "route": "/"}, 
     { "page": "Charts", "route": "/charts"}, 
     { "page": "Bounty", "route": "/bounty"}, 
     { "page": "Admin", "route": "/admin"},
-    // { "page": currentSurvey, "route": "/admin"},
+    { "page": currentSurvey, "route": "/admin"},
     { "page": "Login", "route": "/login"},
   ];
 

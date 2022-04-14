@@ -2,7 +2,7 @@ import { Stack } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import {SurveyCTx} from "../../providers/surveyctx";
 
 const Selected = (props) => {
@@ -15,17 +15,17 @@ const Selected = (props) => {
 }
 
 const SurveyTable = (props) => { 
+    const [xy, setXy] = useState();
     const CurrentSurvey = useContext(SurveyCTx);
-    // const currentSurvey = CurrentSurvey.survey['name'];
-    console.log(CurrentSurvey)
     const HandleClick = (x) => {
         CurrentSurvey.setSurvey([x])
         console.log("Now the Cur Survey is: ")
-        console.log(CurrentSurvey.survey[0])
+        console.log(CurrentSurvey.survey[0]["id"])
     }     
+    
     return (
         <div style={{"overflow-x":"auto"}}>
-            <h1>{JSON.stringify(CurrentSurvey.survey[0])}</h1>
+            <h1>Name: {JSON.stringify(CurrentSurvey.survey[0]['name'])}, Id: {JSON.stringify(CurrentSurvey.survey[0]['id'])}</h1>
         <table style={{width: "100%"}}>
             <thead>
                 <tr>
