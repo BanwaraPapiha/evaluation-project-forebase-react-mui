@@ -17,7 +17,6 @@ const steps = ['Create Survey', 'Select Persons', 'Add Features', "Finish"];
 
 export default function HorizontalLinearStepper(props) {
     const [page, setPage] = useState(0)
-    // const pages = {0:<SurveyForm />, 1: <PersonList/>, 2: <FeatureList/>, 3: <div>Summary</div>}
     const pages = {0:<SurveyList />, 1: <PersonList/>, 2: <FeatureList/>, 3: <div>Summary</div>}
     const NextPage = () => {
       setPage(currPage => currPage + 1);
@@ -37,13 +36,12 @@ export default function HorizontalLinearStepper(props) {
                     </Step>
                 ))}
             </Stepper>
+            {pages[page]}
 
             {page<=0?<Button variant="text" disabled>Back</Button>:
             <Button variant="text" onClick={()=>{PrevPage(page)}}>Back</Button>}
             {page>=steps.length-1?<Button variant="text" onClick={()=>{alert();props.show(false)}}>Finish</Button>
             :<Button variant="text" onClick={()=>{NextPage(page)}}>Next</Button>}
-
-            {pages[page]}
         </div>
       </>
   );

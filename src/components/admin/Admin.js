@@ -18,11 +18,12 @@ function Admin() {
       <br/>
       <Paper elevation={3} style={{textAlign: "center"}}>
 
-      <Button variant="outlined" style={{}} onClick={()=>{setAdd(!add)}}>
+      {/* <Button variant="outlined" style={{}} onClick={()=>{setAdd(!add)}}>
         {add===false?"Create New Survey":"Hide"}
-      </Button><br/>
+      </Button><br/> */}
 
-      {add===true? <HorizontalLinearStepper show={setAdd}/>: null}
+      {/* {add===true? <HorizontalLinearStepper show={setAdd}/>: null} */}
+      <HorizontalLinearStepper/>
       </Paper>
       
       {/* <SurveyList /> */}
