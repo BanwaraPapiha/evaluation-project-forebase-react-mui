@@ -29,7 +29,7 @@ function FeatureList() {
     }, []);
 
     useEffect(() => {
-      const unsub = onSnapshot(doc(Db, "surveys", Curr_survey), (doc) => {
+      const unsub = onSnapshot(doc(Db, "surveys", "Jan 22"), (doc) => {
         const featuresHere = doc.data().features
         console.log("Current data: ", featuresHere);
         setFeaturesUsers(featuresHere)

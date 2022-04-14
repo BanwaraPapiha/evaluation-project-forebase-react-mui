@@ -31,7 +31,7 @@ function PersonList() {
     }, []);
 
     useEffect(() => {
-      const unsub = onSnapshot(doc(Db, "surveys", Curr_survey), (doc) => {
+      const unsub = onSnapshot(doc(Db, "surveys", "Jan 22"), (doc) => {
         const usersHere = doc.data().users
         if (usersHere !== 'undefined') {
           console.log("Current data: ", usersHere);
