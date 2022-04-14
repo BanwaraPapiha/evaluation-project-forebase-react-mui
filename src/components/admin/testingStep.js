@@ -5,7 +5,7 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-
+import SurveyList from "./SurveyList";
 import SurveyForm from "./SurveyForm";
 import FeatureList from ".//FeatureList";
 import PersonList from "./PersonList";
@@ -17,7 +17,8 @@ const steps = ['Create Survey', 'Select Persons', 'Add Features', "Finish"];
 
 export default function HorizontalLinearStepper(props) {
     const [page, setPage] = useState(0)
-    const pages = {0:<SurveyForm />, 1: <PersonList/>, 2: <FeatureList/>, 3: <div>Summary</div>}
+    // const pages = {0:<SurveyForm />, 1: <PersonList/>, 2: <FeatureList/>, 3: <div>Summary</div>}
+    const pages = {0:<SurveyList />, 1: <PersonList/>, 2: <FeatureList/>, 3: <div>Summary</div>}
     const NextPage = () => {
       setPage(currPage => currPage + 1);
     };

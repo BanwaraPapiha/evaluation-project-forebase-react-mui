@@ -15,7 +15,6 @@ const Selected = (props) => {
 }
 
 const SurveyTable = (props) => { 
-    const [xy, setXy] = useState();
     const CurrentSurvey = useContext(SurveyCTx);
     const HandleClick = (x) => {
         CurrentSurvey.setSurvey([x])
@@ -40,8 +39,8 @@ const SurveyTable = (props) => {
 
         {props.body.map((prsn) => {
           return (
-            <tr key={prsn.id}>
-              <td onClick={()=>{HandleClick(prsn)}}>{prsn.id} Click Here</td>
+            <tr key={prsn.id} onClick={()=>{HandleClick(prsn)}}>
+              <td>{prsn.id}</td>
               <td>{prsn.name}</td>
               <td>{prsn.startDate}</td>
               <td>{prsn.endDate}</td>

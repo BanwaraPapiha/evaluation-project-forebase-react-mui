@@ -14,7 +14,7 @@ function FeatureList() {
     const [searchQuery, setSearchQuery] = useState("");
     const [addedFeatures, setFeaturesUsers] = useState([]);
     const surveyCtx = useContext(SurveyCTx)
-    const Curr_survey = surveyCtx.survey['name']
+    const Curr_survey = surveyCtx.survey[0]['name']
 
     var body = [];
 

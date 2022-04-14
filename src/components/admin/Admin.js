@@ -1,9 +1,9 @@
-import FeatureForm from './FeatureForm';
-import PersonForm from "./PersonForm";
-import SurveyForm from "./SurveyForm";
-import FeatureList from ".//FeatureList";
-import PersonList from "./PersonList";
-import EvaluationList from "./EvaluationList";
+// import FeatureForm from './FeatureForm';
+// import PersonForm from "./PersonForm";
+// import SurveyForm from "./SurveyForm";
+// import FeatureList from ".//FeatureList";
+// import PersonList from "./PersonList";
+// import EvaluationList from "./EvaluationList";
 import SurveyList from "./SurveyList";
 import { Container, Grid, Paper, Button } from '@mui/material';
 import { useState } from 'react';
@@ -25,7 +25,7 @@ function Admin() {
       {add===true? <HorizontalLinearStepper show={setAdd}/>: null}
       </Paper>
       
-      <SurveyList />
+      {/* <SurveyList /> */}
     {/* <EvaluationList/> */}
 
   </Container>
