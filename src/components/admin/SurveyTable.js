@@ -19,16 +19,13 @@ const SurveyTable = (props) => {
     // const currentSurvey = CurrentSurvey.survey['name'];
     console.log(CurrentSurvey)
     const HandleClick = (x) => {
-        console.log(x)
-        console.log("NOw the Cur Survey is: ")
-        console.log(CurrentSurvey.survey)
-        // console.log(typeof(CurrentSurvey.survey))
-        // console.log(typeof(x))
-        // CurrentSurvey.setSurvey({0:CurrentSurvey.survey})
-  
+        CurrentSurvey.setSurvey([x])
+        console.log("Now the Cur Survey is: ")
+        console.log(CurrentSurvey.survey[0])
     }     
     return (
         <div style={{"overflow-x":"auto"}}>
+            <h1>{JSON.stringify(CurrentSurvey.survey[0])}</h1>
         <table style={{width: "100%"}}>
             <thead>
                 <tr>
