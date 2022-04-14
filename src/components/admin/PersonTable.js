@@ -5,10 +5,12 @@ import { Db } from "../../firebase-config/db";
 import { doc, deleteDoc} from "firebase/firestore";
 import { useState } from "react";
 import { Link } from '@mui/material';
+import firebase from 'firebase/compat/app';
 
 const Added = (props) => {
     const [added, setAdded] = useState(false)
     const HandleAdd = () => setAdded(!added)
+
     return(
         <td onClick={()=>HandleAdd()}>{added? <CheckCircleRoundedIcon style={{color: 'green'}}/>:<AddCircleIcon />}</td>
     )
