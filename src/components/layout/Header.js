@@ -20,14 +20,7 @@ const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 const Header = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  // const SurveyData = useContext(SurveyCTx);
-  // var currentSurvey;
-  // if (currentSurvey!=='undefined') {
-  //   currentSurvey = SurveyData.Curr_survey.name
-  // }
-  // else {
-  //   currentSurvey = "Not Selected"
-  // }
+
 
   const SurveyData = useContext(SurveyCTx);
   const currentSurvey = SurveyData.survey['name']
@@ -39,7 +32,7 @@ const Header = () => {
     { "page": "Charts", "route": "/charts"}, 
     { "page": "Bounty", "route": "/bounty"}, 
     { "page": "Admin", "route": "/admin"},
-    { "page": currentSurvey, "route": "/admin"},
+    // { "page": currentSurvey, "route": "/admin"},
     { "page": "Login", "route": "/login"},
   ];
 

@@ -6,30 +6,27 @@ import { useState, useContext } from "react";
 import {SurveyCTx} from "../../providers/surveyctx";
 
 const Selected = (props) => {
-    const CurrentSurvey = useContext(SurveyCTx);
-    const [selected, setSelected] = useState(false)
-    let style = {color: 'black'}
-    const HandleSelect = () => {
-        // BUGGY FX
-        CurrentSurvey.setSurvey(props.sy)
-        if (CurrentSurvey.survey.length === 1 && CurrentSurvey.survey[0]['id'] === props.sy['id']) {
-            setSelected(!selected)
-            style = {color: 'green'}
-        }
-        else {
-            style = {color: 'black'}
-        }
-        console.log(CurrentSurvey.survey[0])
-        console.log(props.sy)
-
-    }
-
+    const [selected, setSelected] = useState(false);
+    let style = {color: 'black'};
+    const HandleSelect = () => {}
     return(
         <div onClick={()=>HandleSelect()}>{selected? <CheckBoxIcon style={style}/>:<CheckBoxIcon />}</div>
     )
 }
 
-const SurveyTable = (props) => {      
+const SurveyTable = (props) => { 
+    const CurrentSurvey = useContext(SurveyCTx);
+    // const currentSurvey = CurrentSurvey.survey['name'];
+    console.log(CurrentSurvey)
+    const HandleClick = (x) => {
+        console.log(x)
+        console.log("NOw the Cur Survey is: ")
+        console.log(CurrentSurvey.survey)
+        // console.log(typeof(CurrentSurvey.survey))
+        // console.log(typeof(x))
+        // CurrentSurvey.setSurvey({0:CurrentSurvey.survey})
+  
+    }     
     return (
         <div style={{"overflow-x":"auto"}}>
         <table style={{width: "100%"}}>
@@ -46,8 +43,8 @@ const SurveyTable = (props) => {
 
         {props.body.map((prsn) => {
           return (
-            <tr key={prsn.id}> 
-              <td>{prsn.id} </td>
+            <tr key={prsn.id}>
+              <td onClick={()=>{HandleClick(prsn)}}>{prsn.id} Click Here</td>
               <td>{prsn.name}</td>
               <td>{prsn.startDate}</td>
               <td>{prsn.endDate}</td>

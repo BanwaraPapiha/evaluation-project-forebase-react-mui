@@ -9,6 +9,7 @@ function EvaluationList() {
     const surveyCtx = useContext(SurveyCTx);
     const [eval_data, setEval_data] = useState([]);
     const currentSurvey = surveyCtx.survey['name'];
+    // const setCurrentSurvey = surveyCtx.setSurvey();
     const usersCollectionRef_eval_data = query(collection(Db, "evaluation data"), where("survey", "==", currentSurvey));
 
   useEffect(() => {
