@@ -3,37 +3,48 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import { Db } from "../../firebase-config/db";
 import { doc, deleteDoc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
-import { useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Link } from '@mui/material';
 import firebase from 'firebase/compat/app';
+import { SurveyCTx } from "../../providers/surveyctx";
 
 const Added = (props) => {
     const [added, setAdded] = useState(false)
-    const taskDocRef = doc(Db, "surveys", "Jan 22")
+    const surveyCtx = useContext(SurveyCTx)
+    const Curr_survey = surveyCtx.survey[0]['id']
+    const taskDocRef = doc(Db, "surveys", Curr_survey)
+
+    // async function Remove2Array(user2Add) {
+    //     console.log(Curr_survey);
+    //     const result = await updateDoc(taskDocRef, {
+    //         name: "April 24, 2023",
+    //         // users: arrayRemove(String(user2Add))
+    //       });
+    //   }
+    
+    async function Add2Array(user2Add) {
+        console.log(Curr_survey);
+        const result = await updateDoc(taskDocRef, {
+            name: "April 24, 2023",
+            users: arrayUnion(String(user2Add))
+            });
+    }
+
     const HandleAdd = () => {
         if (Added) {
-            alert(added)
+            console.log(added)
+            console.log('no action ')
             setAdded(!added)
+            // Remove2Array(props.userDetail.Name);
+            // Add2Array(props.userDetail.Name);
         }
         else if (!added) {
-            alert(added)
+            console.log(added)
+            console.log('action ')
             setAdded(!added)
-            const add = async () => {
-                try {
-                    await updateDoc(taskDocRef, {
-                        "users": arrayUnion("greater_virginia")
-                    });
-                    console.log("trying")
-                }
-                catch(err){
-                    console.log(err);
-                }
-            }
-            add()
-            
+            Add2Array(props.userDetail.Name);
+            }            
         }
-        
-    }
 
     return(
         <td onClick={()=>HandleAdd()}>{added? <CheckCircleRoundedIcon style={{color: 'green'}}/>:<AddCircleIcon />}</td>
@@ -51,7 +62,8 @@ const PersonTable = (props) => {
         } catch (err) {
           alert(err)
         }
-      }
+    }
+
     return (
         <div style={{"overflow-x":"auto"}}>
         <table style={{width: "100%"}}>
@@ -72,7 +84,7 @@ const PersonTable = (props) => {
                 <td>{prsn.id}</td>
                 <td>{prsn.Name}</td>
                 <td>{prsn.Email}</td>
-                <td>{prsn.id?<Added/>:""}</td>
+                <td>{prsn.id?<Added userDetail={prsn}/>:""}</td>
                 <td>{prsn.id?<DeleteIcon onClick={()=>handleDelete(prsn.id, prsn.Name)}/>:<Link href="#PersonAddOnlyForm">No Matches. Create New Person?</Link>}</td>
                 </tr>
             );
@@ -83,5 +95,6 @@ const PersonTable = (props) => {
         </div>
     )
 }
+
 
 export default PersonTable;

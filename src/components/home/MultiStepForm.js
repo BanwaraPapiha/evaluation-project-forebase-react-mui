@@ -17,7 +17,7 @@ function MultiStep() {
   const {formdata, setFormData} = useContext(DBContext);
   const points = useContext(PointsCtx)
   const surveyCtx = useContext(SurveyCTx)
-  const current_survey = surveyCtx.survey['name']
+  const current_survey = surveyCtx.survey[0]['name']
   const usersCollectionRef_features = collection(Db, "features for evaluation");
   const usersCollectionRef_persons = collection(Db, "persons to be evaluated");
   const usersCollectionRef_eval = collection(Db, "evaluation data");
