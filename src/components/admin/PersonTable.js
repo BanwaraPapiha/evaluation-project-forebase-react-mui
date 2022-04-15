@@ -2,14 +2,38 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import { Db } from "../../firebase-config/db";
-import { doc, deleteDoc} from "firebase/firestore";
+import { doc, deleteDoc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { useState } from "react";
 import { Link } from '@mui/material';
 import firebase from 'firebase/compat/app';
 
 const Added = (props) => {
     const [added, setAdded] = useState(false)
-    const HandleAdd = () => setAdded(!added)
+    const taskDocRef = doc(Db, "surveys", "Jan 22")
+    const HandleAdd = () => {
+        if (Added) {
+            alert(added)
+            setAdded(!added)
+        }
+        else if (!added) {
+            alert(added)
+            setAdded(!added)
+            const add = async () => {
+                try {
+                    await updateDoc(taskDocRef, {
+                        "users": arrayUnion("greater_virginia")
+                    });
+                    console.log("trying")
+                }
+                catch(err){
+                    console.log(err);
+                }
+            }
+            add()
+            
+        }
+        
+    }
 
     return(
         <td onClick={()=>HandleAdd()}>{added? <CheckCircleRoundedIcon style={{color: 'green'}}/>:<AddCircleIcon />}</td>
