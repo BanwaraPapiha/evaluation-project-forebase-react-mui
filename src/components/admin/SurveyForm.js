@@ -2,12 +2,12 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Db } from "../../firebase-config/db";
 import {
-  collection,
+  collection, setDoc,
   // getDocs,
   addDoc,
   // updateDoc,
   // deleteDoc,
-  // doc,
+  doc,
 } from "firebase/firestore";
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -17,12 +17,16 @@ import FormLabel from '@mui/material/FormLabel';
 import { TextField, Container, Button, Grid, Stack, Paper } from '@mui/material';
 
 export default function SurveyForm() {
-    const usersCollectionRef_survey = collection(Db, "surveys");
-    const { register, handleSubmit, formState: { errors } } = useForm();
+  // const usersCollectionRef_survey = collection(Db, "surveys");
+  // const usersCollectionRef_survey = collection(Db, "surveys", data.Survey_Name);
+  const { register, handleSubmit, formState: { errors } } = useForm();
   
     const onSubmit = data => {
       const createSurvey = async () => {
-        await addDoc(usersCollectionRef_survey, { name: data.Survey_Name, active: data.Active });
+        await setDoc(doc(Db, "surveys", data.Survey_Name), { 
+          name: data.Survey_Name, 
+          active: data.Active 
+        });
       };
       createSurvey();
       console.log(data);

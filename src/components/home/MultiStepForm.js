@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { Db } from "../../firebase-config/db";
 import { collection, getDocs, addDoc } from "firebase/firestore";
 import UnitStepForm from "./UnitStepForm";
-import { Typography, Container, Grid } from '@mui/material';
+import { Typography, Container, Grid, MobileStepper } from '@mui/material';
 import { DBContext } from "../../providers/dbcontext";
 import { DBContextProvider } from "../../providers/dbprovider";
 import { PointsCtx } from "../../providers/pointsctx";
@@ -74,11 +74,24 @@ function MultiStep() {
 
   return (
     <>
+      {/* <p>{JSON.stringify(features)}</p>
+      <p># of Features{features.length}</p>
+      <p>{JSON.stringify(persons)}</p>
+      <p># of Features{persons.length}</p> */}
+
       <Typography variant="h5" gutterBottom component="div">
         Survey {current_survey}
         <br/>
         Evaluate All the given users in the following Features Step By Step
       </Typography>
+
+      <MobileStepper
+      variant="dots"
+      steps={6}
+      position="static"
+      activeStep={1}
+      sx={{ maxWidth: 400, flexGrow: 1 }}
+    />
 
       {features.length > 0 ?
        features.map((x) => {

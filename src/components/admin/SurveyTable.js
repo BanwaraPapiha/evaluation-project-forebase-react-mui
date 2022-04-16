@@ -41,12 +41,12 @@ const SurveyTable = (props) => {
           return (
             <tr key={prsn.id} onClick={()=>{HandleClick(prsn)}}>
               <td>{prsn.id}</td>
-              <td>{prsn.name}</td>
-              <td>{prsn.startDate}</td>
-              <td>{prsn.endDate}</td>
+              {/* <td>{prsn.name}</td> */}
+              {/* <td>{prsn.startDate}</td>
+              <td>{prsn.endDate}</td> */}
               <td>{prsn.active}</td>
-              <td>{prsn.usersInSurvey}</td>
-              <td><Selected sy={prsn} /></td>
+              {/* <td>{prsn.usersInSurvey}</td>
+              <td><Selected sy={prsn} /></td> */}
             </tr>
           );
         })}
