@@ -1,10 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Db } from "../../firebase-config/db";
-import {
-  collection,
-  addDoc } from "firebase/firestore";
-
+import { collection, setDoc, doc, addDoc } from "firebase/firestore";
 import { TextField, Container, Button, Grid, Stack, Paper } from '@mui/material';
 
 export default function FeatureForm() {

@@ -12,7 +12,7 @@ function UnitComponent(props) {
   const [feedComponent, setFeedComponent] = useState();
   const points = useContext(PointsCtx)
   const surveyCtx = useContext(SurveyCTx)
-  const survey = surveyCtx.survey['name']
+  const survey = surveyCtx.survey[0]['name']
   const PersonId = props.person.id;
   const FeatureName = props.featureId;
 

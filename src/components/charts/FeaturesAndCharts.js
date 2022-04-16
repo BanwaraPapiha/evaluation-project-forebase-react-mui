@@ -51,9 +51,10 @@ function FeaturesAndCharts() {
                   return (
                       <div>
                         {" "}
-                        <h5>id: {fetr.id}</h5>
-                        <h5>feature: {fetr.feature}</h5>
-                        <h5>total_score: {fetr.total_score}</h5>
+                        <div>id: {fetr.id}</div>
+                        <div>feature: {fetr.feature}</div>
+                        <div>total_score: {fetr.total_score}</div>
+                        <br></br>
                       </div>
                   );
                 })}
