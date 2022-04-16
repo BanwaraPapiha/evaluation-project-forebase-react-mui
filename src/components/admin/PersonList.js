@@ -30,28 +30,18 @@ function PersonList() {
 
     useEffect(() => {
       const unsub = onSnapshot(doc(Db, "surveys", surveyCtx.survey[0]['id']), (doc) => {
-        var usersHere;
         if (doc.exists()){
           console.log('doc exists')
-          if(doc.data().hasOwnProperty("users") != null){
+          if(Object.keys(doc.data()).includes("users")){
             console.log("users field exists");
-            const usersHere = doc.users;
-            console.log("exists!", typeof(doc.data()));
-            console.log((JSON.stringify(doc.data())));
-            console.log(Object.keys(doc.data()));
-            console.log(Object.keys(doc.data()).includes("users"));
+            const usersHere = doc.data().users;
+            console.log(typeof(doc.data().users));
+            setAddedUsers(usersHere)  
           } else {
             console.log("no key found")
-          }
-          
-        }
-        // const usersHere = doc.data().users
-        if (usersHere !== 'undefined') {
-          console.log("Current data: ", usersHere);
-          setAddedUsers(usersHere)  
-        }
-        else {
-          console.log(`${Curr_survey} Doesnt Exist`);
+            const usersHere = ["No Existing Data, create New"];
+            setAddedUsers(usersHere)
+          }          
         }
     });
     }, [])
