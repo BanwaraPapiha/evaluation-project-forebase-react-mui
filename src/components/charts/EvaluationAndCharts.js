@@ -17,7 +17,7 @@ function EvaluatioonAndCharts() {
     const surveyCtx = useContext(SurveyCTx)
     const Curr_survey = surveyCtx.survey[0]['id']
     const taskDocRef = doc(Db, "surveys", Curr_survey)
-    // const usersCollectionRef_CurSur = collection(Db, "February 21");
+    // const usersCollectionRef_CurSur = collection(Db, "Jan 29");
     const usersCollectionRef_CurSur = collection(Db, Curr_survey);
 
     useEffect(() => {
@@ -40,13 +40,20 @@ function EvaluatioonAndCharts() {
 
       useEffect(() => {
         const getEvaluationData = async () => {
-          // const querySnapshot = await getDocs(usersCollectionRef_CurSur);
-          const unsubscribe = onSnapshot(usersCollectionRef_CurSur, (querySnapshot) => {
-          console.log(querySnapshot.docs);
-          setEval_data(querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-            });
-          }
-          getEvaluationData();
+          
+          const unsub = onSnapshot(doc(Db, "NewEvalData", Curr_survey), (doc) => {
+              const propertyValues = Object.values(doc.data());
+              console.log(propertyValues)
+              setEval_data(propertyValues);
+          });
+        
+          // const unsubscribe = onSnapshot(usersCollectionRef_CurSur, (querySnapshot) => {
+          //   console.log(querySnapshot.docs);
+          //   // console.log(typeof(querySnapshot.docs));
+          //   // setEval_data(querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+          // });
+        }
+        getEvaluationData();
   
       }, []);
     
