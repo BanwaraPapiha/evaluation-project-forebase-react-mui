@@ -7,6 +7,7 @@ import { useEffect, useState, useContext } from "react";
 import { Link } from '@mui/material';
 import firebase from 'firebase/compat/app';
 import { SurveyCTx } from "../../providers/surveyctx";
+import {Remove2Array} from '../common/AddRemove';
 
 const Added = (props) => {
     const [added, setAdded] = useState(false)
@@ -46,7 +47,12 @@ const Added = (props) => {
 
 const PersonTable = (props) => {
     const [persons, setPersons] = useState([]);
+    const surveyCtx = useContext(SurveyCTx)
+    const Curr_survey = surveyCtx.survey[0]['id']
+    const SurveyDocRef = doc(Db, "surveys", Curr_survey)
+
     const handleDelete = async (id, person) => {
+        Remove2Array(SurveyDocRef, person)
         alert(`You are going to delete? ${person}`)
         const taskDocRef = doc(Db, "persons to be evaluated", id)
         try{

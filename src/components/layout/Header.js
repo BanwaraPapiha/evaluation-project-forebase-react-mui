@@ -27,7 +27,7 @@ const Header = () => {
     { "page": "Home", "route": "/"}, 
     { "page": "Charts", "route": "/charts"}, 
     { "page": "Bounty", "route": "/bounty"}, 
-    { "page": "Admin", "route": "/admin"},
+    // { "page": "Admin", "route": "/admin"},
     { "page": currentSurvey, "route": "/admin"},
     { "page": "Login", "route": "/login"},
   ];

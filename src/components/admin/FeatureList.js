@@ -51,6 +51,7 @@ function FeatureList() {
       setSearchQuery(e.target.value)
       queryObject(searchQuery, features)
     }
+    
     body = queryObject(searchQuery, features);
 
     return (

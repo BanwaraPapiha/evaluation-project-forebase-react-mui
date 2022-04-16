@@ -13,11 +13,13 @@ import PersonList from "./PersonList";
 import { useState } from 'react';
 import { PinDropSharp } from '@material-ui/icons';
 
-const steps = ['Create Survey', 'Select Persons', 'Add Features', "Finish"];
+// const steps = ['Create Survey', 'Select Persons', 'Add Features', "Finish"];
+const steps = ['Create Survey', 'Select Persons', 'Add Features'];
 
 export default function HorizontalLinearStepper(props) {
     const [page, setPage] = useState(0)
-    const pages = {0:<SurveyList />, 1: <PersonList/>, 2: <FeatureList/>, 3: <div>Summary</div>}
+    // const pages = {0:<SurveyList />, 1: <PersonList/>, 2: <FeatureList/>, 3: <div>Summary</div>}
+    const pages = {0:<SurveyList />, 1: <PersonList/>, 2: <FeatureList/>}
     const NextPage = () => {
       setPage(currPage => currPage + 1);
     };
@@ -40,7 +42,7 @@ export default function HorizontalLinearStepper(props) {
 
             {page<=0?<Button variant="text" disabled>Back</Button>:
             <Button variant="text" onClick={()=>{PrevPage(page)}}>Back</Button>}
-            {page>=steps.length-1?<Button variant="text" onClick={()=>{alert();props.show(false)}}>Finish</Button>
+            {page>=steps.length-1?<Button variant="text" onClick={()=>{alert("Submitted!");}}>Finish</Button>
             :<Button variant="text" onClick={()=>{NextPage(page)}}>Next</Button>}
         </div>
       </>

@@ -10,8 +10,8 @@ import { useState } from 'react';
 import HorizontalLinearStepper from "./testingStep"
 
 function Admin() {
-  const [add, setAdd] = useState(false)
-  const [page, setPage] = useState(1)
+  // const [add, setAdd] = useState(false)
+  // const [page, setPage] = useState(1)
 
   return (
     <Container>
@@ -25,10 +25,6 @@ function Admin() {
       {/* {add===true? <HorizontalLinearStepper show={setAdd}/>: null} */}
       <HorizontalLinearStepper/>
       </Paper>
-      
-      {/* <SurveyList /> */}
-    {/* <EvaluationList/> */}
-
   </Container>
   );
 }

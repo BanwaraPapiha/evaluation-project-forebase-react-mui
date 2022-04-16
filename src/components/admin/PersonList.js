@@ -30,6 +30,7 @@ function PersonList() {
 
     useEffect(() => {
       const unsub = onSnapshot(doc(Db, "surveys", surveyCtx.survey[0]['id']), (doc) => {
+        
         if (doc.exists()){
           console.log('doc exists')
           if(Object.keys(doc.data()).includes("users")){

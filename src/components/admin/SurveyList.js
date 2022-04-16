@@ -4,7 +4,8 @@ import { collection, getDocs } from "firebase/firestore";
 import { Paper, Typography, Button, TextField, Container, Stack, Grid } from '@mui/material';
 import SurveyTable from "./SurveyTable";
 import SurveyForm from './SurveyForm';
-import { queryObject } from "./searchFx"
+import { queryObject } from "./searchFx";
+import { doc, onSnapshot } from "firebase/firestore";
 
 function SurveyList() {
     const [eval_data, setEval_data] = useState([]);
@@ -14,11 +15,19 @@ function SurveyList() {
     var body = [];
     useEffect(() => {
       const getEvaluationData = async () => {
-        const data = await getDocs(usersCollectionRef_eval_data);
-        console.log(data.docs);
-        setEval_data(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-      };
-      getEvaluationData();
+        const querySnapshot = await getDocs(usersCollectionRef_eval_data);
+        const unsubscribe = onSnapshot(usersCollectionRef_eval_data, (querySnapshot) => {
+          setEval_data(querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+          });
+        }
+        getEvaluationData();
+
+      // const getEvaluationData = async () => {
+      //   const data = await getDocs(usersCollectionRef_eval_data);
+      //   console.log(data.docs);
+      //   setEval_data(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      // };
+      // getEvaluationData();
     }, []);
 
     const handleSearch = (e) => {

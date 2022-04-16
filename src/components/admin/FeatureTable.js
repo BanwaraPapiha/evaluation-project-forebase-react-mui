@@ -6,6 +6,7 @@ import { Db } from "../../firebase-config/db";
 import { doc, deleteDoc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { Link } from '@mui/material';
 import { SurveyCTx } from "../../providers/surveyctx";
+// import {Remove2Array} from '../common/AddRemove';
 
 const Added = (props) => {
   const [added, setAdded] = useState(false)
@@ -45,7 +46,19 @@ const Added = (props) => {
 
 const FeatureTable = (props) => {     
     const [features, setFeatures] = useState([]);
+    const surveyCtx = useContext(SurveyCTx)
+    const Curr_survey = surveyCtx.survey[0]['id']
+    const SurveyDocRef = doc(Db, "surveys", Curr_survey)
+
+    async function Remove2Array(user2Add) {
+      console.log(Curr_survey);
+      const result = await updateDoc(SurveyDocRef, {
+          features: arrayRemove(String(user2Add))
+        });
+    }
+
     const handleDelete = async (id, feature) => {
+        Remove2Array(feature)
         alert(`You are going to delete? ${feature}`)
         const taskDocRef = doc(Db, "features for evaluation", id)
         try{
