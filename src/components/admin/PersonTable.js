@@ -14,40 +14,37 @@ const Added = (props) => {
     const Curr_survey = surveyCtx.survey[0]['id']
     const taskDocRef = doc(Db, "surveys", Curr_survey)
 
-    // async function Remove2Array(user2Add) {
-    //     console.log(Curr_survey);
-    //     const result = await updateDoc(taskDocRef, {
-    //         name: "April 24, 2023",
-    //         // users: arrayRemove(String(user2Add))
-    //       });
-    //   }
+    async function Remove2Array(user2Add) {
+        console.log(Curr_survey);
+        const result = await updateDoc(taskDocRef, {
+            users: arrayRemove(String(user2Add))
+          });
+      }
     
     async function Add2Array(user2Add) {
         console.log(Curr_survey);
         const result = await updateDoc(taskDocRef, {
-            name: "April 24, 2023",
             users: arrayUnion(String(user2Add))
             });
     }
 
     const HandleAdd = () => {
-        if (Added) {
-            console.log(added)
-            console.log('no action ')
+        if (added) {
+            // console.log('alraedy added now remove')
+            // console.log('no action ')
             setAdded(!added)
-            // Remove2Array(props.userDetail.Name);
-            // Add2Array(props.userDetail.Name);
+            Remove2Array(props.userDetail.Name);
         }
         else if (!added) {
-            console.log(added)
-            console.log('action ')
+            // console.log('add to array')
+            // console.log('action ')
             setAdded(!added)
             Add2Array(props.userDetail.Name);
             }            
         }
 
     return(
-        <td onClick={()=>HandleAdd()}>{added? <CheckCircleRoundedIcon style={{color: 'green'}}/>:<AddCircleIcon />}</td>
+        <div onClick={()=>HandleAdd()}>{added? <CheckCircleRoundedIcon style={{color: 'green'}}/>:<AddCircleIcon />}</div>
     )
 }
 

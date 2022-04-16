@@ -13,8 +13,6 @@ function PersonList() {
     const usersCollectionRef_persons = collection(Db, "persons to be evaluated");
     const [searchQuery, setSearchQuery] = useState("");
     const [addedUsers, setAddedUsers] = useState([]);
-    // const [newPerson, setNewPerson] = useState([]);
-    // const [newPersonObj, setNewPersonObj] = useState({});
     const surveyCtx = useContext(SurveyCTx)
     const Curr_survey = surveyCtx.survey[0]['name']
   
@@ -31,8 +29,23 @@ function PersonList() {
     }, []);
 
     useEffect(() => {
-      const unsub = onSnapshot(doc(Db, "surveys", "Jan 22"), (doc) => {
-        const usersHere = doc.data().users
+      const unsub = onSnapshot(doc(Db, "surveys", surveyCtx.survey[0]['id']), (doc) => {
+        var usersHere;
+        if (doc.exists()){
+          console.log('doc exists')
+          if(doc.data().hasOwnProperty("users") != null){
+            console.log("users field exists");
+            const usersHere = doc.users;
+            console.log("exists!", typeof(doc.data()));
+            console.log((JSON.stringify(doc.data())));
+            console.log(Object.keys(doc.data()));
+            console.log(Object.keys(doc.data()).includes("users"));
+          } else {
+            console.log("no key found")
+          }
+          
+        }
+        // const usersHere = doc.data().users
         if (usersHere !== 'undefined') {
           console.log("Current data: ", usersHere);
           setAddedUsers(usersHere)  
