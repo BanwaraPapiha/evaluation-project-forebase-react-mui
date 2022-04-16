@@ -41,7 +41,7 @@ function Bounty() {
         };
         getPersons();
       }, []);
-  
+
     return (
       <Stack spacing={4}>
         <br />
@@ -71,7 +71,7 @@ function Bounty() {
           </Container>
         </Paper>
 
-      <Only_Table table_datum={persons} ac_de_data={ac_de_data} setAc_de_data={setAc_de_data} scoresum={scoresum} bountySum={bountySum}/> 
+      {/* <Only_Table table_datum={persons} ac_de_data={ac_de_data} setAc_de_data={setAc_de_data} scoresum={scoresum} bountySum={bountySum}/>  */}
     </Stack>
     );
   }

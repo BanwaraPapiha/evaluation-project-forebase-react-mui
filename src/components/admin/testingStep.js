@@ -13,12 +13,10 @@ import PersonList from "./PersonList";
 import { useState } from 'react';
 import { PinDropSharp } from '@material-ui/icons';
 
-// const steps = ['Create Survey', 'Select Persons', 'Add Features', "Finish"];
 const steps = ['Create Survey', 'Select Persons', 'Add Features'];
 
 export default function HorizontalLinearStepper(props) {
     const [page, setPage] = useState(0)
-    // const pages = {0:<SurveyList />, 1: <PersonList/>, 2: <FeatureList/>, 3: <div>Summary</div>}
     const pages = {0:<SurveyList />, 1: <PersonList/>, 2: <FeatureList/>}
     const NextPage = () => {
       setPage(currPage => currPage + 1);

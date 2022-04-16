@@ -8,6 +8,7 @@ import { DBContextProvider } from "../../providers/dbprovider";
 import { PointsCtx } from "../../providers/pointsctx";
 import { PointsCtxProvider } from "../../providers/pointsProvider";
 import { SurveyCTx } from "../../providers/surveyctx";
+import { query, where } from "firebase/firestore";  
 
 function MultiStep() {
   const [features, setFeatures] = useState([]);
@@ -23,6 +24,8 @@ function MultiStep() {
   const usersCollectionRef_eval = collection(Db, "evaluation data");
   const usersCollectionRef_CurrSur = collection(Db, current_survey);
   const usersCollectionRef_survey = collection(Db, "surveys");
+
+  const q = query(usersCollectionRef_persons, where("Name", "array-contains", "Taqi"));
 
   const Submit = async () => {
     alert("Submit!");

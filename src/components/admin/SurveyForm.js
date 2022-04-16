@@ -1,24 +1,20 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Db } from "../../firebase-config/db";
-import {
-  collection, setDoc,
-  // getDocs,
-  addDoc,
-  // updateDoc,
-  // deleteDoc,
-  doc,
-} from "firebase/firestore";
+import { collection, setDoc, addDoc, doc } from "firebase/firestore";
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { TextField, Container, Button, Grid, Stack, Paper } from '@mui/material';
+import {SurveyCTx} from "../../providers/surveyctx";
+import { useState, useContext, useEffect } from "react";
 
 export default function SurveyForm() {
   // const usersCollectionRef_survey = collection(Db, "surveys");
   // const usersCollectionRef_survey = collection(Db, "surveys", data.Survey_Name);
+  const CurrentSurvey = useContext(SurveyCTx);
   const { register, handleSubmit, formState: { errors } } = useForm();
   
     const onSubmit = data => {
@@ -30,6 +26,10 @@ export default function SurveyForm() {
       };
       createSurvey();
       console.log(data);
+      CurrentSurvey.setSurvey([{ 
+        name: data.Survey_Name, 
+        active: data.Active 
+      }])
     }
     console.log(errors);
       console.log(errors);
