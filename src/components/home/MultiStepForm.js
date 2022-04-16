@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { Db } from "../../firebase-config/db";
-import { collection, getDocs, addDoc } from "firebase/firestore";
+import { collection, getDocs, addDoc, doc, setDoc } from "firebase/firestore";
 import UnitStepForm from "./UnitStepForm";
 import { Typography, Container, Grid, MobileStepper } from '@mui/material';
 import { DBContext } from "../../providers/dbcontext";
@@ -27,16 +27,21 @@ function MultiStep() {
   const Submit = async () => {
     alert("Submit!");
     console.log(points.pointsdata)
-    for (const row in points.pointsdata) {
-      // console.log(`${points.pointsdata[row]}`);
-      try {
-        const docRef = await addDoc(usersCollectionRef_CurrSur, points.pointsdata[row]);
-        console.log("Document written with ID: ", docRef.id);
 
-      } catch (e) {
-        console.error("Error adding document: ", e);
-      }
-    }
+    const docRef = await setDoc(doc(Db, "NewEvalData", current_survey), points.pointsdata);
+    // console.log("Document written with ID: ", docRef.id);
+    
+    // for (const row in points.pointsdata) {
+    //   // console.log(`${points.pointsdata[row]}`);
+    //   try {
+    //     // console.log(typeof(points.pointsdata))
+    //     // const docRef = await addDoc(usersCollectionRef_CurrSur, points.pointsdata[row]);
+    //     // console.log("Document written with ID: ", docRef.id);
+
+    //   } catch (e) {
+    //     console.error("Error adding document: ", e);
+    //   }
+    // }
   };
   const NextPage = () => {
     setPage(currPage => currPage + 1);
