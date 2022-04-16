@@ -1,16 +1,45 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import { Db } from "../../firebase-config/db";
-import { doc, deleteDoc} from "firebase/firestore";
+import { doc, deleteDoc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { Link } from '@mui/material';
+import { SurveyCTx } from "../../providers/surveyctx";
 
 const Added = (props) => {
   const [added, setAdded] = useState(false)
-  const HandleAdd = () => setAdded(!added)
+  const surveyCtx = useContext(SurveyCTx)
+  const Curr_survey = surveyCtx.survey[0]['id']
+  const taskDocRef = doc(Db, "surveys", Curr_survey)
+
+  async function Remove2Array(user2Add) {
+    console.log(Curr_survey);
+    const result = await updateDoc(taskDocRef, {
+        features: arrayRemove(String(user2Add))
+      });
+  }
+
+  async function Add2Array(user2Add) {
+      console.log(Curr_survey);
+      const result = await updateDoc(taskDocRef, {
+        features: arrayUnion(String(user2Add))
+          });
+  }
+
+  const HandleAdd = () => {
+    if (added) {
+      setAdded(!added)
+      Remove2Array(props.featureDetail.feature);
+  }
+  else if (!added) {
+      setAdded(!added)
+      Add2Array(props.featureDetail.feature);
+      }            
+
+  }
   return(
-      <td onClick={()=>HandleAdd()}>{added? <CheckCircleRoundedIcon style={{color: 'green'}}/>:<AddCircleIcon />}</td>
+      <div onClick={()=>HandleAdd()}>{added? <CheckCircleRoundedIcon style={{color: 'green'}}/>:<AddCircleIcon />}</div>
   )
 }
 
@@ -45,7 +74,7 @@ const FeatureTable = (props) => {
               <td>{prsn.id} </td>
               <td>{prsn.feature}</td>
               <td>{prsn.total_score}</td>
-              <td>{prsn.id?<Added/>:""}</td>
+              <td>{prsn.id?<Added featureDetail={prsn}/>:""}</td>
               <td>{prsn.id?<DeleteIcon onClick={()=>handleDelete(prsn.id, prsn.feature)}/>:<Link href="#FeatureAddOnlyForm">No Matches. Create New Feature?</Link>}</td>
             </tr>
           );

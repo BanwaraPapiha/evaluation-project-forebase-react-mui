@@ -29,10 +29,21 @@ function FeatureList() {
     }, []);
 
     useEffect(() => {
-      const unsub = onSnapshot(doc(Db, "surveys", "Jan 22"), (doc) => {
-        const featuresHere = doc.data().features
-        console.log("Current data: ", featuresHere);
-        setFeaturesUsers(featuresHere)
+      const unsub = onSnapshot(doc(Db, "surveys", surveyCtx.survey[0]['id']), (doc) => {
+
+        if (doc.exists()){
+          console.log('doc exists')
+          if(Object.keys(doc.data()).includes("features")){
+            console.log("features field exists");
+            const featuresHere = doc.data().features;
+            console.log(typeof(doc.data().features));
+            setFeaturesUsers(featuresHere)  
+          } else {
+            console.log("no key found")
+            const featuresHere = ["No Existing Data, create New"];
+            setFeaturesUsers(featuresHere)
+          }          
+        }
     });
     }, [])
 

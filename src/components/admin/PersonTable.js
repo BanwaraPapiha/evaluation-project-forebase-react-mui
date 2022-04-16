@@ -30,14 +30,10 @@ const Added = (props) => {
 
     const HandleAdd = () => {
         if (added) {
-            // console.log('alraedy added now remove')
-            // console.log('no action ')
             setAdded(!added)
             Remove2Array(props.userDetail.Name);
         }
         else if (!added) {
-            // console.log('add to array')
-            // console.log('action ')
             setAdded(!added)
             Add2Array(props.userDetail.Name);
             }            
