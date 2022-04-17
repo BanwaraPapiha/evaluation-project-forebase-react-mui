@@ -13,7 +13,8 @@ function MultiStep() {
   const [persons, setPersons] = useState([]);
   const [survUser, setSurvUser] = useState([]);
   const [survFeature, setSurvFeature] = useState([]);
-  const [page, setPage] = useState(1)
+  const [page, setPage] = useState(1);
+  const [step, setStep] = useState(1);
 
   const points = useContext(PointsCtx)
   const surveyCtx = useContext(SurveyCTx)
@@ -80,6 +81,7 @@ function MultiStep() {
 
   return (
     <>
+      <div>
       {/* <div>
         Users of Survey: {survUser.length}
         {survUser.length>0 ?
@@ -102,21 +104,22 @@ function MultiStep() {
         "NO SUccess"}
       </div> */}
 
+      </div>
+
       <Typography variant="h5" gutterBottom component="div">
         Survey {current_survey}<br/>
         Evaluate All the given users in the following Features Step By Step
-        <MobileStepper variant="dots" steps={6} position="static" activeStep={1} sx={{ maxWidth: 400, flexGrow: 1 }}/>
+        <MobileStepper variant="dots" steps={survFeature.length} position="static" activeStep={step} sx={{ maxWidth: 400, flexGrow: 1 }}/>
       </Typography>
 
       {survFeature.length > 0 ?
-       survFeature.map((x) => {
+       survFeature.map((x, index) => {
          return (
-          <UnitStepForm 
+          <UnitStepForm stepNo={step} pageNo2={index+1} 
             personsList={ survUser } featureName={JSON.parse(x).feature} 
             scores={JSON.parse(x).total_score} featureId={JSON.parse(x).id} />
           )
-       }) 
-       : 'Loading'}
+       }) : 'Loading'}
       
       {/* <Container style={{padding: "10px", margin: "10px auto", width: "50%"}}>
         { page > 1 && <button onClick={PrevPage}>Previous</button>}

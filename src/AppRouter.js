@@ -18,7 +18,7 @@ const AppRouter = () => {
           <Container>
             <Routes>
               <Route index element={<MultiStepFormCtx />} />
-              <Route path="login" element={<LoginPage />} />
+              <Route path="account" element={<LoginPage />} />
               <Route path="charts" element={<Charts />} />
               <Route path="bounty" element={<Bounty />} />
               <Route path="admin" element={<Admin />} />
