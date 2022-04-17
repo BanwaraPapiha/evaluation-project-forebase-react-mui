@@ -74,14 +74,13 @@ function MultiStep() {
       const data = await getDocs(usersCollectionRef_persons);
       console.log(data.docs);
       setPersons(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-      // setSurvUser(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     };
     getPersons();
   }, [])
 
   return (
     <>
-      <div>
+      {/* <div>
         Users of Survey: {survUser.length}
         {survUser.length>0 ?
         survUser.map((su)=>{
@@ -101,7 +100,7 @@ function MultiStep() {
           )
         }):
         "NO SUccess"}
-      </div>
+      </div> */}
 
       <Typography variant="h5" gutterBottom component="div">
         Survey {current_survey}<br/>
@@ -119,17 +118,6 @@ function MultiStep() {
        }) 
        : 'Loading'}
       
-      {/* {features.length > 0 ?
-       features.map((x) => {
-         return (
-          <li>{x.feature} {x.total_score}</li>,
-          <UnitStepForm 
-            personsList={ persons } featureName={x.feature} 
-            scores={x.total_score} featureId={x.id} />
-          )
-       }) 
-       : 'Loading'} */}
-
       {/* <Container style={{padding: "10px", margin: "10px auto", width: "50%"}}>
         { page > 1 && <button onClick={PrevPage}>Previous</button>}
         &nbsp; Current Page is: { page } &nbsp;

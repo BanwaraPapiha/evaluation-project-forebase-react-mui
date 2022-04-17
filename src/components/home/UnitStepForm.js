@@ -35,19 +35,6 @@ function UnitStepForm(props) {
         })}
       </Grid>
 
-      {/* <Grid container spacing={2}>
-        { props.personsList.map((prsn) => {
-        return (
-          <UnitComponent person={prsn} scores={props.scores} 
-            featureId={props.featureId} updateScore={updateScore}
-            feature_score={ props.scores }
-            availableScoreList={availableScore[props.featureId]={}} 
-            parentData={childdata} 
-            updateParent={setChildData}
-          />
-        );
-        })}
-      </Grid> */}
     </div>
   );
 }

@@ -3,7 +3,6 @@ import { Slider, Grid, Paper, Typography, Container, Chip,
   Card, CardActions, CardContent } from '@mui/material';
 import { PointsCtx } from "../../providers/pointsctx";
 import { SurveyCTx } from "../../providers/surveyctx";
-import firebase from 'firebase/compat/app'
 import { updateDoc, serverTimestamp } from "firebase/firestore";
 
 function UnitComponent(props) {
