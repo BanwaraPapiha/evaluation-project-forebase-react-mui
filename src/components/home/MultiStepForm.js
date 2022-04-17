@@ -53,7 +53,7 @@ function MultiStep() {
       const docRef = doc(Db, "surveys", "Work Survey April 2022");
       const docSnap = await getDoc(docRef);
       console.log(docSnap.data().users);
-      console.log(docSnap.data().features);
+      // console.log(docSnap.data().features);
       setSurvUser(docSnap.data().users);
       setSurvFeature(docSnap.data().features)
     };
@@ -104,32 +104,31 @@ function MultiStep() {
       </div>
 
       <Typography variant="h5" gutterBottom component="div">
-        Survey {current_survey}
-        <br/>
+        Survey {current_survey}<br/>
         Evaluate All the given users in the following Features Step By Step
+        <MobileStepper variant="dots" steps={6} position="static" activeStep={1} sx={{ maxWidth: 400, flexGrow: 1 }}/>
       </Typography>
 
-      <MobileStepper
-      variant="dots"
-      steps={6}
-      position="static"
-      activeStep={1}
-      sx={{ maxWidth: 400, flexGrow: 1 }}
-    />
-
-      {features.length > 0 ?
+      {survFeature.length > 0 ?
+       survFeature.map((x) => {
+         return (
+          <UnitStepForm 
+            personsList={ survUser } featureName={JSON.parse(x).feature} 
+            scores={JSON.parse(x).total_score} featureId={JSON.parse(x).id} />
+          )
+       }) 
+       : 'Loading'}
+      
+      {/* {features.length > 0 ?
        features.map((x) => {
          return (
           <li>{x.feature} {x.total_score}</li>,
           <UnitStepForm 
-            personsList={ persons }
-            featureName={x.feature} 
-            scores={x.total_score} 
-            featureId={x.id} 
-          />
+            personsList={ persons } featureName={x.feature} 
+            scores={x.total_score} featureId={x.id} />
           )
        }) 
-       : 'Loading'}
+       : 'Loading'} */}
 
       {/* <Container style={{padding: "10px", margin: "10px auto", width: "50%"}}>
         { page > 1 && <button onClick={PrevPage}>Previous</button>}

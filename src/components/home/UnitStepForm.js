@@ -22,6 +22,22 @@ function UnitStepForm(props) {
       <Grid container spacing={2}>
         { props.personsList.map((prsn) => {
         return (
+          <UnitComponent 
+            person={prsn}  
+            featureId={props.featureId} 
+            updateScore={updateScore} t_scores={props.scores}
+            feature_score={ props.scores }
+            availableScoreList={availableScore[props.featureId]={}} 
+            parentData={childdata} 
+            updateParent={setChildData}
+          />
+        );
+        })}
+      </Grid>
+
+      {/* <Grid container spacing={2}>
+        { props.personsList.map((prsn) => {
+        return (
           <UnitComponent person={prsn} scores={props.scores} 
             featureId={props.featureId} updateScore={updateScore}
             feature_score={ props.scores }
@@ -31,7 +47,7 @@ function UnitStepForm(props) {
           />
         );
         })}
-      </Grid>
+      </Grid> */}
     </div>
   );
 }

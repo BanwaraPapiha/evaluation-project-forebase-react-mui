@@ -13,7 +13,7 @@ function UnitComponent(props) {
   const points = useContext(PointsCtx)
   const surveyCtx = useContext(SurveyCTx)
   const survey = surveyCtx.survey[0]['name']
-  const PersonId = props.person.id;
+  const PersonId = JSON.parse(props.person).id;
   const FeatureName = props.featureId;
 
   let newObj = {
@@ -61,12 +61,12 @@ function UnitComponent(props) {
         </Paper>
 
           <Typography gutterBottom variant="h5" component="div">
-          Name: { props.person.Name } <br />
-          Email: { props.person.Email } <br />
+          Name: { JSON.parse(props.person).Name } <br />
+          Email: { JSON.parse(props.person).Email } <br />
           </Typography>
 
           <Typography variant="body2" color="text.secondary">
-          You can give a total scores of: {props.feature_score} <br />
+          You can give a total scores of: {props.t_scores} <br />
           Your Unique Id is: {identifier} <br />
           Stats =&gt; Given: {feedComponent} <br />
 
@@ -75,7 +75,7 @@ function UnitComponent(props) {
 
         <CardActions>
           <Container>
-            <Slider defaultValue={0}  max={props.scores} step={0.5} 
+            <Slider defaultValue={0}  max={props.t_scores} step={0.5} 
               aria-label="Default" valueLabelDisplay="auto" 
               onChange={HandleChange}
             />
@@ -83,7 +83,7 @@ function UnitComponent(props) {
         </CardActions>
 
         <Typography variant="caption" display="block" gutterBottom>
-          id: { props.person.id }
+          &nbsp;&nbsp;&nbsp;Id: { JSON.parse(props.person).id }
         </Typography>
       </Card>
 
