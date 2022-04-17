@@ -1,31 +1,26 @@
 import { useState, useEffect, useContext } from "react";
 import { Db } from "../../firebase-config/db";
-import { collection, getDocs, addDoc, doc, setDoc, getDoc } from "firebase/firestore";
+import { collection, getDocs, doc, setDoc, getDoc } from "firebase/firestore";
 import UnitStepForm from "./UnitStepForm";
-import { Typography, Container, Grid, MobileStepper } from '@mui/material';
-import { DBContext } from "../../providers/dbcontext";
+import { Typography, MobileStepper } from '@mui/material';
 import { DBContextProvider } from "../../providers/dbprovider";
 import { PointsCtx } from "../../providers/pointsctx";
 import { PointsCtxProvider } from "../../providers/pointsProvider";
 import { SurveyCTx } from "../../providers/surveyctx";
-import { query, where } from "firebase/firestore";  
 
 function MultiStep() {
   const [features, setFeatures] = useState([]);
   const [persons, setPersons] = useState([]);
+  const [survUser, setSurvUser] = useState([]);
+  const [survFeature, setSurvFeature] = useState([]);
   const [page, setPage] = useState(1)
-  const [survey, setSurvey] = useState([]);
-  const {formdata, setFormData} = useContext(DBContext);
+
   const points = useContext(PointsCtx)
   const surveyCtx = useContext(SurveyCTx)
   const current_survey = surveyCtx.survey[0]['id']
+
   const usersCollectionRef_features = collection(Db, "features for evaluation");
   const usersCollectionRef_persons = collection(Db, "persons to be evaluated");
-  const usersCollectionRef_eval = collection(Db, "evaluation data");
-  const usersCollectionRef_CurrSur = collection(Db, current_survey);
-  const usersCollectionRef_survey = collection(Db, "surveys");
-
-  const q = query(usersCollectionRef_persons, where("Name", "array-contains", "Taqi"));
 
   const Submit = async () => {
     alert("Submit!");
@@ -54,38 +49,15 @@ function MultiStep() {
   };
 
   useEffect(() => {
-    const getUsersListSurvey = async () => {
+    const getSurveyFeatures = async () => {
       const docRef = doc(Db, "surveys", "Work Survey April 2022");
       const docSnap = await getDoc(docRef);
-      console.log(docSnap);
-      docSnap.data().features.map((X)=>{
-        // fetch 2
-        const getSurveyFea = async () => {
-          const data = await getDocs(usersCollectionRef_features);
-          data.docs.map((xyz)=>{
-            console.log(xyz.data().feature)
-            if (X.includes(xyz.data().feature)) {
-              console.log("found")
-            }
-          })
-          // setSurvey(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-        };
-        getSurveyFea();
-        console.log(X)
-      })
-
-
+      console.log(docSnap.data().users);
+      console.log(docSnap.data().features);
+      setSurvUser(docSnap.data().users);
+      setSurvFeature(docSnap.data().features)
     };
-    getUsersListSurvey();
-  }, []);
-
-  useEffect(() => {
-    const getSurvey = async () => {
-      const data = await getDocs(usersCollectionRef_survey);
-      console.log(data.docs);
-      setSurvey(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    };
-    getSurvey();
+    getSurveyFeatures();
   }, []);
 
   useEffect(() => {
@@ -102,16 +74,34 @@ function MultiStep() {
       const data = await getDocs(usersCollectionRef_persons);
       console.log(data.docs);
       setPersons(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      // setSurvUser(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     };
     getPersons();
   }, [])
 
   return (
     <>
-      {/* <p>{JSON.stringify(features)}</p>
-      <p># of Features{features.length}</p>
-      <p>{JSON.stringify(persons)}</p>
-      <p># of Features{persons.length}</p> */}
+      <div>
+        Users of Survey: {survUser.length}
+        {survUser.length>0 ?
+        survUser.map((su)=>{
+          return (
+            <li>{String(su)}</li>
+          )
+        }):
+        "NO SUccess"}
+      </div>
+
+      <div>
+        Feature of Survey: {survFeature.length}
+        {survFeature.length>0 ?
+        survFeature.map((su)=>{
+          return (
+            <li>{String(su)}</li>
+          )
+        }):
+        "NO SUccess"}
+      </div>
 
       <Typography variant="h5" gutterBottom component="div">
         Survey {current_survey}
