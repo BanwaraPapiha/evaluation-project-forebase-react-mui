@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { Db } from "../../firebase-config/db";
-import { collection, getDocs, addDoc, doc, setDoc } from "firebase/firestore";
+import { collection, getDocs, addDoc, doc, setDoc, getDoc } from "firebase/firestore";
 import UnitStepForm from "./UnitStepForm";
 import { Typography, Container, Grid, MobileStepper } from '@mui/material';
 import { DBContext } from "../../providers/dbcontext";
@@ -52,6 +52,32 @@ function MultiStep() {
   const PrevPage = () => {
     setPage(currPage => currPage - 1);
   };
+
+  useEffect(() => {
+    const getUsersListSurvey = async () => {
+      const docRef = doc(Db, "surveys", "Work Survey April 2022");
+      const docSnap = await getDoc(docRef);
+      console.log(docSnap);
+      docSnap.data().features.map((X)=>{
+        // fetch 2
+        const getSurveyFea = async () => {
+          const data = await getDocs(usersCollectionRef_features);
+          data.docs.map((xyz)=>{
+            console.log(xyz.data().feature)
+            if (X.includes(xyz.data().feature)) {
+              console.log("found")
+            }
+          })
+          // setSurvey(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+        };
+        getSurveyFea();
+        console.log(X)
+      })
+
+
+    };
+    getUsersListSurvey();
+  }, []);
 
   useEffect(() => {
     const getSurvey = async () => {

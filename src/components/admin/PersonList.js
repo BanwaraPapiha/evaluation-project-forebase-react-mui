@@ -66,7 +66,10 @@ function PersonList() {
           <div>
             {addedUsers.map((x)=>{
               return (
-                <li>{x}</li>
+                addedUsers.length > 0? 
+                <li>{JSON.parse(x).Name}</li>:
+                <li>Loading</li>
+                // <li>{x}</li>
               )
             })}
           </div>

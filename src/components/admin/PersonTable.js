@@ -19,24 +19,27 @@ const Added = (props) => {
         console.log(Curr_survey);
         const result = await updateDoc(taskDocRef, {
             users: arrayRemove(String(user2Add))
-          });
-      }
+        });
+    }
     
     async function Add2Array(user2Add) {
         console.log(Curr_survey);
         const result = await updateDoc(taskDocRef, {
             users: arrayUnion(String(user2Add))
-            });
+        });
     }
 
     const HandleAdd = () => {
+        console.log(props.userDetail)
         if (added) {
             setAdded(!added)
-            Remove2Array(props.userDetail.Name);
+            // Remove2Array(props.userDetail.Name);
+            Remove2Array(JSON.stringify(props.userDetail));
         }
         else if (!added) {
             setAdded(!added)
-            Add2Array(props.userDetail.Name);
+            // Add2Array(props.userDetail.Name);
+            Add2Array(JSON.stringify(props.userDetail));
             }            
         }
 

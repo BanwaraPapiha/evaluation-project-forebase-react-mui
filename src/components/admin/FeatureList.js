@@ -66,10 +66,13 @@ function FeatureList() {
             <div>
               {addedFeatures.map((x)=>{
                 return (
-                  <li>{x}</li>
+                  addedFeatures.length > 0? 
+                  <li>{JSON.parse(x).feature}</li>:
+                  <li>Loading</li>
                 )
               })}
             </div>
+
           </Grid>
         </Grid>
         <FeatureAddOnlyForm id="FeatureAddOnlyForm"/><br/>

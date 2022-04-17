@@ -31,11 +31,13 @@ const Added = (props) => {
   const HandleAdd = () => {
     if (added) {
       setAdded(!added)
-      Remove2Array(props.featureDetail.feature);
+      Remove2Array(JSON.stringify(props.featureDetail));
+      // Remove2Array(props.featureDetail.feature);
   }
   else if (!added) {
       setAdded(!added)
-      Add2Array(props.featureDetail.feature);
+      Add2Array(JSON.stringify(props.featureDetail));
+      // Add2Array(props.featureDetail.feature);
       }            
 
   }
