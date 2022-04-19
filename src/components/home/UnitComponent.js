@@ -4,6 +4,7 @@ import { Slider, Grid, Paper, Typography, Container, Chip,
 import { PointsCtx } from "../../providers/pointsctx";
 import { SurveyCTx } from "../../providers/surveyctx";
 import { updateDoc, serverTimestamp } from "firebase/firestore";
+import { UserContext } from "../../providers/userCtx";
 
 function UnitComponent(props) {
   const [identifier, setIdentifier] = useState('');
@@ -11,17 +12,18 @@ function UnitComponent(props) {
   const [feedComponent, setFeedComponent] = useState();
   const points = useContext(PointsCtx)
   const surveyCtx = useContext(SurveyCTx)
+  const UserCtx = useContext(UserContext)
   const survey = surveyCtx.survey[0]['name']
   const PersonId = JSON.parse(props.person).id;
   const FeatureName = props.featureId;
 
   let newObj = {
     survey: survey,
-    evaluator: PersonId, 
+    evaluator: UserCtx.Loguser.email, 
     being_eval: PersonId,
     feature: FeatureName,
     points: 0,
-    timestamp: serverTimestamp(),
+    // timestamp: serverTimestamp(),
   }
   var feedComponent2 = 0;
 
@@ -30,14 +32,14 @@ function UnitComponent(props) {
     setSlide_score(score_change)
     let UniqId = PersonId.concat(FeatureName)
     setIdentifier(String(UniqId));
-    console.log(serverTimestamp())
+    // console.log(serverTimestamp())
     newObj = {
       survey: survey,
-      evaluator: PersonId, 
+      evaluator: UserCtx.Loguser.email, 
       being_eval: PersonId,
       feature: FeatureName,
       points: score_change,
-      timestamp: serverTimestamp(),
+      // timestamp: serverTimestamp(),
     }
     const test = {...points.pointsdata};
     test[UniqId] = newObj;
@@ -47,9 +49,9 @@ function UnitComponent(props) {
     if (identifier!=='' && kis.includes(identifier)){
       feedComponent2 = String(points.pointsdata[identifier]['points']);
       setFeedComponent(feedComponent2)
-
     }
   }
+
   return (
     <Grid item sm={12} md={6}>
       <Card elevation={10}>

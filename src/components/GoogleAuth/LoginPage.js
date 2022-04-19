@@ -1,20 +1,20 @@
-// import { signInWithGoogle } from "../../firebase-config/AuthGoogle";
 import app from '../../firebase-config/firebase-config';
 import { Button, Grid } from '@mui/material';
 import GoogleIcon from '@mui/icons-material/Google';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { makeStyles } from "@material-ui/core/styles";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
+import { UserContext } from "../../providers/userCtx";
 
 const auth = getAuth();
 const provider = new GoogleAuthProvider();
 
 const useStyles = makeStyles({
   root: {
-    background: "white",
+    // background: "white",
     minWidth: "100%",
-    minHeight: "100vh",
+    minHeight: "70vh",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center"
@@ -31,9 +31,8 @@ const useStyles = makeStyles({
 
 function LoginPage() {
   const classes = useStyles();
-  const [Loguser, setLogUser] = useState({});
+  const UserCtx = useContext(UserContext)
   const user = auth.currentUser;
-
   const signInWithGoogle = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
@@ -42,7 +41,7 @@ function LoginPage() {
         const token = credential.accessToken;
         // The signed-in user info.
         // const user = result.user;
-        setLogUser(result.user)
+        UserCtx.setLogUser(result.user)
       }).catch((error) => {
         // Handle Errors here.
         const errorCode = error.code;
@@ -65,9 +64,9 @@ function LoginPage() {
   }
 
   return (
+    <div className={classes.root}>
     <Grid className={classes.root} spacing={1} alignItems="center" justify="center">
-      <Grid item xs={12} md={8} style={{}}>
-            <br />
+      <Grid item xs={12} md={8}>
             {
               user?
               <div>
@@ -77,13 +76,13 @@ function LoginPage() {
                   </Button>
                 </div>
                 <div>
-                  {Loguser.displayName}
+                  {UserCtx.Loguser.displayName}
                 </div>
                 <div>
-                  {Loguser.email}
+                  {UserCtx.Loguser.email}
                 </div>
                 <div>
-                  <img src={Loguser.photoURL} alt="Profile Photo"/>
+                  <img src={UserCtx.Loguser.photoURL} alt="Profile Photo"/>
                 </div>
 
               </div> :
@@ -92,25 +91,11 @@ function LoginPage() {
               </Button>
 
             }
-            {/* <Button variant="contained" startIcon={<GoogleIcon />} onClick={ signInWithGoogle }>
-              Sign in with Google
-            </Button>
-            <br/>
-            <Button variant="contained" startIcon={<LogoutIcon />} onClick={ LogoutGoogle }>
-              Sign Out
-            </Button> */}
-            {/* <div>
-            {Loguser.displayName}
-            </div>
-            <div>
-            {Loguser.email}
-            </div>
-            <div>
-            <img src={Loguser.photoURL} alt="Profile Photo"/>
-            </div> */}
       </Grid>
 
     </Grid>
+    </div>
+
   );
 }
 

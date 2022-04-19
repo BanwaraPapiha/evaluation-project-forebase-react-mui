@@ -3,7 +3,6 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
@@ -11,26 +10,70 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import { Typography, MenuList, ListItemText } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import {SurveyCTx} from '../../providers/surveyctx'
+import { UserContext } from "../../providers/userCtx";
+import { getAuth, signOut } from "firebase/auth";
+import PersonIcon from '@mui/icons-material/Person';
+import { Db } from "../../firebase-config/db";
+import { collection, getDocs } from "firebase/firestore";
+import { query, where } from "firebase/firestore";
 
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const auth = getAuth();
 
 const Header = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const UserCtx = useContext(UserContext)
   const SurveyData = useContext(SurveyCTx);
   const currentSurvey = SurveyData.survey[0]['name']
+  const [admins, setAdmins] = useState([])
+  const admins2 = [];
+  const AdminCollectionRef = collection(Db, "Admins");
+  const q = query(AdminCollectionRef, where('email', 'in', ['baanwarapapiha@gmail.com', 'baanwarapapihaJapan@gmail.com']));
+
+  useEffect(() => {
+    const getAdmins = async () => {
+      const data = await getDocs(AdminCollectionRef);
+      console.log(data.docs);
+      setAdmins(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    };
+    getAdmins();
+    admins.map((a)=>{console.log(a.email);admins2.push(a.email)})
+    // console.log(admins.includes('baanwarapapiha@gmail.com'))
+    console.log(admins2)
+    console.log(admins2.includes(UserCtx.Loguser.email))
+  }, []);
+
+  function RequireAuth({ children }) {
+    // const location = useLocation();
+  
+    return admins2.includes(UserCtx.Loguser.email) === true
+      ? children
+      : navigate('/');
+  }
 
   const linked_pages = [
-    { "page": "Home", "route": "/"}, 
     { "page": "Charts", "route": "/charts"}, 
     { "page": "Bounty", "route": "/bounty"}, 
     { "page": currentSurvey, "route": "/admin"},
-    { "page": "Account", "route": "/account"},
   ];
-
+  const linked_settings = [
+    { "page": "Home", "route": "/"}, 
+    { "page": "Profile", "route": "/profile"}, 
+    { "page": "Logout", "route": "/logout"}, 
+  ];
+  const LogoutGoogle = () => {
+    signOut(auth).then(() => {
+      console.log("Sign Out Successful")
+      // Sign-out successful.
+    }).catch((error) => {
+        console.log(error)
+      // An error happened.
+    });
+  }
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -130,7 +173,10 @@ const Header = () => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                {auth.currentUser?
+                <Avatar alt="Profile Photo" src={UserCtx.Loguser.photoURL} />:
+                <Avatar alt="Login"><PersonIcon/></Avatar>}
+                                
               </IconButton>
             </Tooltip>
             <Menu
@@ -149,11 +195,26 @@ const Header = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+              
+              {auth.currentUser?
+              <MenuList>
+                <MenuItem onClick={()=>{handleCloseUserMenu();navigate('/account')}}>
+                  <ListItemText>Account</ListItemText>
                 </MenuItem>
-              ))}
+                <MenuItem onClick={()=>{handleCloseUserMenu();navigate('/')}}>
+                  <ListItemText>Survey</ListItemText>
+                </MenuItem>
+                <MenuItem onClick={()=>{handleCloseUserMenu();LogoutGoogle();navigate('/account');}}>
+                  <ListItemText>Logout</ListItemText>
+                </MenuItem>
+              </MenuList>
+                :
+              <MenuList>
+                <MenuItem onClick={()=>{handleCloseUserMenu();navigate('/account')}}>
+                  <ListItemText>Account</ListItemText>
+                </MenuItem>
+
+              </MenuList>}
             </Menu>
           </Box>
         </Toolbar>

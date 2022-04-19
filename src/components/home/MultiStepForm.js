@@ -7,6 +7,7 @@ import { DBContextProvider } from "../../providers/dbprovider";
 import { PointsCtx } from "../../providers/pointsctx";
 import { PointsCtxProvider } from "../../providers/pointsProvider";
 import { SurveyCTx } from "../../providers/surveyctx";
+import { UserContext } from "../../providers/userCtx";
 
 function MultiStep() {
   const [features, setFeatures] = useState([]);
@@ -15,32 +16,28 @@ function MultiStep() {
   const [survFeature, setSurvFeature] = useState([]);
   const [page, setPage] = useState(1);
   const [step, setStep] = useState(1);
+  const UserCtx = useContext(UserContext)
 
   const points = useContext(PointsCtx)
   const surveyCtx = useContext(SurveyCTx)
   const current_survey = surveyCtx.survey[0]['id']
+  var current_user = UserCtx.Loguser.email;
 
   const usersCollectionRef_features = collection(Db, "features for evaluation");
   const usersCollectionRef_persons = collection(Db, "persons to be evaluated");
 
   const Submit = async () => {
+    current_user = UserCtx.Loguser.email
+
     alert("Submit!");
     console.log(points.pointsdata)
+    console.log(typeof(points.pointsdata))
+    console.log(JSON.stringify(points.pointsdata))
 
-    const docRef = await setDoc(doc(Db, "NewEvalData", current_survey), points.pointsdata);
-    // console.log("Document written with ID: ", docRef.id);
-    
-    // for (const row in points.pointsdata) {
-    //   // console.log(`${points.pointsdata[row]}`);
-    //   try {
-    //     // console.log(typeof(points.pointsdata))
-    //     // const docRef = await addDoc(usersCollectionRef_CurrSur, points.pointsdata[row]);
-    //     // console.log("Document written with ID: ", docRef.id);
-
-    //   } catch (e) {
-    //     console.error("Error adding document: ", e);
-    //   }
-    // }
+    const docRef = await setDoc(doc(Db, "NewEvalData", current_survey), {
+      [UserCtx.Loguser.email]: points.pointsdata
+    }
+   );
   };
   const NextPage = () => {
     setPage(currPage => currPage + 1);

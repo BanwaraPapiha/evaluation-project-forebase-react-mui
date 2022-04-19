@@ -9,11 +9,13 @@ import Footer from './components/layout/Footer';
 import MultiStepFormCtx from "./components/home/MultiStepForm";
 import Container from '@mui/material/Container';
 import SurveyProvider from './providers/surveyProvider';
+import UserProvider from './providers/UserProvider';
 
 const AppRouter = () => {
     return (
       <SurveyProvider>
         <BrowserRouter>
+        <UserProvider>
           <Header/>
           <Container>
             <Routes>
@@ -26,6 +28,7 @@ const AppRouter = () => {
             </Routes>
           </Container>
           <Footer/>
+        </UserProvider>
         </BrowserRouter>
       </SurveyProvider>
     );
