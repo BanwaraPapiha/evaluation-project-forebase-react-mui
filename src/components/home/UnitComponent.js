@@ -23,9 +23,9 @@ function UnitComponent(props) {
     being_eval: PersonId,
     feature: FeatureName,
     points: 0,
-    // timestamp: serverTimestamp(),
+    timestamp: serverTimestamp(),
   }
-  var feedComponent2 = 0;
+  // var feedComponent2 = 0;
 
   const HandleChange = (e) => {
     let score_change = e.target.value;
@@ -39,17 +39,18 @@ function UnitComponent(props) {
       being_eval: PersonId,
       feature: FeatureName,
       points: score_change,
-      // timestamp: serverTimestamp(),
+      timestamp: serverTimestamp(),
     }
     const test = {...points.pointsdata};
-    test[UniqId] = newObj;
+    // test[UniqId] = newObj;
+    test[props.featureId] = newObj;
     points.setPointsdata(test);
     console.log(points.pointsdata)
-    const kis = Object.keys(points.pointsdata);
-    if (identifier!=='' && kis.includes(identifier)){
-      feedComponent2 = String(points.pointsdata[identifier]['points']);
-      setFeedComponent(feedComponent2)
-    }
+    // const kis = Object.keys(points.pointsdata);
+    // if (identifier!=='' && kis.includes(identifier)){
+    //   feedComponent2 = String(points.pointsdata[identifier]['points']);
+    //   setFeedComponent(feedComponent2)
+    // }
   }
 
   return (

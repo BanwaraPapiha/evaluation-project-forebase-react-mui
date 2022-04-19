@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { Db } from "../../firebase-config/db";
-import { collection, getDocs, doc, setDoc, getDoc } from "firebase/firestore";
+import { collection, getDocs, doc, setDoc, getDoc, addDoc } from "firebase/firestore";
 import UnitStepForm from "./UnitStepForm";
 import { Typography, MobileStepper } from '@mui/material';
 import { DBContextProvider } from "../../providers/dbprovider";
@@ -31,13 +31,23 @@ function MultiStep() {
 
     alert("Submit!");
     console.log(points.pointsdata)
-    console.log(typeof(points.pointsdata))
     console.log(JSON.stringify(points.pointsdata))
 
-    const docRef = await setDoc(doc(Db, "NewEvalData", current_survey), {
-      [UserCtx.Loguser.email]: points.pointsdata
+    try {
+      const docRef = await setDoc(doc(Db, current_survey, UserCtx.Loguser.email), points.pointsdata);
+      // const docRef = await addDoc(collection(Db, current_survey), {
+      //   [UserCtx.Loguser.email]: points.pointsdata
+      // }
+      // );
+      // console.log("Document written with ID: ", String(docRef.id));
+    } catch (e) {
+      console.error("Error adding document: ", e);
     }
-   );
+  
+  //   const docRef = await setDoc(doc(Db, current_survey), {
+  //     [UserCtx.Loguser.email]: points.pointsdata
+  //   }
+  //  );
   };
   const NextPage = () => {
     setPage(currPage => currPage + 1);

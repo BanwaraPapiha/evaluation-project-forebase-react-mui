@@ -24,13 +24,10 @@ function UnitStepForm(props) {
         { props.personsList.map((prsn) => {
         return (
           <UnitComponent 
-            person={prsn}  
-            featureId={props.featureId} 
+            person={prsn} featureId={props.featureId} 
             updateScore={updateScore} t_scores={props.scores}
-            feature_score={ props.scores }
-            availableScoreList={availableScore[props.featureId]={}} 
-            parentData={childdata} 
-            updateParent={setChildData}
+            feature_score={ props.scores } availableScoreList={availableScore[props.featureId]={}} 
+            parentData={childdata} updateParent={setChildData}
           />
         );
         })}
