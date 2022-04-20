@@ -14,12 +14,29 @@ function UnitComponent(props) {
   const UserCtx = useContext(UserContext)
   const PersonName = JSON.parse(props.person).Name;
   const FeatureName = props.feature;
+  // const newObj = {
+  //   survey: survey,
+  //   evaluator: UserCtx.Loguser.email, 
+  //   feature: props.feature,
+  //   timestamp: serverTimestamp(),
+  // }
   const newObj = {
-    survey: survey,
     evaluator: UserCtx.Loguser.email, 
     feature: props.feature,
+    points: 0,
     timestamp: serverTimestamp(),
   }
+//reverse 
+  // const HandleChange = (e) => {
+  //   let score_change = e.target.value;
+  //   setSlide_score(score_change)
+  //   console.log(slide_score)
+  //   newObj['points'] = slide_score;
+  //   props.setListData({...props.listData, [JSON.parse(props.person).Name]:newObj})
+  //   console.log(props.listData)
+  //   // points.setPointsdata({...points.pointsdata, [PersonName]: {[props.feature]: slide_score}})
+  //   // console.log(points.pointsdata)
+  // }
 
   const HandleChange = (e) => {
       let score_change = e.target.value;
@@ -28,10 +45,16 @@ function UnitComponent(props) {
       console.log(props.listData)
   }
   useEffect(() => {
-    newObj.actualData = props.listData
-    points.setPointsdata({...points.pointsdata, [props.feature]: newObj})
+    // newObj.actualData = props.listData
+    points.setPointsdata({...points.pointsdata, [props.feature]: props.listData})
     console.log(points.pointsdata)
 }, [props.listData]);
+// reserve
+// useEffect(() => {
+//   newObj.actualData = props.listData
+//   points.setPointsdata({...points.pointsdata, [props.feature]: newObj})
+//   console.log(points.pointsdata)
+// }, [props.listData]);
 
   return (
     <Grid item sm={12} md={6}>
