@@ -2,8 +2,7 @@ import { useState } from "react";
 import { PointsCtx } from "./pointsctx"
 
 export function PointsCtxProvider(props) {
-  let initial = {};
-  const [pointsdata, setPointsdata] = useState(initial);
+  const [pointsdata, setPointsdata] = useState({});
 
   return (
       <PointsCtx.Provider value={{pointsdata, setPointsdata}}>

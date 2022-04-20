@@ -1,16 +1,9 @@
 import { Grid, Typography } from '@mui/material';
-import { useState } from 'react';
 import UnitComponent from "./UnitComponent";
+import { useState } from "react";
 
 function UnitStepForm(props) {
-  const items = []
-  const [availableScore, setAvailableScore] = useState(items);
-  const [childdata, setChildData] = useState({});
-  
-  const updateScore = (state) => {
-    setAvailableScore(state);
-  }
-
+  const [listData, setListData] = useState({});
   return (
     <div>
       <Typography variant="h6" gutterBottom component="div">
@@ -18,16 +11,15 @@ function UnitStepForm(props) {
         Feature Seleted is: {props.featureName}
         <br/>
         You have total {props.scores} Scores to distribute
+        JSON.parse(props.feature).scores <br/>
+        {props.scores}
       </Typography>
 
       <Grid container spacing={2}>
         { props.personsList.map((prsn) => {
         return (
           <UnitComponent 
-            person={prsn} featureId={props.featureId} 
-            updateScore={updateScore} t_scores={props.scores}
-            feature_score={ props.scores } availableScoreList={availableScore[props.featureId]={}} 
-            parentData={childdata} updateParent={setChildData}
+            person={prsn} feature={props.featureName} t_scores={props.scores} listData={listData} setListData={setListData}
           />
         );
         })}

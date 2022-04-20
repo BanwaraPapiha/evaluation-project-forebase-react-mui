@@ -28,27 +28,15 @@ function MultiStep() {
 
   const Submit = async () => {
     current_user = UserCtx.Loguser.email
-
     alert("Submit!");
     console.log(points.pointsdata)
-    console.log(JSON.stringify(points.pointsdata))
-
     try {
       const docRef = await setDoc(doc(Db, current_survey, UserCtx.Loguser.email), points.pointsdata);
-      // const docRef = await addDoc(collection(Db, current_survey), {
-      //   [UserCtx.Loguser.email]: points.pointsdata
-      // }
-      // );
-      // console.log("Document written with ID: ", String(docRef.id));
     } catch (e) {
-      console.error("Error adding document: ", e);
+      console.log("Error adding document: ", e);
     }
-  
-  //   const docRef = await setDoc(doc(Db, current_survey), {
-  //     [UserCtx.Loguser.email]: points.pointsdata
-  //   }
-  //  );
   };
+
   const NextPage = () => {
     setPage(currPage => currPage + 1);
   };
@@ -61,7 +49,7 @@ function MultiStep() {
       const docRef = doc(Db, "surveys", "Work Survey April 2022");
       const docSnap = await getDoc(docRef);
       console.log(docSnap.data().users);
-      // console.log(docSnap.data().features);
+      console.log(docSnap.data().features);
       setSurvUser(docSnap.data().users);
       setSurvFeature(docSnap.data().features)
     };
@@ -121,10 +109,10 @@ function MultiStep() {
 
       {survFeature.length > 0 ?
        survFeature.map((x, index) => {
-         return (
+        return (
           <UnitStepForm stepNo={step} pageNo2={index+1} 
             personsList={ survUser } featureName={JSON.parse(x).feature} 
-            scores={JSON.parse(x).total_score} featureId={JSON.parse(x).id} />
+            scores={JSON.parse(x).total_score} />
           )
        }) : 'Loading'}
       
