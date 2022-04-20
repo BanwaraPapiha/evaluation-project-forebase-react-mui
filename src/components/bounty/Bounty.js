@@ -12,6 +12,8 @@ function Bounty() {
     const [scoresum, setScoreSum] = useState([]);
     const [bountySum, setBountySum] = useState([]);
 
+    const Calc_Data = [];
+    const Calc_Scor = {};
     const surveyCtx = useContext(SurveyCTx)
     const survey = surveyCtx.survey[0]['id']
   
@@ -59,6 +61,33 @@ function Bounty() {
       getData();
     }, []);
 
+        // Calc_Data = {}
+    scoreData.map((x)=>{
+      // console.log(JSON.stringify(x))
+      for (const [key, value] of Object.entries(x)) {
+        // console.log(`${key}: ${value}`);
+        // console.log(`${key}: ${value}`);
+        if (key==='id') {console.log("This is id")}
+        else {
+            // console.log("this is not Id")
+          for (const [key2, value2] of Object.entries(value)) {
+            // console.log(`${key2}: ${value2}`);
+            var summ = {evaluator: value, being_eval: key2, feature: key, points: value2}
+            console.log(summ)
+            Calc_Data.push(summ)
+            // typeof(Calc_Scor[[key2]])==="number"? Calc_Scor[[key2]] = Number(Calc_Scor[[key2]]) + Number(value2) : Calc_Scor[[key2]] =  Number(value2)
+            
+            typeof(Calc_Scor[[key2]])==="number"? Calc_Scor[[key2]] = Number(Calc_Scor[[key2]]) + Number(value2) : Calc_Scor[[key2]] =  Number(value2)
+            
+            // typeof(Calc_Scor[value2])==="number"? console.log("Found a number") : Calc_Scor[value2] =  Number(value2)
+            // typeof(Calc_Scor[value2])==="number"? Calc_Scor[value2] = Number(Calc_Scor[value2]) + Number(value2) : console.log("Not a number")
+            console.log(Calc_Scor)
+          }
+        }
+      } 
+    })
+    console.log("length: ", Calc_Data.length)
+  
     return (
       <Stack spacing={4}>
         <br />
@@ -85,26 +114,10 @@ function Bounty() {
               {/* <br/> */}
             </Stack>
           </Container>
-        </Paper>
-
-        <table>
-          <tr>
-            <th>Hello</th>
-          </tr>
-          <tbody>
-          {scoreData.map((x)=>{
-            return (
-              // {Object.keys(x)},
-              <tr>
-                <td>{Object.keys(x)}</td>,
-                <td>{JSON.stringify(Object.values(x))}</td>
-                <td>{JSON.stringify(x)}</td>
-              </tr>
-            )
-          })}
-
-          </tbody>
-        </table>
+        </Paper> 
+      <div>
+        Here comes the boom
+      </div>
 
       {/* <Only_Table table_datum={persons} ac_de_data={ac_de_data} setAc_de_data={setAc_de_data} scoresum={scoresum} bountySum={bountySum}/>  */}
     </Stack>
