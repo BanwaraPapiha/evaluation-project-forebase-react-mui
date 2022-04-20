@@ -42,18 +42,7 @@ const Header = () => {
     };
     getAdmins();
     admins.map((a)=>{console.log(a.email);admins2.push(a.email)})
-    // console.log(admins.includes('baanwarapapiha@gmail.com'))
-    console.log(admins2)
-    console.log(admins2.includes(UserCtx.Loguser.email))
   }, []);
-
-  function RequireAuth({ children }) {
-    // const location = useLocation();
-  
-    return admins2.includes(UserCtx.Loguser.email) === true
-      ? children
-      : navigate('/');
-  }
 
   const linked_pages = [
     { "page": "Charts", "route": "/charts"}, 
@@ -105,44 +94,44 @@ const Header = () => {
             Evaluation System
           </Typography>
 
-            {/* Menu ? NAv for small screens */}
+          {/* Menu/Nav for small screens */}
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' },
-              }}
-            >
-              {linked_pages.map((page) => (
-                <MenuItem key={page} onClick={() => {
-                        handleCloseNavMenu();
-                        navigate(page.route);}}>
-                <Typography textAlign="center">{page.page}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
+          <IconButton
+            size="large"
+            aria-label="account of current user"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
+            onClick={handleOpenNavMenu}
+            color="inherit"
+          >
+            <MenuIcon />
+          </IconButton>
+          <Menu
+            id="menu-appbar"
+            anchorEl={anchorElNav}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'left',
+            }}
+            open={Boolean(anchorElNav)}
+            onClose={handleCloseNavMenu}
+            sx={{
+              display: { xs: 'block', md: 'none' },
+            }}
+          >
+            {linked_pages.map((page) => (
+              <MenuItem key={page} onClick={() => {
+                      handleCloseNavMenu();
+                      navigate(page.route);}}>
+              <Typography textAlign="center">{page.page}</Typography>
+              </MenuItem>
+            ))}
+          </Menu>
           </Box>
 
             {/* Logo for small screens */}
@@ -154,10 +143,10 @@ const Header = () => {
           >
             Evaluation System Small
           </Typography>
-
+          
             {/* Menu / Nav for large screens */}
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            
+            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+              
             {linked_pages.map((page) => (
               <Button key={page} onClick={() => {navigate(page.route);
                     // handleCloseNavMenu();
@@ -167,8 +156,8 @@ const Header = () => {
                 {page.page}
               </Button>
             ))}
-          </Box>
-
+            </Box>  
+          
           {/* This is for Settings */}
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">

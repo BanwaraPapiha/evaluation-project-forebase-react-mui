@@ -10,8 +10,8 @@ function UnitComponent(props) {
   const [slide_score, setSlide_score] = useState(0);
   const points = useContext(PointsCtx)
   const surveyCtx = useContext(SurveyCTx)
-  const UserCtx = useContext(UserContext)
   const survey = surveyCtx.survey[0]['name']
+  const UserCtx = useContext(UserContext)
   const PersonName = JSON.parse(props.person).Name;
   const FeatureName = props.feature;
   const newObj = {

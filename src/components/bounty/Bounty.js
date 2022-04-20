@@ -1,14 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Db } from "../../firebase-config/db";
 import { collection, getDocs } from "firebase/firestore";
 import { Paper, Typography, Button, TextField, Container, Stack } from '@mui/material';
 import Only_Table from '../common/onlyTable';
+import { SurveyCTx } from "../../providers/surveyctx";
 
 function Bounty() {
     const [ac_de_data, setAc_de_data] = useState({});
     const [persons, setPersons] = useState([]);
+    const [scoreData, setScoreData] = useState([]);
     const [scoresum, setScoreSum] = useState([]);
     const [bountySum, setBountySum] = useState([]);
+
+    const surveyCtx = useContext(SurveyCTx)
+    const survey = surveyCtx.survey[0]['id']
+  
+    const usersCollectionRef_survey = collection(Db, survey);
     const usersCollectionRef_persons = collection(Db, "persons to be evaluated");
 
     const handleDivide = () => {      
@@ -42,6 +49,16 @@ function Bounty() {
         getPersons();
       }, []);
 
+    useEffect(() => {
+      const getData = async () => {
+        const data = await getDocs(usersCollectionRef_survey);
+        console.log(survey)
+        console.log(data.docs);
+        setScoreData(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      };
+      getData();
+    }, []);
+
     return (
       <Stack spacing={4}>
         <br />
@@ -58,18 +75,36 @@ function Bounty() {
               <Typography variant="h6" gutterBottom component="div">
                   Divide Money Relatively <br/>
               </Typography>
-
               <TextField
                 fullWidth id="outlined-number" label="Number" 
                 type="number" InputLabelProps={{shrink: true,}}
                 onChange={handleBountySum}
               />
               <Button fullWidth variant="contained" onClick={handleDivide}>Divide money</Button>
-              <br/><br/>
-
+              <br/>
+              {/* <br/> */}
             </Stack>
           </Container>
         </Paper>
+
+        <table>
+          <tr>
+            <th>Hello</th>
+          </tr>
+          <tbody>
+          {scoreData.map((x)=>{
+            return (
+              // {Object.keys(x)},
+              <tr>
+                <td>{Object.keys(x)}</td>,
+                <td>{JSON.stringify(Object.values(x))}</td>
+                <td>{JSON.stringify(x)}</td>
+              </tr>
+            )
+          })}
+
+          </tbody>
+        </table>
 
       {/* <Only_Table table_datum={persons} ac_de_data={ac_de_data} setAc_de_data={setAc_de_data} scoresum={scoresum} bountySum={bountySum}/>  */}
     </Stack>
