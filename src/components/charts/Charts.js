@@ -6,6 +6,7 @@ import { collection, getDocs } from "firebase/firestore";
 import EvaluatioonAndCharts from "./EvaluationAndCharts";
 import PersonsAndCharts from "./PersonsAndCharts";
 import FeaturesAndCharts from "./FeaturesAndCharts";
+import AllData from "./EveryDataProvider";
 
 function Charts() {
     const [features, setFeatures] = useState([]);
@@ -48,8 +49,8 @@ function Charts() {
         <div>
             visible to admin only for each username <br/>
             shows record of what other users have evaluated a specific username <br/>
-
-            <EvaluatioonAndCharts />
+            <AllData/>
+            {/* <EvaluatioonAndCharts /> */}
             {/* <PersonsAndCharts />
             <FeaturesAndCharts /> */}
         </div>

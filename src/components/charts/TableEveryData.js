@@ -1,4 +1,4 @@
-const BountyTable = (props) => {     
+const AllDataTable = (props) => {     
     return (
         <table>
             <tr>
@@ -8,14 +8,15 @@ const BountyTable = (props) => {
                     )
                 })}
             </tr>
-            {props.idSum.length > 0 &&
+            {props.sumData.length > 0 &&
                 <tbody>
-                {Object.values(props.idSum).map((abc)=>{
+                {props.sumData.map((abc)=>{
                     return (
                         <tr>
-                            {/* {JSON.stringify(abc)} */}
-                            <td>{abc[0]}</td>
-                            <td>{abc[1]}</td>
+                            <td>{abc.being_eval}</td>
+                            <td>{abc.points}</td>
+                            <td>{abc.feature}</td>
+                            <td>{abc.evaluator}</td>
                         </tr>
                     )
                 })}
@@ -25,4 +26,4 @@ const BountyTable = (props) => {
     )
 }
 
-export default BountyTable;
+export default AllDataTable;

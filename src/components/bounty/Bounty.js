@@ -15,6 +15,7 @@ function Bounty() {
     const [scoresum, setScoreSum] = useState([]);
     const [bountySum, setBountySum] = useState([]);
     const [idSum, setIdSum] = useState([]);
+    const [idSumArr, setIdSumArr] = useState([]);
 
     const UserCtx = useContext(UserContext)
 
@@ -68,23 +69,27 @@ function Bounty() {
       console.log("Strted\n")
       scoreData.map((x)=>{
         for (const [key, value] of Object.entries(x)) {
-          if (key==='id') {console.log("This is id for ", value)}
-          else {
-            console.log("This is for ", key, " given by ", UserCtx.Loguser.email)
+          if (key!=='id') {
+            console.log("This is for ", key, " given by ", x['id'])
             for (const [key2, value2] of Object.entries(value)) {
-              var summ = {evaluator: UserCtx.Loguser.email, being_eval: key2, feature: key, points: value2}
-              console.log(summ)
-              Calc_Data.push(summ)          
-              typeof(Calc_Scor[[key2]])==="number"? Calc_Scor[[key2]] = Number(Calc_Scor[[key2]]) + Number(value2) : Calc_Scor[[key2]] =  Number(value2)
+              // console.log(key2, value2) //this is unit data
+              if (Calc_Scor.hasOwnProperty(key2)) {
+                Calc_Scor[key2] += Number(value2)
+                console.log(Calc_Scor)
+              }
+              else if (!Calc_Scor.hasOwnProperty(key2)) {
+                Calc_Scor[key2] = Number(value2)
+                console.log(Calc_Scor)
+              }
             }
           }
         } 
       })
-      // console.log("length: ", Calc_Data.length)
-      setSumData(Calc_Data)
       setIdSum(Calc_Scor)
-      // console.log(idSum)
-
+      console.log(idSum)
+      setIdSumArr(Object.entries(idSum))
+      // console.log(Object.entries(idSum))
+      console.log(idSumArr)
     }, [scoreData])
 
     return (
@@ -115,11 +120,8 @@ function Bounty() {
           </Container>
         </Paper> 
       <div>
-        Here comes the boom
-        <BountyTable title={["Name", "Total Sum of Scores"]} sumData={sumData} idSum={idSum}/>
+        <BountyTable title={["Name", "Total Points"]} idSum={idSumArr}/>
       </div>
-
-      {/* <Only_Table table_datum={persons} ac_de_data={ac_de_data} setAc_de_data={setAc_de_data} scoresum={scoresum} bountySum={bountySum}/>  */}
     </Stack>
     );
   }
