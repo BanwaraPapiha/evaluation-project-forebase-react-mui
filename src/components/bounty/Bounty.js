@@ -1,16 +1,22 @@
 import { useState, useEffect, useContext } from "react";
 import { Db } from "../../firebase-config/db";
 import { collection, getDocs } from "firebase/firestore";
-import { Paper, Typography, Button, TextField, Container, Stack } from '@mui/material';
+import { Paper, Typography, Button, TextField, Container, Stack, Grid } from '@mui/material';
 import Only_Table from '../common/onlyTable';
 import { SurveyCTx } from "../../providers/surveyctx";
+import BountyTable from "./BountyTable";
+import { UserContext } from "../../providers/userCtx";
 
 function Bounty() {
     const [ac_de_data, setAc_de_data] = useState({});
     const [persons, setPersons] = useState([]);
     const [scoreData, setScoreData] = useState([]);
+    const [sumData, setSumData] = useState([]);
     const [scoresum, setScoreSum] = useState([]);
     const [bountySum, setBountySum] = useState([]);
+    const [idSum, setIdSum] = useState([]);
+
+    const UserCtx = useContext(UserContext)
 
     const Calc_Data = [];
     const Calc_Scor = {};
@@ -28,17 +34,14 @@ function Bounty() {
         Object.keys(ac_de_data).forEach(function (key){
           console.log(Number(ac_de_data[key]['acc_dec_score']));
           total += Number(ac_de_data[key]['acc_dec_score'])
-          // console.log(typeof(Number(ac_de_data[key]['acc_dec_score'])));
       });
       }
-      setScoreSum(total)
+      // setScoreSum(total)
       console.log(total)
-
     }
 
     const handleBountySum = (e) => {
       let xyz = e.target.value;
-      // console.log(xyz)
       setBountySum(Number(xyz))
     }
 
@@ -61,33 +64,29 @@ function Bounty() {
       getData();
     }, []);
 
-        // Calc_Data = {}
-    scoreData.map((x)=>{
-      // console.log(JSON.stringify(x))
-      for (const [key, value] of Object.entries(x)) {
-        // console.log(`${key}: ${value}`);
-        // console.log(`${key}: ${value}`);
-        if (key==='id') {console.log("This is id")}
-        else {
-            // console.log("this is not Id")
-          for (const [key2, value2] of Object.entries(value)) {
-            // console.log(`${key2}: ${value2}`);
-            var summ = {evaluator: value, being_eval: key2, feature: key, points: value2}
-            console.log(summ)
-            Calc_Data.push(summ)
-            // typeof(Calc_Scor[[key2]])==="number"? Calc_Scor[[key2]] = Number(Calc_Scor[[key2]]) + Number(value2) : Calc_Scor[[key2]] =  Number(value2)
-            
-            typeof(Calc_Scor[[key2]])==="number"? Calc_Scor[[key2]] = Number(Calc_Scor[[key2]]) + Number(value2) : Calc_Scor[[key2]] =  Number(value2)
-            
-            // typeof(Calc_Scor[value2])==="number"? console.log("Found a number") : Calc_Scor[value2] =  Number(value2)
-            // typeof(Calc_Scor[value2])==="number"? Calc_Scor[value2] = Number(Calc_Scor[value2]) + Number(value2) : console.log("Not a number")
-            console.log(Calc_Scor)
+    useEffect(()=>{
+      console.log("Strted\n")
+      scoreData.map((x)=>{
+        for (const [key, value] of Object.entries(x)) {
+          if (key==='id') {console.log("This is id for ", value)}
+          else {
+            console.log("This is for ", key, " given by ", UserCtx.Loguser.email)
+            for (const [key2, value2] of Object.entries(value)) {
+              var summ = {evaluator: UserCtx.Loguser.email, being_eval: key2, feature: key, points: value2}
+              console.log(summ)
+              Calc_Data.push(summ)          
+              typeof(Calc_Scor[[key2]])==="number"? Calc_Scor[[key2]] = Number(Calc_Scor[[key2]]) + Number(value2) : Calc_Scor[[key2]] =  Number(value2)
+            }
           }
-        }
-      } 
-    })
-    console.log("length: ", Calc_Data.length)
-  
+        } 
+      })
+      // console.log("length: ", Calc_Data.length)
+      setSumData(Calc_Data)
+      setIdSum(Calc_Scor)
+      // console.log(idSum)
+
+    }, [scoreData])
+
     return (
       <Stack spacing={4}>
         <br />
@@ -117,6 +116,7 @@ function Bounty() {
         </Paper> 
       <div>
         Here comes the boom
+        <BountyTable title={["Name", "Total Sum of Scores"]} sumData={sumData} idSum={idSum}/>
       </div>
 
       {/* <Only_Table table_datum={persons} ac_de_data={ac_de_data} setAc_de_data={setAc_de_data} scoresum={scoresum} bountySum={bountySum}/>  */}

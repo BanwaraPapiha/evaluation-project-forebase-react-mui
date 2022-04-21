@@ -6,7 +6,6 @@ import { Db } from "../../firebase-config/db";
 import { doc, deleteDoc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { Link } from '@mui/material';
 import { SurveyCTx } from "../../providers/surveyctx";
-// import {Remove2Array} from '../common/AddRemove';
 
 const Added = (props) => {
   const [added, setAdded] = useState(false)
@@ -32,12 +31,10 @@ const Added = (props) => {
     if (added) {
       setAdded(!added)
       Remove2Array(JSON.stringify(props.featureDetail));
-      // Remove2Array(props.featureDetail.feature);
   }
   else if (!added) {
       setAdded(!added)
       Add2Array(JSON.stringify(props.featureDetail));
-      // Add2Array(props.featureDetail.feature);
       }            
 
   }
