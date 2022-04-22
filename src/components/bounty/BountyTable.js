@@ -1,4 +1,10 @@
+import { useState, useEffect, useContext } from "react";
+
 const BountyTable = (props) => {     
+    // const [newScore, setNewScore] = useState(1)
+    // const accelerate = newScore => newScore+0.5;
+    // const decelerate = newScore => newScore-0.5;
+
     return (
         <table>
             <tr>
@@ -13,7 +19,6 @@ const BountyTable = (props) => {
                 {Object.values(props.idSum).map((abc)=>{
                     return (
                         <tr>
-                            {/* {JSON.stringify(abc)} */}
                             <td>{abc[0]}</td>
                             <td>{abc[1]}</td>
                         </tr>

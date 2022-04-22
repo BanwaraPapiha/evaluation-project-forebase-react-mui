@@ -120,7 +120,7 @@ function Bounty() {
           </Container>
         </Paper> 
       <div>
-        <BountyTable title={["Name", "Total Points"]} idSum={idSumArr}/>
+        <BountyTable title={["Name", "Total Points", "Actions", "New Score", "Bounty"]} idSum={idSumArr}/>
       </div>
     </Stack>
     );
