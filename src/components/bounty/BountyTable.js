@@ -7,15 +7,19 @@ const TableRow = (props) => {
     const [acc_value, setAcc_value] = useState(1)
     const accelerate = () => {
         setAcc_value(acc_value+.25)
-        props.setAcObj(props.obj)
     }
     const decelerate = () => {
         acc_value > 0 ? setAcc_value(parseFloat(Number(acc_value-.05).toFixed(2))) : setAcc_value(0)
-        props.setAcObj(props.obj)
     }
-
     props.obj[[props.data[0]]] = parseFloat(Number(acc_value*props.data[1]).toFixed(2));
     console.log(props.obj);
+
+    useEffect(()=>{
+        // props.obj[[props.data[0]]] = parseFloat(Number(acc_value*props.data[1]).toFixed(2));
+        // console.log(props.obj);
+        props.setAcObj(props.obj)
+    }, [acc_value])
+
     return (
         <tr>
             <td style={{border: "1px solid black"}}>{props.data[0]}</td>
@@ -34,7 +38,6 @@ const TableRow = (props) => {
 }
 
 const BountyTable = (props) => {
-    // const obj = {};
     return (
         <>
             <div>{props.totalBounty}</div>

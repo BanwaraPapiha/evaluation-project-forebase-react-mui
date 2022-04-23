@@ -8,16 +8,12 @@ import BountyTable from "./BountyTable";
 import { UserContext } from "../../providers/userCtx";
 
 function Bounty() {
-    const [ac_de_data, setAc_de_data] = useState({});
     const [ac_de_Sum, setAc_de_Sum] = useState(0);
     const [persons, setPersons] = useState([]);
     const [scoreData, setScoreData] = useState([]);
-    const [sumData, setSumData] = useState([]);
-    const [scoresum, setScoreSum] = useState([]);
     const [bountySum, setBountySum] = useState({});
     const [totalBounty, setTotalBounty] = useState(0);
     const [pointsSum, setPointsSum] = useState(0);
-    const [idSum, setIdSum] = useState([]);
     const [acObj, setAcObj] = useState({});
 
     const [acSum, setAcSum] = useState([]);
@@ -25,7 +21,6 @@ function Bounty() {
     
     const UserCtx = useContext(UserContext)
 
-    const Calc_Data = [];
     const Calc_Scor = {};
     const surveyCtx = useContext(SurveyCTx)
     const survey = surveyCtx.survey[0]['id']
@@ -52,8 +47,6 @@ function Bounty() {
         fm += acObj[key];
       }
       setAc_de_Sum(fm)
-      // console.log(fm)
-
     }, [totalBounty])
 
     useEffect(() => {
