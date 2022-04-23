@@ -13,10 +13,14 @@ function Bounty() {
     const [scoreData, setScoreData] = useState([]);
     const [sumData, setSumData] = useState([]);
     const [scoresum, setScoreSum] = useState([]);
-    const [bountySum, setBountySum] = useState([]);
+    const [bountySum, setBountySum] = useState({});
+    const [totalBounty, setTotalBounty] = useState(0);
+    const [pointsSum, setPointsSum] = useState(0);
     const [idSum, setIdSum] = useState([]);
+    
+    const [acSum, setAcSum] = useState([]);
     const [idSumArr, setIdSumArr] = useState([]);
-
+    
     const UserCtx = useContext(UserContext)
 
     const Calc_Data = [];
@@ -41,9 +45,23 @@ function Bounty() {
       console.log(total)
     }
 
-    const handleBountySum = (e) => {
-      let xyz = e.target.value;
-      setBountySum(Number(xyz))
+    const DivideRelatively = () => {
+      let num = 0;
+      idSumArr.map((x)=>{
+        console.log(x[1])
+        num += Number(x[1])
+        console.log(num)
+      })
+      setPointsSum(num)
+      console.log(pointsSum)
+    }
+    const DivideAccRelatively = () => {
+      console.log(bountySum)
+    }
+
+    const handleBountyValue = (e) => {
+      setTotalBounty(Number(e.target.value))
+      DivideAccRelatively()
     }
 
     useEffect(() => {
@@ -85,11 +103,9 @@ function Bounty() {
           }
         } 
       })
-      setIdSum(Calc_Scor)
-      console.log(idSum)
-      setIdSumArr(Object.entries(idSum))
-      // console.log(Object.entries(idSum))
+      setIdSumArr(Object.entries(Calc_Scor))
       console.log(idSumArr)
+      DivideRelatively()
     }, [scoreData])
 
     return (
@@ -97,9 +113,10 @@ function Bounty() {
         <br />
         <Typography variant="h5" gutterBottom component="div">
             visible to admin only for each username <br/>
-            Total Points Calculated are: {persons.length > 1 ? persons.map(k => k.acc_dec_score).reduce((acc, k) => Number(k) + Number(acc)) : "Not Loaded"}
+            {/* Total Points Calculated are: {persons.length > 1 ? persons.map(k => k.acc_dec_score).reduce((acc, k) => Number(k) + Number(acc)) : "Not Loaded"} */}
+            Total Points Calculated are: {persons.length > 1 ? persons.map(k => k.acc_dec_score).reduce((acc, k) => k + acc) : "Not Loaded"}
             <br />
-            Total Points Score is: {scoresum}
+            Total Points Score is: {pointsSum}
         </Typography>
 
         <Paper elevation={5} >
@@ -111,16 +128,16 @@ function Bounty() {
               <TextField
                 fullWidth id="outlined-number" label="Number" 
                 type="number" InputLabelProps={{shrink: true,}}
-                onChange={handleBountySum}
+                onChange={handleBountyValue}
               />
               <Button fullWidth variant="contained" onClick={handleDivide}>Divide money</Button>
               <br/>
-              {/* <br/> */}
             </Stack>
           </Container>
         </Paper> 
       <div>
-        <BountyTable title={["Name", "Total Points", "Actions", "New Score", "Bounty"]} idSum={idSumArr}/>
+        <BountyTable title={["Name", "Total Points", "Acc/Dec Value", "Actions", "New Score", "Bounty"]} 
+        idSum={idSumArr} totalBounty={totalBounty} bountySum={bountySum} setBountySum={setBountySum}/>
       </div>
     </Stack>
     );
