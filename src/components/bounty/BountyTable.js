@@ -5,15 +5,22 @@ import { Stack } from '@mui/material';
 
 const TableRow = (props) => {
     const [acc_value, setAcc_value] = useState(1)
+    const [bounty, setBounty] = useState(0)
     const accelerate = () => setAcc_value(acc_value+.25)
     const decelerate = () => acc_value > 0 ? setAcc_value(parseFloat(Number(acc_value-.05).toFixed(2))) : setAcc_value(0)
-
-    props.obj[[props.data[0]]] = parseFloat(Number(acc_value*props.data[1]).toFixed(2));
+    const oneScore = parseFloat(Number(acc_value*props.data[1]).toFixed(2));
+    props.obj[[props.data[0]]] = oneScore
     console.log(props.obj);
 
     useEffect(()=>{
         props.setAcObj(props.obj)
     }, [acc_value])
+
+    useEffect(()=>{
+        console.log("This is One's Money")
+        setBounty(Number((oneScore/props.ac_de_Sum)*props.totalBounty).toFixed(1))
+        console.log(bounty)
+    }, [acc_value, props.totalBounty])
 
     return (
         <tr>
@@ -26,33 +33,31 @@ const TableRow = (props) => {
                     <ArrowDownwardIcon onClick={decelerate}/>
                 </Stack>
             </td>
-            <td style={{border: "1px solid black"}}>Multiple of {props.data[1]}: {parseFloat(Number(acc_value*props.data[1]).toFixed(2))}</td>
-            <td>Money</td>
+            <td style={{border: "1px solid black"}}>{acc_value} X {props.data[1]}: {oneScore}</td>
+            <td>Money {bounty}</td>
         </tr>
     )
 }
 
 const BountyTable = (props) => {
     return (
-        <>
-            <div>{props.totalBounty}</div>
-            <table style={{border: "1px solid black"}}>
-                <tr>
-                    {props.title.map(t=>{
-                        return(<th>{t}</th>)
-                    })}
-                </tr>
-                {props.idSum.length > 0 &&
-                    <tbody>
-                    {Object.values(props.idSum).map((abc)=>{
-                        return (
-                            <TableRow acObj={props.acObj} setAcObj={props.setAcObj} data={abc} obj={props.obj} setBountySum={props.setBountySum}/>
-                        )
-                    })}
-                    </tbody>
-                }
-            </table>
-        </>
+        <table style={{border: "1px solid black"}}>
+            <tr>
+                {props.title.map(t=>{
+                    return(<th>{t}</th>)
+                })}
+            </tr>
+            {props.idSum.length > 0 &&
+                <tbody>
+                {Object.values(props.idSum).map((abc)=>{
+                    return (
+                        <TableRow acObj={props.acObj} setAcObj={props.setAcObj} data={abc} obj={props.obj} 
+                        totalBounty={props.totalBounty} setBountySum={props.setBountySum} ac_de_Sum={props.ac_de_Sum}/>
+                    )
+                })}
+                </tbody>
+            }
+        </table>
     )
 }
 

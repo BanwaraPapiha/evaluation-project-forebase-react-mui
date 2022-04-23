@@ -2,7 +2,6 @@ import { useState, useEffect, useContext } from "react";
 import { Db } from "../../firebase-config/db";
 import { collection, getDocs } from "firebase/firestore";
 import { Paper, Typography, Button, TextField, Container, Stack, Grid } from '@mui/material';
-import Only_Table from '../common/onlyTable';
 import { SurveyCTx } from "../../providers/surveyctx";
 import BountyTable from "./BountyTable";
 import { UserContext } from "../../providers/userCtx";
@@ -20,16 +19,8 @@ function Bounty() {
     const survey = surveyCtx.survey[0]['id']
     const usersCollectionRef_survey = collection(Db, survey);
     const obj = {};
-    // const DivideRelatively = () => {
-    //   let num = 0;
-    //   idSumArr.map((x)=>num += Number(x[1]))
-    //   setPointsSum(num)
-    //   console.log(pointsSum)
-    // }
-
     const handleBountyValue = (e) => {
       setTotalBounty(Number(e.target.value))
-      // console.log(acObj);
     }
     useEffect(()=>{
       console.log("Listening Change")
@@ -39,7 +30,6 @@ function Bounty() {
         fm += acObj[key];
       }
       setAc_de_Sum(fm)
-    // }, [totalBounty])
     }, [acObj])
 
     useEffect(() => {
@@ -101,7 +91,7 @@ function Bounty() {
                 fullWidth id="outlined-number" label="Number" 
                 type="number" InputLabelProps={{shrink: true,}}
               />
-              {/* <Button fullWidth variant="contained">Divide money</Button> */}
+              <Button fullWidth variant="contained">Add to Records</Button>
               <br/>
             </Stack>
           </Container>
@@ -109,7 +99,7 @@ function Bounty() {
 
       <div>
         <BountyTable title={["Name", "Total Points", "Acc/Dec Value", "Actions", "New Score", "Bounty"]} 
-        idSum={idSumArr} totalBounty={totalBounty} bountySum={bountySum} setBountySum={setBountySum} setAcObj={setAcObj} acObj={acObj}
+        idSum={idSumArr} totalBounty={totalBounty} bountySum={bountySum} setBountySum={setBountySum} setAcObj={setAcObj} acObj={acObj} ac_de_Sum={ac_de_Sum}
         obj={obj} />
       </div>
     </Stack>
