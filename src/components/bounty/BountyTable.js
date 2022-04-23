@@ -5,20 +5,16 @@ import { Stack } from '@mui/material';
 
 const TableRow = (props) => {
     const [acc_value, setAcc_value] = useState(1)
-    const accelerate = () => setAcc_value(acc_value+.25)
-    // const decelerate = () => setAcc_value(Math.round(acc_value-.25 * 10) / 10)
-    const decelerate = () => acc_value > 0 ? setAcc_value(parseFloat(Number(acc_value-.05).toFixed(2))) : setAcc_value(0)
+    const accelerate = () => {
+        setAcc_value(acc_value+.25)
+        props.setAcObj(props.obj)
+    }
+    const decelerate = () => {
+        acc_value > 0 ? setAcc_value(parseFloat(Number(acc_value-.05).toFixed(2))) : setAcc_value(0)
+        props.setAcObj(props.obj)
+    }
 
-    // props.obj[[props.data[0]]] = parseFloat(Number(acc_value*props.data[1]).toFixed(2));
-    console.log(props.obj);
-
-    // if (!props.obj.length===1) {
-    //     props.obj[[props.data[0]]] = parseFloat(Number(acc_value*props.data[1]).toFixed(2));
-    //     props.setBountySum(props.obj) };
-    // } 
-    // else {
-
-    // }
+    props.obj[[props.data[0]]] = parseFloat(Number(acc_value*props.data[1]).toFixed(2));
     console.log(props.obj);
     
     return (
@@ -39,7 +35,6 @@ const TableRow = (props) => {
 }
 
 const BountyTable = (props) => {
-    const [acObj, setAcObj] = useState({});
     const obj = {};
     return (
         <>
@@ -47,16 +42,14 @@ const BountyTable = (props) => {
             <table style={{border: "1px solid black"}}>
                 <tr>
                     {props.title.map(t=>{
-                        return(
-                            <th>{t}</th>
-                        )
+                        return(<th>{t}</th>)
                     })}
                 </tr>
                 {props.idSum.length > 0 &&
                     <tbody>
                     {Object.values(props.idSum).map((abc)=>{
                         return (
-                            <TableRow data={abc} obj={obj} setBountySum={props.setBountySum}/>
+                            <TableRow setAcObj={props.setAcObj} data={abc} obj={obj} setBountySum={props.setBountySum}/>
                         )
                     })}
                     </tbody>

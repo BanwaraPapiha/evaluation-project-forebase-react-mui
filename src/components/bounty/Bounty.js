@@ -17,7 +17,8 @@ function Bounty() {
     const [totalBounty, setTotalBounty] = useState(0);
     const [pointsSum, setPointsSum] = useState(0);
     const [idSum, setIdSum] = useState([]);
-    
+    const [acObj, setAcObj] = useState({});
+
     const [acSum, setAcSum] = useState([]);
     const [idSumArr, setIdSumArr] = useState([]);
     
@@ -31,37 +32,17 @@ function Bounty() {
     const usersCollectionRef_survey = collection(Db, survey);
     const usersCollectionRef_persons = collection(Db, "persons to be evaluated");
 
-    const handleDivide = () => {      
-      var size = Object.keys(ac_de_data).length;
-      alert(size);
-      if (size>1) {
-        var total = 0;
-        Object.keys(ac_de_data).forEach(function (key){
-          console.log(Number(ac_de_data[key]['acc_dec_score']));
-          total += Number(ac_de_data[key]['acc_dec_score'])
-      });
-      }
-      // setScoreSum(total)
-      console.log(total)
-    }
-
     const DivideRelatively = () => {
       let num = 0;
-      idSumArr.map((x)=>{
-        console.log(x[1])
-        num += Number(x[1])
-        console.log(num)
-      })
+      idSumArr.map((x)=>num += Number(x[1]))
       setPointsSum(num)
       console.log(pointsSum)
-    }
-    const DivideAccRelatively = () => {
-      console.log(bountySum)
     }
 
     const handleBountyValue = (e) => {
       setTotalBounty(Number(e.target.value))
-      DivideAccRelatively()
+      console.log(acObj);
+
     }
 
     useEffect(() => {
@@ -113,7 +94,6 @@ function Bounty() {
         <br />
         <Typography variant="h5" gutterBottom component="div">
             visible to admin only for each username <br/>
-            {/* Total Points Calculated are: {persons.length > 1 ? persons.map(k => k.acc_dec_score).reduce((acc, k) => Number(k) + Number(acc)) : "Not Loaded"} */}
             Total Points Calculated are: {persons.length > 1 ? persons.map(k => k.acc_dec_score).reduce((acc, k) => k + acc) : "Not Loaded"}
             <br />
             Total Points Score is: {pointsSum}
@@ -125,19 +105,18 @@ function Bounty() {
               <Typography variant="h6" gutterBottom component="div">
                   Divide Money Relatively <br/>
               </Typography>
-              <TextField
+              <TextField onChange={handleBountyValue}
                 fullWidth id="outlined-number" label="Number" 
                 type="number" InputLabelProps={{shrink: true,}}
-                onChange={handleBountyValue}
               />
-              <Button fullWidth variant="contained" onClick={handleDivide}>Divide money</Button>
+              {/* <Button fullWidth variant="contained">Divide money</Button> */}
               <br/>
             </Stack>
           </Container>
         </Paper> 
       <div>
         <BountyTable title={["Name", "Total Points", "Acc/Dec Value", "Actions", "New Score", "Bounty"]} 
-        idSum={idSumArr} totalBounty={totalBounty} bountySum={bountySum} setBountySum={setBountySum}/>
+        idSum={idSumArr} totalBounty={totalBounty} bountySum={bountySum} setBountySum={setBountySum} setAcObj={setAcObj} />
       </div>
     </Stack>
     );
