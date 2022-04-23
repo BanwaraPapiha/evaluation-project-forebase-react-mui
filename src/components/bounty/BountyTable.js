@@ -16,7 +16,6 @@ const TableRow = (props) => {
 
     props.obj[[props.data[0]]] = parseFloat(Number(acc_value*props.data[1]).toFixed(2));
     console.log(props.obj);
-    
     return (
         <tr>
             <td style={{border: "1px solid black"}}>{props.data[0]}</td>
@@ -35,7 +34,7 @@ const TableRow = (props) => {
 }
 
 const BountyTable = (props) => {
-    const obj = {};
+    // const obj = {};
     return (
         <>
             <div>{props.totalBounty}</div>
@@ -49,7 +48,7 @@ const BountyTable = (props) => {
                     <tbody>
                     {Object.values(props.idSum).map((abc)=>{
                         return (
-                            <TableRow setAcObj={props.setAcObj} data={abc} obj={obj} setBountySum={props.setBountySum}/>
+                            <TableRow acObj={props.acObj} setAcObj={props.setAcObj} data={abc} obj={props.obj} setBountySum={props.setBountySum}/>
                         )
                     })}
                     </tbody>

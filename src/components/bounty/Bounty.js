@@ -9,6 +9,7 @@ import { UserContext } from "../../providers/userCtx";
 
 function Bounty() {
     const [ac_de_data, setAc_de_data] = useState({});
+    const [ac_de_Sum, setAc_de_Sum] = useState(0);
     const [persons, setPersons] = useState([]);
     const [scoreData, setScoreData] = useState([]);
     const [sumData, setSumData] = useState([]);
@@ -31,7 +32,7 @@ function Bounty() {
   
     const usersCollectionRef_survey = collection(Db, survey);
     const usersCollectionRef_persons = collection(Db, "persons to be evaluated");
-
+    const obj = {};
     const DivideRelatively = () => {
       let num = 0;
       idSumArr.map((x)=>num += Number(x[1]))
@@ -41,9 +42,19 @@ function Bounty() {
 
     const handleBountyValue = (e) => {
       setTotalBounty(Number(e.target.value))
-      console.log(acObj);
-
+      // console.log(acObj);
     }
+    useEffect(()=>{
+      console.log("Listening Change")
+      let fm = 0;
+      console.log(acObj)
+      for (const key in acObj) {
+        fm += acObj[key];
+      }
+      setAc_de_Sum(fm)
+      // console.log(fm)
+
+    }, [totalBounty])
 
     useEffect(() => {
         const getPersons = async () => {
@@ -94,8 +105,7 @@ function Bounty() {
         <br />
         <Typography variant="h5" gutterBottom component="div">
             visible to admin only for each username <br/>
-            Total Points Calculated are: {persons.length > 1 ? persons.map(k => k.acc_dec_score).reduce((acc, k) => k + acc) : "Not Loaded"}
-            <br />
+            Total Changed Points Score is: {ac_de_Sum} <br/>
             Total Points Score is: {pointsSum}
         </Typography>
 
@@ -114,9 +124,11 @@ function Bounty() {
             </Stack>
           </Container>
         </Paper> 
+
       <div>
         <BountyTable title={["Name", "Total Points", "Acc/Dec Value", "Actions", "New Score", "Bounty"]} 
-        idSum={idSumArr} totalBounty={totalBounty} bountySum={bountySum} setBountySum={setBountySum} setAcObj={setAcObj} />
+        idSum={idSumArr} totalBounty={totalBounty} bountySum={bountySum} setBountySum={setBountySum} setAcObj={setAcObj} acObj={acObj}
+        obj={obj} />
       </div>
     </Stack>
     );
