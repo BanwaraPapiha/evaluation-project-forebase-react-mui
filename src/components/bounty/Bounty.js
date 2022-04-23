@@ -9,31 +9,23 @@ import { UserContext } from "../../providers/userCtx";
 
 function Bounty() {
     const [ac_de_Sum, setAc_de_Sum] = useState(0);
-    const [persons, setPersons] = useState([]);
     const [scoreData, setScoreData] = useState([]);
     const [bountySum, setBountySum] = useState({});
     const [totalBounty, setTotalBounty] = useState(0);
     const [pointsSum, setPointsSum] = useState(0);
     const [acObj, setAcObj] = useState({});
-
-    const [acSum, setAcSum] = useState([]);
     const [idSumArr, setIdSumArr] = useState([]);
-    
-    const UserCtx = useContext(UserContext)
-
     const Calc_Scor = {};
     const surveyCtx = useContext(SurveyCTx)
     const survey = surveyCtx.survey[0]['id']
-  
     const usersCollectionRef_survey = collection(Db, survey);
-    const usersCollectionRef_persons = collection(Db, "persons to be evaluated");
     const obj = {};
-    const DivideRelatively = () => {
-      let num = 0;
-      idSumArr.map((x)=>num += Number(x[1]))
-      setPointsSum(num)
-      console.log(pointsSum)
-    }
+    // const DivideRelatively = () => {
+    //   let num = 0;
+    //   idSumArr.map((x)=>num += Number(x[1]))
+    //   setPointsSum(num)
+    //   console.log(pointsSum)
+    // }
 
     const handleBountyValue = (e) => {
       setTotalBounty(Number(e.target.value))
@@ -47,16 +39,8 @@ function Bounty() {
         fm += acObj[key];
       }
       setAc_de_Sum(fm)
-    }, [totalBounty])
-
-    useEffect(() => {
-        const getPersons = async () => {
-          const data = await getDocs(usersCollectionRef_persons);
-          console.log(data.docs);
-          setPersons(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-        };
-        getPersons();
-      }, []);
+    // }, [totalBounty])
+    }, [acObj])
 
     useEffect(() => {
       const getData = async () => {
@@ -90,7 +74,12 @@ function Bounty() {
       })
       setIdSumArr(Object.entries(Calc_Scor))
       console.log(idSumArr)
-      DivideRelatively()
+      // DivideRelatively()
+      let num = 0;
+      idSumArr.map((x)=>num += Number(x[1]))
+      setPointsSum(num)
+      console.log(pointsSum)
+
     }, [scoreData])
 
     return (
