@@ -10,9 +10,6 @@ function UnitComponent(props) {
   const [slide_score, setSlide_score] = useState(0);
   const points = useContext(PointsCtx)
   const surveyCtx = useContext(SurveyCTx)
-  const survey = surveyCtx.survey[0]['name']
-  const UserCtx = useContext(UserContext)
-  // const PersonName = JSON.parse(props.person).Name;
   const PersonName = props.person;
   const FeatureName = props.feature;
 

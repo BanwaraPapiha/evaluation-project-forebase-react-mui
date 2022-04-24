@@ -20,16 +20,11 @@ const Added = (props) => {
         console.log("Found in Array")
         setAdded(true)
       }
-      else {
-        console.log("Not Found in Array")
-        setAdded(false)
-      }
   });
   checkState(props.featureDetail.feature)
   
   }
   async function Remove2Array(user2Add) {
-    // console.log(Curr_survey);
     const result = await updateDoc(taskDocRef, {
         features: arrayRemove(String(user2Add))
       });
@@ -43,20 +38,13 @@ const Added = (props) => {
   }
 
   const HandleAdd = () => {
-    // checkState(props.featureDetail.feature)
     if (added) {
       setAdded(!added)
-      // checkState(props.featureDetail.feature)
-      // Remove2Array(JSON.stringify(props.featureDetail));
       Remove2Array(props.featureDetail.feature);
-      // console.log(props.featureDetail.feature)
   }
   else if (!added) {
       setAdded(!added)
-      // checkState(props.featureDetail.feature)
-      // Add2Array(JSON.stringify(props.featureDetail));
       Add2Array(props.featureDetail.feature);
-      // console.log(props.featureDetail.feature)
       }            
 
   }

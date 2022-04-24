@@ -22,10 +22,6 @@ const Added = (props) => {
             console.log("Found in Array")
             setAdded(true)
           }
-        //   else {
-        //     console.log("Not Found in Array")
-        //     setAdded(false)
-        //   }
       });
     }
     checkState(props.userDetail.Email)
@@ -45,17 +41,14 @@ const Added = (props) => {
     }
 
     const HandleAdd = () => {
-        // checkState(props.userDetail.Email)
         console.log(props.userDetail)
         if (added) {
             setAdded(!added)
             Remove2Array(props.userDetail.Email);
-            // Remove2Array(JSON.stringify(props.userDetail));
         }
         else if (!added) {
             setAdded(!added)
             Add2Array(props.userDetail.Email);
-            // Add2Array(JSON.stringify(props.userDetail));
             }            
         }
 
