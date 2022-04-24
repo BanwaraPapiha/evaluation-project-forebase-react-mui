@@ -11,7 +11,7 @@ import {
 } from "firebase/firestore";
 import { TextField, Container, Button, Grid, Stack, Paper } from '@mui/material';
 
-export default function PersonAddOnlyForm() {
+export default function PersonForm() {
   const usersCollectionRef = collection(Db, "persons to be evaluated");
   const { register, handleSubmit, formState: { errors } } = useForm();
   const nameInput = React.useRef(null);
@@ -36,7 +36,6 @@ export default function PersonAddOnlyForm() {
     <Container maxWidth="xl">
         <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={3}>
-            {/* <br/> */}
             <TextField fullWidth label="Name" variant="standard" inputRef={nameInput} {...register("Name", {required: true, maxLength: 80})} />
             <TextField fullWidth label="Email" variant="standard" inputRef={emailInput} {...register("Email", {required: true, pattern: /^\S+@\S+$/i})} />
             <Button fullWidth onClick={handleSubmit(onSubmit)} type="submit" variant="contained" component="span">Submit</Button>

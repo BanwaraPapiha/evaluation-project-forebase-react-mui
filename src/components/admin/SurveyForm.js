@@ -12,8 +12,6 @@ import {SurveyCTx} from "../../providers/surveyctx";
 import { useState, useContext, useEffect } from "react";
 
 export default function SurveyForm() {
-  // const usersCollectionRef_survey = collection(Db, "surveys");
-  // const usersCollectionRef_survey = collection(Db, "surveys", data.Survey_Name);
   const CurrentSurvey = useContext(SurveyCTx);
   const { register, handleSubmit, formState: { errors } } = useForm();
   

@@ -3,9 +3,9 @@ import { Db } from "../../firebase-config/db";
 import { collection, getDocs } from "firebase/firestore";
 import { Paper, Typography, Button, TextField, Container, Stack, Grid } from '@mui/material';
 import FeatureTable from "./FeatureTable";
-import { queryObject } from "./searchFx"
+import { queryObject } from "./Search"
 import { doc, onSnapshot } from "firebase/firestore";
-import FeatureAddOnlyForm from "./FeatureAddOnly";
+import FeatureForm from "./FeatureAdd";
 import { SurveyCTx } from "../../providers/surveyctx";
 
 function FeatureList() {
@@ -75,7 +75,7 @@ function FeatureList() {
 
           </Grid>
         </Grid>
-        <FeatureAddOnlyForm id="FeatureAddOnlyForm"/><br/>
+        <FeatureForm id="FeatureAddOnlyForm"/><br/>
 
     </Container>
     );

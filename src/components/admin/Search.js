@@ -1,9 +1,7 @@
-//for object
 function queryObject(q, data){
     if (!q) {
         return data;
     } else {
-        // return data.filter((d) => String(d).toLowerCase().includes(query));
     var results = [];
     console.log(q)
     for (const [key, value] of Object.entries(data)) {

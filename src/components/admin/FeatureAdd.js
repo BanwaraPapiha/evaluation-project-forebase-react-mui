@@ -1,17 +1,10 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Db } from "../../firebase-config/db";
-import {
-  collection,
-  // getDocs,
-  addDoc,
-  // updateDoc,
-  // deleteDoc,
-  // doc,
-} from "firebase/firestore";
+import {collection, addDoc} from "firebase/firestore";
 import { TextField, Container, Button, Grid, Stack, Paper } from '@mui/material';
 
-export default function FeatureAddOnlyForm() {
+export default function FeatureForm() {
     const usersCollectionRef = collection(Db, "features for evaluation");
     const { register, handleSubmit, formState: { errors } } = useForm();
     const featureInput = React.useRef(null);

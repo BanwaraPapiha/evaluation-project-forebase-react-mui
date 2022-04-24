@@ -3,9 +3,9 @@ import { Db } from "../../firebase-config/db";
 import { collection, getDocs } from "firebase/firestore";
 import { Paper, Typography, Button, TextField, Container, Stack, Grid } from '@mui/material';
 import PersonTable from "./PersonTable";
-import PersonAddOnlyForm from "./PersonAddOnly";
+import PersonForm from "./PersonAdd";
 import { doc, onSnapshot } from "firebase/firestore";
-import { queryObject } from "./searchFx"
+import { queryObject } from "./Search"
 import { SurveyCTx } from "../../providers/surveyctx";
 
 function PersonList() {
@@ -30,7 +30,6 @@ function PersonList() {
 
     useEffect(() => {
       const unsub = onSnapshot(doc(Db, "surveys", surveyCtx.survey[0]['id']), (doc) => {
-        
         if (doc.exists()){
           console.log('doc exists')
           if(Object.keys(doc.data()).includes("users")){
@@ -40,6 +39,7 @@ function PersonList() {
             setAddedUsers(usersHere)  
           } else {
             console.log("no key found")
+            // Here
             const usersHere = ["No Existing Data, create New"];
             setAddedUsers(usersHere)
           }          
@@ -69,13 +69,12 @@ function PersonList() {
                 addedUsers.length > 0? 
                 <li>{JSON.parse(x).Name}</li>:
                 <li>Loading</li>
-                // <li>{x}</li>
               )
             })}
           </div>
           </Grid>
         </Grid>
-        <PersonAddOnlyForm id="PersonAddOnlyForm" /><br/>
+        <PersonForm id="PersonAddOnlyForm" /><br/>
       </Container>
     );
   }
