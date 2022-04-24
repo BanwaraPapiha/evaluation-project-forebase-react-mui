@@ -25,6 +25,7 @@ const AppRouter = () => {
               <Route path="admin" element={<Admin />} />
               <Route path="*" element={<ErrorPAge />} />
             </Routes>
+
           <Footer/>
         </UserProvider>
         </SurveyProvider>
