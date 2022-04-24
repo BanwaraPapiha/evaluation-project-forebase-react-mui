@@ -13,11 +13,10 @@ import UserProvider from './providers/UserProvider';
 
 const AppRouter = () => {
     return (
-      <SurveyProvider>
-        <BrowserRouter>
+      <BrowserRouter>
+        <SurveyProvider>      
         <UserProvider>
           <Header/>
-          <Container>
             <Routes>
               <Route index element={<MultiStepFormCtx />} />
               <Route path="account" element={<LoginPage />} />
@@ -26,11 +25,10 @@ const AppRouter = () => {
               <Route path="admin" element={<Admin />} />
               <Route path="*" element={<ErrorPAge />} />
             </Routes>
-          </Container>
           <Footer/>
         </UserProvider>
-        </BrowserRouter>
-      </SurveyProvider>
+        </SurveyProvider>
+      </BrowserRouter>
     );
 }
 

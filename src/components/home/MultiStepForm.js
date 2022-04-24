@@ -2,8 +2,8 @@ import { useState, useEffect, useContext } from "react";
 import { Db } from "../../firebase-config/db";
 import { collection, getDocs, doc, setDoc, getDoc, addDoc } from "firebase/firestore";
 import UnitStepForm from "./UnitStepForm";
-import { Typography, MobileStepper } from '@mui/material';
-import { DBContextProvider } from "../../providers/dbprovider";
+import { Typography, MobileStepper, Container } from '@mui/material';
+// import { DBContextProvider } from "../../providers/dbprovider";
 import { PointsCtx } from "../../providers/pointsctx";
 import { PointsCtxProvider } from "../../providers/pointsProvider";
 import { SurveyCTx } from "../../providers/surveyctx";
@@ -75,32 +75,7 @@ function MultiStep() {
   }, [])
 
   return (
-    <>
-      <div>
-      {/* <div>
-        Users of Survey: {survUser.length}
-        {survUser.length>0 ?
-        survUser.map((su)=>{
-          return (
-            <li>{String(su)}</li>
-          )
-        }):
-        "NO SUccess"}
-      </div>
-
-      <div>
-        Feature of Survey: {survFeature.length}
-        {survFeature.length>0 ?
-        survFeature.map((su)=>{
-          return (
-            <li>{String(su)}</li>
-          )
-        }):
-        "NO SUccess"}
-      </div> */}
-
-      </div>
-
+    <Container>
       <Typography variant="h5" gutterBottom component="div">
         Survey {current_survey}<br/>
         Evaluate All the given users in the following Features Step By Step
@@ -116,24 +91,18 @@ function MultiStep() {
           )
        }) : 'Loading'}
       
-      {/* <Container style={{padding: "10px", margin: "10px auto", width: "50%"}}>
-        { page > 1 && <button onClick={PrevPage}>Previous</button>}
-        &nbsp; Current Page is: { page } &nbsp;
-        { page < (features.length - 1) ? <button onClick={NextPage}>Next</button> : <button onClick={Submit}>Submit</button>}
-      </Container> */}
-
       <button onClick={Submit}>Submit</button>
-    </>
+    </Container>
   );
 }
 
 function MultiStepFormCtx() {
   return (
-    <DBContextProvider> 
+    // <DBContextProvider> 
       <PointsCtxProvider>
         <MultiStep/>
       </PointsCtxProvider>   
-    </DBContextProvider>
+    // </DBContextProvider>
   );
 }
 

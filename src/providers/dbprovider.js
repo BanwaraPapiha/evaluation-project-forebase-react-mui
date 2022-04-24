@@ -15,12 +15,6 @@ export function DBContextProvider(props) {
           being_eval: "You1",
           feature: "Truthfulness1"
       },
-      {
-          points: 200, 
-          evaluator: "Me2", 
-          being_eval: "You2",
-          feature: "Truthfulness2"
-      },
   ]);
 
   return (

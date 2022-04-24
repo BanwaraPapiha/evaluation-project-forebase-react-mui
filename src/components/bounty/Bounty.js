@@ -73,6 +73,7 @@ function Bounty() {
     }, [scoreData])
 
     return (
+      <Container>
       <Stack spacing={4}>
         <br />
         <Typography variant="h5" gutterBottom component="div">
@@ -103,6 +104,7 @@ function Bounty() {
         obj={obj} />
       </div>
     </Stack>
+    </Container>
     );
   }
   
