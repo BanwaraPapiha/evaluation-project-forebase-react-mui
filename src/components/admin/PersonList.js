@@ -63,15 +63,17 @@ function PersonList() {
             <PersonTable title={["Id", "Name", "Email", "Add", "Delete"]} body={body}/>
           </Grid>
           <Grid item xs={12} md={6}>
-          <div>
-            {addedUsers.map((x)=>{
+          {/* <div> */}
+            {addedUsers.length>0 && addedUsers.map((x)=>{
               return (
                 addedUsers.length > 0? 
-                <li>{JSON.parse(x).Name}</li>:
+                // <li>{JSON.parse(x).Name}</li>:
+                // <li>Hello</li>:
+                <li>{x}</li>:
                 <li>Loading</li>
               )
             })}
-          </div>
+          {/* </div> */}
           </Grid>
         </Grid>
         <PersonForm id="PersonAddOnlyForm" /><br/>

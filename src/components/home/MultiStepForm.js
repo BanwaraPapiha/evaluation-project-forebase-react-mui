@@ -3,13 +3,14 @@ import { Db } from "../../firebase-config/db";
 import { collection, getDocs, doc, setDoc, getDoc, addDoc } from "firebase/firestore";
 import UnitStepForm from "./UnitStepForm";
 import { Typography, MobileStepper, Container } from '@mui/material';
-// import { DBContextProvider } from "../../providers/dbprovider";
 import { PointsCtx } from "../../providers/pointsctx";
 import { PointsCtxProvider } from "../../providers/pointsProvider";
 import { SurveyCTx } from "../../providers/surveyctx";
 import { UserContext } from "../../providers/userCtx";
+import { Routes, Route, useParams } from "react-router-dom";
 
 function MultiStep() {
+  const [surveyFound, setSurveyFound] = useState(false);
   const [features, setFeatures] = useState([]);
   const [persons, setPersons] = useState([]);
   const [survUser, setSurvUser] = useState([]);
@@ -25,6 +26,20 @@ function MultiStep() {
 
   const usersCollectionRef_features = collection(Db, "features for evaluation");
   const usersCollectionRef_persons = collection(Db, "persons to be evaluated");
+  let { surveyId } = useParams();
+  // useEffect(()=>{
+  //   const funcFuk = async () => {
+  //     const docSnapCheck = await getDoc(doc(Db, "surveys", surveyId));  
+  //     if (docSnapCheck.exists()) {
+  //       console.log("Document data:", docSnapCheck.data());
+  //       setSurveyFound(true)
+  //     } else {
+  //       console.log("No such document!");
+  //     }
+  //   }
+  //   funcFuk()
+  
+  // }, [])
 
   const Submit = async () => {
     current_user = UserCtx.Loguser.email
@@ -34,14 +49,7 @@ function MultiStep() {
       const docRef = await setDoc(doc(Db, current_survey, UserCtx.Loguser.email), points.pointsdata);
     } catch (e) {
       console.log("Error adding document: ", e);
-    }
-  };
-
-  const NextPage = () => {
-    setPage(currPage => currPage + 1);
-  };
-  const PrevPage = () => {
-    setPage(currPage => currPage - 1);
+    }  
   };
 
   useEffect(() => {
@@ -50,29 +58,32 @@ function MultiStep() {
       const docSnap = await getDoc(docRef);
       console.log(docSnap.data().users);
       console.log(docSnap.data().features);
-      setSurvUser(docSnap.data().users);
+      console.log(survFeature.length)
       setSurvFeature(docSnap.data().features)
+      console.log(survFeature.length)
+
+      setSurvUser(docSnap.data().users);
     };
     getSurveyFeatures();
   }, []);
 
-  useEffect(() => {
-    const getFeatures = async () => {
-      const data = await getDocs(usersCollectionRef_features);
-      console.log(data.docs);
-      setFeatures(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    };
-    getFeatures();
-  }, []);
+  // useEffect(() => {
+  //   const getFeatures = async () => {
+  //     const data = await getDocs(usersCollectionRef_features);
+  //     console.log(data.docs);
+  //     setFeatures(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+  //   };
+  //   getFeatures();
+  // }, []);
 
-  useEffect(() => {
-    const getPersons = async () => {
-      const data = await getDocs(usersCollectionRef_persons);
-      console.log(data.docs);
-      setPersons(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    };
-    getPersons();
-  }, [])
+  // useEffect(() => {
+  //   const getPersons = async () => {
+  //     const data = await getDocs(usersCollectionRef_persons);
+  //     console.log(data.docs);
+  //     setPersons(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+  //   };
+  //   getPersons();
+  // }, [])
 
   return (
     <Container>
@@ -86,23 +97,25 @@ function MultiStep() {
        survFeature.map((x, index) => {
         return (
           <UnitStepForm stepNo={step} pageNo2={index+1} 
-            personsList={ survUser } featureName={JSON.parse(x).feature} 
-            scores={JSON.parse(x).total_score} />
+            personsList={ survUser } 
+            // featureName={JSON.parse(x).feature} 
+            featureName={x} 
+            // scores={JSON.parse(x).total_score} />
+            scores={2000} />
           )
        }) : 'Loading'}
-      
+
       <button onClick={Submit}>Submit</button>
     </Container>
-  );
+  );  
+
 }
 
 function MultiStepFormCtx() {
   return (
-    // <DBContextProvider> 
-      <PointsCtxProvider>
-        <MultiStep/>
-      </PointsCtxProvider>   
-    // </DBContextProvider>
+    <PointsCtxProvider>
+      <MultiStep/>
+    </PointsCtxProvider>   
   );
 }
 

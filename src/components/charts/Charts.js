@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { Db } from "../../firebase-config/db";
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
-import ChartsTable from '../common/anotherTable'
 import { collection, getDocs } from "firebase/firestore";
 import EvaluatioonAndCharts from "./EvaluationAndCharts";
 import PersonsAndCharts from "./PersonsAndCharts";
 import FeaturesAndCharts from "./FeaturesAndCharts";
 import AllData from "./EveryDataProvider";
+import { Container } from '@mui/material';
 
 function Charts() {
     const [features, setFeatures] = useState([]);
@@ -46,14 +46,14 @@ function Charts() {
       }, []);
     
       return (
-        <div>
+        <Container>
             visible to admin only for each username <br/>
             shows record of what other users have evaluated a specific username <br/>
             <AllData/>
             {/* <EvaluatioonAndCharts /> */}
             {/* <PersonsAndCharts />
             <FeaturesAndCharts /> */}
-        </div>
+        </Container>
     );
   }
 export default Charts;

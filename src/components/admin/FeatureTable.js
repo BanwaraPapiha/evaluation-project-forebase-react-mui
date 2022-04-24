@@ -3,7 +3,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import { Db } from "../../firebase-config/db";
-import { doc, deleteDoc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
+import { doc, deleteDoc, updateDoc, arrayUnion, arrayRemove, onSnapshot } from "firebase/firestore";
 import { Link } from '@mui/material';
 import { SurveyCTx } from "../../providers/surveyctx";
 
@@ -13,28 +13,50 @@ const Added = (props) => {
   const Curr_survey = surveyCtx.survey[0]['id']
   const taskDocRef = doc(Db, "surveys", Curr_survey)
 
+  const checkState = async (qfeature) => {
+    const unsub = onSnapshot(taskDocRef, (doc) => {
+      console.log("Current data: ", doc.data().features);
+      if (doc.data().features.includes(qfeature)) {
+        console.log("Found in Array")
+        setAdded(true)
+      }
+      else {
+        console.log("Not Found in Array")
+        setAdded(false)
+      }
+  });
+  checkState(props.featureDetail.feature)
+  
+  }
   async function Remove2Array(user2Add) {
-    console.log(Curr_survey);
+    // console.log(Curr_survey);
     const result = await updateDoc(taskDocRef, {
         features: arrayRemove(String(user2Add))
       });
   }
 
   async function Add2Array(user2Add) {
-      console.log(Curr_survey);
+      // console.log(Curr_survey);
       const result = await updateDoc(taskDocRef, {
         features: arrayUnion(String(user2Add))
           });
   }
 
   const HandleAdd = () => {
+    // checkState(props.featureDetail.feature)
     if (added) {
       setAdded(!added)
-      Remove2Array(JSON.stringify(props.featureDetail));
+      // checkState(props.featureDetail.feature)
+      // Remove2Array(JSON.stringify(props.featureDetail));
+      Remove2Array(props.featureDetail.feature);
+      // console.log(props.featureDetail.feature)
   }
   else if (!added) {
       setAdded(!added)
-      Add2Array(JSON.stringify(props.featureDetail));
+      // checkState(props.featureDetail.feature)
+      // Add2Array(JSON.stringify(props.featureDetail));
+      Add2Array(props.featureDetail.feature);
+      // console.log(props.featureDetail.feature)
       }            
 
   }

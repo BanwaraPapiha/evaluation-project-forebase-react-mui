@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Db } from "../../firebase-config/db";
 import { collection, getDocs } from "firebase/firestore";
-import { Paper, Typography, Button, TextField, Container, Stack, Grid } from '@mui/material';
+import { Typography, TextField, Container } from '@mui/material';
 import SurveyTable from "./SurveyTable";
 import SurveyForm from './SurveyForm';
 import { queryObject } from "./Search";
@@ -21,13 +21,6 @@ function SurveyList() {
           });
         }
         getEvaluationData();
-
-      // const getEvaluationData = async () => {
-      //   const data = await getDocs(usersCollectionRef_eval_data);
-      //   console.log(data.docs);
-      //   setEval_data(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-      // };
-      // getEvaluationData();
     }, []);
 
     const handleSearch = (e) => {
@@ -43,8 +36,7 @@ function SurveyList() {
           Survey
         </Typography>
         <TextField fullWidth label="Search Persons" id="search-persons" onChange={handleSearch}/>
-        {/* <SurveyTable title={["id", "Name", "Start Date", "End Date", "Active"]} body={body}/> */}
-        <SurveyTable title={["Name", "Active"]} body={body}/>
+        <SurveyTable title={["Id", "Name", "Active"]} body={body}/>
         <SurveyForm/>
     </Container>
     );

@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { Db } from "../../firebase-config/db";
 import { collection, getDocs } from "firebase/firestore";
-import { Paper, Typography, Button, TextField, Container, Stack, Grid } from '@mui/material';
+import { Typography, TextField, Container, Grid } from '@mui/material';
 import FeatureTable from "./FeatureTable";
 import { queryObject } from "./Search"
 import { doc, onSnapshot } from "firebase/firestore";
@@ -67,7 +67,9 @@ function FeatureList() {
               {addedFeatures.map((x)=>{
                 return (
                   addedFeatures.length > 0? 
-                  <li>{JSON.parse(x).feature}</li>:
+                  // <li>{JSON.parse(x).feature}</li>:
+                  // <li>Hey</li>:
+                  <li>{x}</li>:
                   <li>Loading</li>
                 )
               })}

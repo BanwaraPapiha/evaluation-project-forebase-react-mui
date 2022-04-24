@@ -17,6 +17,11 @@ export default function SurveyForm() {
   
     const onSubmit = data => {
       const createSurvey = async () => {
+        // await addDoc(collection(Db, "surveys"), {
+        //   name: data.Survey_Name, 
+        //   active: data.Active 
+        // });
+        
         await setDoc(doc(Db, "surveys", data.Survey_Name), { 
           name: data.Survey_Name, 
           active: data.Active 
@@ -26,11 +31,11 @@ export default function SurveyForm() {
       console.log(data);
       CurrentSurvey.setSurvey([{ 
         name: data.Survey_Name, 
+        id: data.Survey_Name,
         active: data.Active 
       }])
     }
     console.log(errors);
-      console.log(errors);
 
   return (
     <Grid item xs={12} md={12}>

@@ -1,14 +1,15 @@
 import * as React from 'react';
 import SurveyList from "./SurveyList";
-import SurveyForm from "./SurveyForm";
 import FeatureList from "./FeatureList";
 import PersonList from "./PersonList";
 import { Stepper, Step, StepLabel, Button, Container, Grid, Paper } from '@mui/material';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import {SurveyCTx} from "../../providers/surveyctx";
 
 const steps = ['Create Survey', 'Select Persons', 'Add Features'];
 export default function Admin(props) {
     const [page, setPage] = useState(0)
+    const CurrentSurvey = useContext(SurveyCTx);
     const pages = {0:<SurveyList />, 1: <PersonList/>, 2: <FeatureList/>}
     const NextPage = () => {
       setPage(currPage => currPage + 1);
@@ -17,6 +18,12 @@ export default function Admin(props) {
       setPage(currPage => currPage - 1);
     };
 
+    const handleFinish = () => {
+      alert(String(CurrentSurvey.survey[0]["id"]));
+      console.log("Submitted!\nCopy and Go to this URL: ", String(CurrentSurvey.survey[0]["id"]));
+      // console.log(CurrentSurvey.survey[0]["id"])
+      // console.log(CurrentSurvey.survey[0]['name'])
+  }
     return (
       <Container>
         <br/>
@@ -34,7 +41,7 @@ export default function Admin(props) {
 
             {page<=0?<Button variant="text" disabled>Back</Button>:
             <Button variant="text" onClick={()=>{PrevPage(page)}}>Back</Button>}
-            {page>=steps.length-1?<Button variant="text" onClick={()=>{alert("Submitted!");}}>Finish</Button>
+            {page>=steps.length-1?<Button variant="text" onClick={handleFinish}>Finish</Button>
             :<Button variant="text" onClick={()=>{NextPage(page)}}>Next</Button>}
         </div>
         </Paper>

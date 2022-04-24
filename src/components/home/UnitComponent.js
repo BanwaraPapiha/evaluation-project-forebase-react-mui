@@ -12,7 +12,8 @@ function UnitComponent(props) {
   const surveyCtx = useContext(SurveyCTx)
   const survey = surveyCtx.survey[0]['name']
   const UserCtx = useContext(UserContext)
-  const PersonName = JSON.parse(props.person).Name;
+  // const PersonName = JSON.parse(props.person).Name;
+  const PersonName = props.person;
   const FeatureName = props.feature;
 
   const HandleChange = (e) => {
@@ -34,9 +35,10 @@ function UnitComponent(props) {
         Score Awarded: <Chip variant="outlined" label={(typeof(slide_score) === 'undefined') ? 0 : slide_score} color="info" />
         </Paper>
           <Typography gutterBottom variant="h5" component="div">
-          Name: { JSON.parse(props.person).Name } <br />
+          {/* Name: { JSON.parse(props.person).Name } <br />
           Email: { JSON.parse(props.person).Email } <br />
-          Score: { JSON.parse(props.t_scores)} <br/>
+          Score: { JSON.parse(props.t_scores)} <br/> */}
+          Name: { props.person } <br />
           </Typography>
 
           <Typography variant="body2" color="text.secondary">
@@ -55,7 +57,7 @@ function UnitComponent(props) {
         </CardActions>
 
         <Typography variant="caption" display="block" gutterBottom>
-          &nbsp;&nbsp;&nbsp;Id: { JSON.parse(props.person).id }
+          &nbsp;&nbsp;&nbsp;Id: { props.person }
         </Typography>
       </Card>
     </Grid>

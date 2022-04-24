@@ -2,7 +2,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import { Db } from "../../firebase-config/db";
-import { doc, deleteDoc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
+import { doc, deleteDoc, updateDoc, arrayUnion, arrayRemove, onSnapshot } from "firebase/firestore";
 import { useEffect, useState, useContext } from "react";
 import { Link } from '@mui/material';
 import firebase from 'firebase/compat/app';
@@ -14,6 +14,21 @@ const Added = (props) => {
     const surveyCtx = useContext(SurveyCTx)
     const Curr_survey = surveyCtx.survey[0]['id']
     const taskDocRef = doc(Db, "surveys", Curr_survey)
+
+    const checkState = async (qfeature) => {
+        const unsub = onSnapshot(taskDocRef, (doc) => {
+          console.log("Current data: ", doc.data().users);
+          if (doc.data().users.includes(qfeature)) {
+            console.log("Found in Array")
+            setAdded(true)
+          }
+        //   else {
+        //     console.log("Not Found in Array")
+        //     setAdded(false)
+        //   }
+      });
+    }
+    checkState(props.userDetail.Email)
 
     async function Remove2Array(user2Add) {
         console.log(Curr_survey);
@@ -30,16 +45,17 @@ const Added = (props) => {
     }
 
     const HandleAdd = () => {
+        // checkState(props.userDetail.Email)
         console.log(props.userDetail)
         if (added) {
             setAdded(!added)
-            // Remove2Array(props.userDetail.Name);
-            Remove2Array(JSON.stringify(props.userDetail));
+            Remove2Array(props.userDetail.Email);
+            // Remove2Array(JSON.stringify(props.userDetail));
         }
         else if (!added) {
             setAdded(!added)
-            // Add2Array(props.userDetail.Name);
-            Add2Array(JSON.stringify(props.userDetail));
+            Add2Array(props.userDetail.Email);
+            // Add2Array(JSON.stringify(props.userDetail));
             }            
         }
 
