@@ -11,8 +11,6 @@ function UnitStepForm(props) {
         Feature Seleted is: {props.featureName}
         <br/>
         You have total {props.scores} Scores to distribute
-        JSON.parse(props.feature).scores <br/>
-        {props.scores}
       </Typography>
 
       <Grid container spacing={2}>

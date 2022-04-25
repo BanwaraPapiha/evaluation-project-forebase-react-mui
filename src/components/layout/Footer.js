@@ -1,8 +1,10 @@
+import { Typography } from '@mui/material';
+
 const Footer = () => {
     return (
-        <>
-        This is Footer
-        </>
+        <Typography variant="subtitle2" align="center">
+        @MY COMPANY
+        </Typography>
     );
 }
 

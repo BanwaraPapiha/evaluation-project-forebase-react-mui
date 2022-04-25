@@ -77,9 +77,8 @@ function Bounty() {
       <Stack spacing={4}>
         <br />
         <Typography variant="h5" gutterBottom component="div">
-            visible to admin only for each username <br/>
-            Total Changed Points Score is: {ac_de_Sum} <br/>
-            Total Points Score is: {pointsSum}
+            Total Changed Points Score = {ac_de_Sum} |
+            Total Points Score = {pointsSum}
         </Typography>
 
         <Paper elevation={5} >

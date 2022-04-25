@@ -1,4 +1,3 @@
-import app from '../../firebase-config/firebase-config';
 import { Button, Grid } from '@mui/material';
 import GoogleIcon from '@mui/icons-material/Google';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -66,15 +65,12 @@ function LoginPage() {
       const querySnapshot = await getDocs(q);
       if (UserCtx.Loguser!==null) {
         console.log(UserCtx.Loguser.email)
-        let admin = false;
         querySnapshot.forEach((doc) => {
           if (String(doc.data().email)===String(UserCtx.Loguser.email)) {
             console.log("Admin")
-            admin=true
-            console.log(admin)
-            // UserCtx.setAdmin(true)
-            UserCtx.setAdmin(admin)
-            console.log(doc.data().email + " Equals " + UserCtx.Loguser.email)
+            UserCtx.setAdmin(true)
+            console.log(UserCtx.admin)
+            console.log(doc.data().email + " equals " + UserCtx.Loguser.email)
           }
         });
       }
@@ -91,7 +87,7 @@ function LoginPage() {
       UserCtx.setLogUser(null)
     }
   });
-  
+
   return (
     <div className={classes.root}>
     <Grid className={classes.root} spacing={1} alignItems="center" justify="center">

@@ -30,55 +30,43 @@ const Header = () => {
   const SurveyData = useContext(SurveyCTx);
   const currentSurvey = SurveyData.survey[0]['name']
   const [admins, setAdmins] = useState([])
-  const admins2 = [];
-  const AdminCollectionRef = collection(Db, "Admins");
-  const q = query(AdminCollectionRef, where('email', 'in', ['baanwarapapiha@gmail.com', 'baanwarapapihaJapan@gmail.com']));
-
+  const navigate = useNavigate();
+  const q = query(collection(Db, "Admins"), where("role", "==", "admin"));
   useEffect(() => {
     const getAdmins = async () => {
-      const data = await getDocs(AdminCollectionRef);
+      const data = await getDocs(q);
       console.log(data.docs);
       setAdmins(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     };
     getAdmins();
-    admins.map((a)=>{console.log(a.email);admins2.push(a.email)})
   }, []);
 
-  const linked_pages = [
-    { "page": "Charts", "route": "/charts"}, 
-    { "page": "Bounty", "route": "/bounty"}, 
-    { "page": currentSurvey, "route": "/admin"},
-  ];
-  const linked_settings = [
-    { "page": "Home", "route": "/"}, 
-    { "page": "Profile", "route": "/profile"}, 
-    { "page": "Logout", "route": "/logout"}, 
-  ];
-  const LogoutGoogle = () => {
-    signOut(auth).then(() => {
-      console.log("Sign Out Successful")
-      // Sign-out successful.
-    }).catch((error) => {
-        console.log(error)
-      // An error happened.
-    });
+  const admin = true;
+  var linked_pages = []
+  if (admin) {
+    linked_pages = [
+      { "page": "Charts", "route": "/charts"}, 
+      { "page": "Bounty", "route": "/bounty"}, 
+      { "page": currentSurvey, "route": "/admin"},
+    ];  
+  } else {
+    linked_pages = [
+      { "page": "Surveys", "route": "/admin"},
+    ];
   }
+
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
-
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
-
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
-  const navigate = useNavigate();
 
   return (
     <AppBar position="static">
@@ -184,17 +172,14 @@ const Header = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              
+
               {auth.currentUser?
               <MenuList>
-                <MenuItem onClick={()=>{handleCloseUserMenu();navigate('/account')}}>
-                  <ListItemText>Account</ListItemText>
-                </MenuItem>
                 <MenuItem onClick={()=>{handleCloseUserMenu();navigate('/')}}>
                   <ListItemText>Survey</ListItemText>
                 </MenuItem>
-                <MenuItem onClick={()=>{handleCloseUserMenu();LogoutGoogle();navigate('/account');}}>
-                  <ListItemText>Logout</ListItemText>
+                <MenuItem onClick={()=>{handleCloseUserMenu();navigate('/account')}}>
+                  <ListItemText>Account</ListItemText>
                 </MenuItem>
               </MenuList>
                 :

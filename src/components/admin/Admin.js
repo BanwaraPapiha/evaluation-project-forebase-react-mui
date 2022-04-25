@@ -21,8 +21,6 @@ export default function Admin(props) {
     const handleFinish = () => {
       alert(String(CurrentSurvey.survey[0]["id"]));
       console.log("Submitted!\nCopy and Go to this URL: ", String(CurrentSurvey.survey[0]["id"]));
-      // console.log(CurrentSurvey.survey[0]["id"])
-      // console.log(CurrentSurvey.survey[0]['name'])
   }
     return (
       <Container>

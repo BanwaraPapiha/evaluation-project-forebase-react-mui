@@ -1,7 +1,5 @@
 import { SurveyCTx } from "./surveyctx"
 import { useState } from "react";
-import { Db } from "../firebase-config/db";
-import { collection, query, where, onSnapshot } from "firebase/firestore";
 
 export default function SurveyProvider(props) {
   const [survey, setSurvey] = useState([{

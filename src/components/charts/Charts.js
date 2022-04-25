@@ -47,11 +47,9 @@ function Charts() {
     
       return (
         <Container>
-            visible to admin only for each username <br/>
-            shows record of what other users have evaluated a specific username <br/>
             <AllData/>
-            {/* <EvaluatioonAndCharts /> */}
-            {/* <PersonsAndCharts />
+            {/* <EvaluatioonAndCharts />
+            <PersonsAndCharts />
             <FeaturesAndCharts /> */}
         </Container>
     );
