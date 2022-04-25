@@ -46,12 +46,6 @@ function EvaluatioonAndCharts() {
               console.log(propertyValues)
               setEval_data(propertyValues);
           });
-        
-          // const unsubscribe = onSnapshot(usersCollectionRef_CurSur, (querySnapshot) => {
-          //   console.log(querySnapshot.docs);
-          //   // console.log(typeof(querySnapshot.docs));
-          //   // setEval_data(querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-          // });
         }
         getEvaluationData();
   
@@ -59,35 +53,33 @@ function EvaluatioonAndCharts() {
     
       return (
         <Grid container spacing={1}>
-            <Grid item xs={12} md={6}>
-                <h1>Evaluation Data</h1>
-                <div>
-                  <table>
-                    <thead>
-                      <th>Id</th>
-                      <th>Evaluator</th>
-                      <th>Being Evaluated</th>
-                      <th>Feature</th>
-                      <th>Score</th>
-                      <th>Survey</th>
-                    </thead>
-                    <tbody>
-                    {eval_data.map((ed) => {
-                      return (
-                          <tr>
-                            <td>{ed.id}</td>
-                            <td>{ed.evaluator}</td>
-                            <td>{ed.being_eval}</td>
-                            <td>{ed.feature}</td>
-                            <td>{ed.points}</td>
-                            <td>{ed.survey}</td>
-                          </tr>
-                      );
-                      })}
+            <Grid item xs={12} md={8}>
+              <h1>Evaluation Data</h1>
+              <table style={{width: "100%"}}>
+                <thead>
+                  <th>Id</th>
+                  <th>Evaluator</th>
+                  <th>Being Evaluated</th>
+                  <th>Feature</th>
+                  <th>Score</th>
+                  <th>Survey</th>
+                </thead>
+                <tbody>
+                {eval_data.map((ed) => {
+                  return (
+                      <tr>
+                        <td>{ed.id}</td>
+                        <td>{ed.evaluator}</td>
+                        <td>{ed.being_eval}</td>
+                        <td>{ed.feature}</td>
+                        <td>{ed.points}</td>
+                        <td>{ed.survey}</td>
+                      </tr>
+                  );
+                  })}
 
-                    </tbody>
-                  </table>
-                </div>
+                </tbody>
+              </table>
 
             </Grid>
         </Grid>

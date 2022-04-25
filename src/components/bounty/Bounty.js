@@ -77,8 +77,8 @@ function Bounty() {
       <Stack spacing={4}>
         <br />
         <Typography variant="h5" gutterBottom component="div">
-            Total Changed Points Score = {ac_de_Sum} |
-            Total Points Score = {pointsSum}
+            Total Changed Points Score = {ac_de_Sum} 
+            {/* | Total Points Score = {pointsSum} */}
         </Typography>
 
         <Paper elevation={5} >

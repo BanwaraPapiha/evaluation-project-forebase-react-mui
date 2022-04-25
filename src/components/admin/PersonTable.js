@@ -5,9 +5,9 @@ import { Db } from "../../firebase-config/db";
 import { doc, deleteDoc, updateDoc, arrayUnion, arrayRemove, onSnapshot } from "firebase/firestore";
 import { useEffect, useState, useContext } from "react";
 import { Link } from '@mui/material';
-import firebase from 'firebase/compat/app';
 import { SurveyCTx } from "../../providers/surveyctx";
 import {Remove2Array} from '../common/AddRemove';
+import "../../styles/table.css";
 
 const Added = (props) => {
     const [added, setAdded] = useState(false)
@@ -73,8 +73,7 @@ const PersonTable = (props) => {
     }
 
     return (
-        <div style={{"overflow-x":"auto"}}>
-        <table style={{width: "100%"}}>
+        <table style={{"width": "100%"}}>
             <thead>
                 <tr>
                     {props.title.map(t=>{
@@ -89,7 +88,7 @@ const PersonTable = (props) => {
             {props.body.map((prsn) => {
             return (
                 <tr>
-                <td>{prsn.id}</td>
+                {/* <td>{prsn.id}</td> */}
                 <td>{prsn.Name}</td>
                 <td>{prsn.Email}</td>
                 <td>{prsn.id?<Added userDetail={prsn}/>:""}</td>
@@ -99,8 +98,6 @@ const PersonTable = (props) => {
             })}
         </tbody>
         </table>
-
-        </div>
     )
 }
 

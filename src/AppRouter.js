@@ -34,7 +34,7 @@ const AppRouter = () => {
                 <Route path="charts" element={<Charts />} />
               </Route>
 
-              <Route element={<ProtectedRoute isAllowed={auth.currentUser && auth.currentUser !== null} />}>
+              <Route element={<ProtectedRoute isAllowed={true} />}>
                 <Route index element={<MultiStepFormCtx />} />
               </Route>
 

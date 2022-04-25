@@ -6,6 +6,7 @@ import { Db } from "../../firebase-config/db";
 import { doc, deleteDoc, updateDoc, arrayUnion, arrayRemove, onSnapshot } from "firebase/firestore";
 import { Link } from '@mui/material';
 import { SurveyCTx } from "../../providers/surveyctx";
+import "../../styles/table.css";
 
 const Added = (props) => {
   const [added, setAdded] = useState(false)
@@ -15,7 +16,6 @@ const Added = (props) => {
 
   const checkState = async (qfeature) => {
     const unsub = onSnapshot(taskDocRef, (doc) => {
-      // console.log("Current data: ", doc.data().features);
       if (doc.data().features.includes(qfeature)) {
         console.log("Found in Array")
         setAdded(true)
@@ -76,7 +76,7 @@ const FeatureTable = (props) => {
         }
       }
     return (
-        <table>
+        <table style={{width: "100%"}}>
             <thead>
                 <tr>
                     {props.title.map(t=>{
@@ -91,7 +91,7 @@ const FeatureTable = (props) => {
         {props.body.map((prsn) => {
           return (
             <tr>
-              <td>{prsn.id} </td>
+              {/* <td>{prsn.id} </td> */}
               <td>{prsn.feature}</td>
               <td>{prsn.total_score}</td>
               <td>{prsn.id?<Added featureDetail={prsn}/>:""}</td>

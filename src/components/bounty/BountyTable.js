@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { Stack } from '@mui/material';
+import "../../styles/table.css";
 
 const TableRow = (props) => {
     const [acc_value, setAcc_value] = useState(1)
@@ -41,7 +42,7 @@ const TableRow = (props) => {
 
 const BountyTable = (props) => {
     return (
-        <table style={{border: "1px solid black"}}>
+        <table style={{width: "100%"}}>
             <tr>
                 {props.title.map(t=>{
                     return(<th>{t}</th>)

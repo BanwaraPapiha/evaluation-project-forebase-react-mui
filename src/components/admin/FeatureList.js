@@ -14,8 +14,6 @@ function FeatureList() {
     const [searchQuery, setSearchQuery] = useState("");
     const [addedFeatures, setFeaturesUsers] = useState([]);
     const surveyCtx = useContext(SurveyCTx)
-    const Curr_survey = surveyCtx.survey[0]['name']
-
     var body = [];
 
     useEffect(() => {
@@ -51,16 +49,16 @@ function FeatureList() {
       setSearchQuery(e.target.value)
       queryObject(searchQuery, features)
     }
-    
     body = queryObject(searchQuery, features);
 
     return (
       <Container>      
         <Typography variant="h5" gutterBottom component="div">Features</Typography>
-        <TextField fullWidth label="Search Feature" id="search-feature" onChange={handleSearch}/>
+        <TextField fullWidth label="Search Feature" id="search-feature" onChange={handleSearch}/><br/>
         <Grid container spacing={3}>
-          <Grid item xs={12} md={6}>
-            <FeatureTable title={["Id", "Feature", "Total Sum of Scores", "Add", "Delete"]} body={body}/>
+          <Grid item xs={12} md={6} style={{"overflow-x":"auto"}}>
+            {/* <FeatureTable title={["Id", "Feature", "Total Sum of Scores", "Add", "Delete"]} body={body}/> */}
+            <FeatureTable title={["Feature", "Total Sum of Scores", "Add/Remove", "Delete"]} body={body}/>
           </Grid>
           <Grid item xs={12} md={6}>
             <div>

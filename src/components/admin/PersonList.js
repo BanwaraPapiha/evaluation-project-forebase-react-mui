@@ -57,23 +57,20 @@ function PersonList() {
     return (
       <Container>
         <Typography variant="h5" gutterBottom component="div">Persons</Typography>
-        <TextField fullWidth label="Search Persons" id="search-persons" onChange={handleSearch}/>
+        <TextField fullWidth label="Search Persons" id="search-persons" onChange={handleSearch}/><br/>
         <Grid container spacing={2}>
-          <Grid item xs={12} md={6}>
-            <PersonTable title={["Id", "Name", "Email", "Add", "Delete"]} body={body}/>
+          <Grid item xs={12} md={6} style={{"overflow-x":"auto"}}>
+            {/* <PersonTable title={["Id", "Name", "Email", "Add", "Delete"]} body={body}/> */}
+            <PersonTable title={["Name", "Email", "Add/Remove", "Delete"]} body={body}/>
           </Grid>
           <Grid item xs={12} md={6}>
-          {/* <div> */}
             {addedUsers.length>0 && addedUsers.map((x)=>{
               return (
                 addedUsers.length > 0? 
-                // <li>{JSON.parse(x).Name}</li>:
-                // <li>Hello</li>:
                 <li>{x}</li>:
                 <li>Loading</li>
               )
             })}
-          {/* </div> */}
           </Grid>
         </Grid>
         <PersonForm id="PersonAddOnlyForm" /><br/>

@@ -1,6 +1,6 @@
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { useState, useContext, useEffect } from "react";
 import {SurveyCTx} from "../../providers/surveyctx";
+import "../../styles/table.css";
 
 const SurveyTable = (props) => { 
     const CurrentSurvey = useContext(SurveyCTx);
@@ -11,9 +11,9 @@ const SurveyTable = (props) => {
     }     
     
     return (
-        <div style={{"overflow-x":"auto"}}>
+        <div style={{"overflow-x":"auto" }}>
             <h1>Name: {CurrentSurvey.survey[0]['name']} <br/>Id: {CurrentSurvey.survey[0]['id']}</h1>
-            <table style={{width: "100%"}}>
+            <table style={{border: "1px solid black", width: "100%"}}>
                 <thead>
                     <tr>
                         {props.title.map(t=>{
@@ -26,10 +26,10 @@ const SurveyTable = (props) => {
                 <tbody>
                     {props.body.map((prsn) => {
                     return (
-                        <tr key={prsn.id} onClick={()=>{HandleClick(prsn)}}>
-                        <td>{prsn.id}</td>
-                        <td>{prsn.name}</td>
-                        <td>{prsn.active}</td>
+                        <tr style={{cursor:"alias"}} key={prsn.id} onClick={()=>{HandleClick(prsn)}}>
+                            {/* <td>{prsn.id}</td> */}
+                            <td>{prsn.name}</td>
+                            <td>{prsn.active}</td>
                         </tr>
                     );
                     })}
