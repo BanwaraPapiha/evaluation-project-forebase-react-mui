@@ -35,9 +35,6 @@ function LoginPage() {
   const classes = useStyles();
   const UserCtx = useContext(UserContext)
   const user = auth.currentUser;
-  // const userLocal = JSON.parse(localStorage.getItem('user'));
-  // const userLocalDetail = JSON.parse(localStorage.getItem('userdetail'));
-  // const userLocalDetail = localStorage.getItem('userdetail');
   const signInWithGoogle = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
@@ -83,15 +80,10 @@ function LoginPage() {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       // const uid = user.uid;
-      // console.log(user.displayName)
-      // console.log(user.email)
-      // localStorage.setItem('user', true);
-      // localStorage.setItem('userdetail', user);
       UserCtx.setLogUser(user)
     } else {
       // User is signed out
-      // localStorage.removeItem('user');
-      // localStorage.removeItem('userdetail');
+      UserCtx.setLogUser(null)
     }
   });
   
@@ -101,13 +93,9 @@ function LoginPage() {
       <Grid item xs={12} md={8}>
         {
           user?
-          // userLocal && userLocalDetail?
           <div>
             <Button variant="contained" startIcon={<LogoutIcon />} onClick={LogoutGoogle}>Sign Out</Button><br/>
             {UserCtx.Loguser.displayName}<br/>{UserCtx.Loguser.email}<br/>
-            {console.log(Object.entries(localStorage.getItem('userdetail')))}
-            
-            {/* {console.log(localStorage.getItem('userdetail').displayName)} */}
             <img src={UserCtx.Loguser.photoURL} alt="Profile Photo"/>
           </div> :
             <Button variant="contained" startIcon={<GoogleIcon />} onClick={signInWithGoogle}>
