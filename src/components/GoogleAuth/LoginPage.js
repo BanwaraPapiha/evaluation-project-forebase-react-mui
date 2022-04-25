@@ -52,6 +52,7 @@ function LoginPage() {
   const LogoutGoogle = () => {
     signOut(auth).then(() => {
       console.log("Sign Out Successful")
+      UserCtx.setLogUser(null)
       // Sign-out successful.
     }).catch((error) => {
         console.log(error)
@@ -61,21 +62,25 @@ function LoginPage() {
 
   useEffect(()=>{
     const getAdmins = async () => {
-      const Ref = collection(Db, "Admins");
-      const q = query(Ref, where("role", "==", "admin"));
+      const q = query(collection(Db, "Admins"), where("role", "==", "admin"));
       const querySnapshot = await getDocs(q);
-      console.log(querySnapshot)
-      querySnapshot.forEach((doc) => {
-        // console.log(doc.id, " => ", doc.data());
-        if (doc.data().email === UserCtx.Loguser.email) {
-          console.log("You are admin")
-        } else if (!doc.data().email === UserCtx.Loguser.email) {
-          console.log("You are not admin")
-        }
-      });
+      if (UserCtx.Loguser!==null) {
+        console.log(UserCtx.Loguser.email)
+        let admin = false;
+        querySnapshot.forEach((doc) => {
+          if (String(doc.data().email)===String(UserCtx.Loguser.email)) {
+            console.log("Admin")
+            admin=true
+            console.log(admin)
+            // UserCtx.setAdmin(true)
+            UserCtx.setAdmin(admin)
+            console.log(doc.data().email + " Equals " + UserCtx.Loguser.email)
+          }
+        });
+      }
     }
     getAdmins()
-  })
+  }, [user, UserCtx.Loguser])
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
