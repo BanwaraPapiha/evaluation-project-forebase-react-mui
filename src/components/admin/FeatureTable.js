@@ -15,7 +15,7 @@ const Added = (props) => {
 
   const checkState = async (qfeature) => {
     const unsub = onSnapshot(taskDocRef, (doc) => {
-      console.log("Current data: ", doc.data().features);
+      // console.log("Current data: ", doc.data().features);
       if (doc.data().features.includes(qfeature)) {
         console.log("Found in Array")
         setAdded(true)
@@ -31,7 +31,6 @@ const Added = (props) => {
   }
 
   async function Add2Array(user2Add) {
-      // console.log(Curr_survey);
       const result = await updateDoc(taskDocRef, {
         features: arrayUnion(String(user2Add))
           });
@@ -41,12 +40,11 @@ const Added = (props) => {
     if (added) {
       setAdded(!added)
       Remove2Array(props.featureDetail.feature);
-  }
-  else if (!added) {
-      setAdded(!added)
-      Add2Array(props.featureDetail.feature);
-      }            
-
+    }
+    else if (!added) {
+        setAdded(!added)
+        Add2Array(props.featureDetail.feature);
+    }            
   }
   return(
       <div onClick={()=>HandleAdd()}>{added? <CheckCircleRoundedIcon style={{color: 'green'}}/>:<AddCircleIcon />}</div>

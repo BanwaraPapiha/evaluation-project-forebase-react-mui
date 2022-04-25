@@ -17,7 +17,7 @@ const Added = (props) => {
 
     const checkState = async (qfeature) => {
         const unsub = onSnapshot(taskDocRef, (doc) => {
-          console.log("Current data: ", doc.data().users);
+        //   console.log("Current data: ", doc.data().users);
           if (doc.data().users.includes(qfeature)) {
             console.log("Found in Array")
             setAdded(true)
@@ -27,21 +27,18 @@ const Added = (props) => {
     checkState(props.userDetail.Email)
 
     async function Remove2Array(user2Add) {
-        console.log(Curr_survey);
         const result = await updateDoc(taskDocRef, {
             users: arrayRemove(String(user2Add))
         });
     }
     
     async function Add2Array(user2Add) {
-        console.log(Curr_survey);
         const result = await updateDoc(taskDocRef, {
             users: arrayUnion(String(user2Add))
         });
     }
 
     const HandleAdd = () => {
-        console.log(props.userDetail)
         if (added) {
             setAdded(!added)
             Remove2Array(props.userDetail.Email);

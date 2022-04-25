@@ -6,9 +6,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useEffect, useState, useContext } from "react";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
 import { UserContext } from "../../providers/userCtx";
-
-const auth = getAuth();
-const provider = new GoogleAuthProvider();
+import { Db } from "../../firebase-config/db";
+import { collection, query, where, getDocs } from "firebase/firestore";
 
 const useStyles = makeStyles({
   root: {
@@ -29,30 +28,30 @@ const useStyles = makeStyles({
   },
 });
 
+const auth = getAuth();
+const provider = new GoogleAuthProvider();
+
 function LoginPage() {
   const classes = useStyles();
   const UserCtx = useContext(UserContext)
   const user = auth.currentUser;
+  // const userLocal = JSON.parse(localStorage.getItem('user'));
+  // const userLocalDetail = JSON.parse(localStorage.getItem('userdetail'));
+  // const userLocalDetail = localStorage.getItem('userdetail');
   const signInWithGoogle = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
-        // The signed-in user info.
-        // const user = result.user;
         UserCtx.setLogUser(result.user)
       }).catch((error) => {
-        // Handle Errors here.
         const errorCode = error.code;
         const errorMessage = error.message;
-        // The email of the user's account used.
         const email = error.email;
-        // The AuthCredential type that was used.
         const credential = GoogleAuthProvider.credentialFromError(error);
       });
   };
-  
+
   const LogoutGoogle = () => {
     signOut(auth).then(() => {
       console.log("Sign Out Successful")
@@ -63,39 +62,61 @@ function LoginPage() {
     });
   }
 
+  useEffect(()=>{
+    const getAdmins = async () => {
+      const Ref = collection(Db, "Admins");
+      const q = query(Ref, where("role", "==", "admin"));
+      const querySnapshot = await getDocs(q);
+      console.log(querySnapshot)
+      querySnapshot.forEach((doc) => {
+        // console.log(doc.id, " => ", doc.data());
+        if (doc.data().email === UserCtx.Loguser.email) {
+          console.log("You are admin")
+        } else if (!doc.data().email === UserCtx.Loguser.email) {
+          console.log("You are not admin")
+        }
+      });
+    }
+    getAdmins()
+  })
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // const uid = user.uid;
+      // console.log(user.displayName)
+      // console.log(user.email)
+      // localStorage.setItem('user', true);
+      // localStorage.setItem('userdetail', user);
+      UserCtx.setLogUser(user)
+    } else {
+      // User is signed out
+      // localStorage.removeItem('user');
+      // localStorage.removeItem('userdetail');
+    }
+  });
+  
   return (
     <div className={classes.root}>
     <Grid className={classes.root} spacing={1} alignItems="center" justify="center">
       <Grid item xs={12} md={8}>
-            {
-              user?
-              <div>
-                <div>
-                  <Button variant="contained" startIcon={<LogoutIcon />} onClick={ LogoutGoogle }>
-                    Sign Out
-                  </Button>
-                </div>
-                <div>
-                  {UserCtx.Loguser.displayName}
-                </div>
-                <div>
-                  {UserCtx.Loguser.email}
-                </div>
-                <div>
-                  <img src={UserCtx.Loguser.photoURL} alt="Profile Photo"/>
-                </div>
-
-              </div> :
-              <Button variant="contained" startIcon={<GoogleIcon />} onClick={ signInWithGoogle }>
-                Sign in with Google
-              </Button>
-
-            }
+        {
+          user?
+          // userLocal && userLocalDetail?
+          <div>
+            <Button variant="contained" startIcon={<LogoutIcon />} onClick={LogoutGoogle}>Sign Out</Button><br/>
+            {UserCtx.Loguser.displayName}<br/>{UserCtx.Loguser.email}<br/>
+            {console.log(Object.entries(localStorage.getItem('userdetail')))}
+            
+            {/* {console.log(localStorage.getItem('userdetail').displayName)} */}
+            <img src={UserCtx.Loguser.photoURL} alt="Profile Photo"/>
+          </div> :
+            <Button variant="contained" startIcon={<GoogleIcon />} onClick={signInWithGoogle}>
+              Sign in with Google
+            </Button>
+        }
       </Grid>
-
     </Grid>
     </div>
-
   );
 }
 

@@ -1,14 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Db } from "../../firebase-config/db";
-import {
-  collection,
-  // getDocs,
-  addDoc,
-  // updateDoc,
-  // deleteDoc,
-  // doc,
-} from "firebase/firestore";
+import {collection, addDoc} from "firebase/firestore";
 import { TextField, Container, Button, Grid, Stack, Paper } from '@mui/material';
 
 export default function PersonForm() {
@@ -25,7 +18,6 @@ export default function PersonForm() {
     alert("The name is: " + data.Name + "and the email is: " + data.Email );
     nameInput.current.value = "";
     emailInput.current.value = "";
-
     console.log(data);
   }
   console.log(errors);

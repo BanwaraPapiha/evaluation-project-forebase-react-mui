@@ -7,7 +7,7 @@ function UnitStepForm(props) {
   return (
     <div>
       <Typography variant="h6" gutterBottom component="div">
-        Step Number is: {props.stepNo} And Page Number is: {props.pageNo2} <br/>
+        Page Number is: {props.pageNo2} <br/>
         Feature Seleted is: {props.featureName}
         <br/>
         You have total {props.scores} Scores to distribute
