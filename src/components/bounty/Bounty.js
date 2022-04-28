@@ -5,6 +5,7 @@ import { Paper, Typography, Button, TextField, Container, Stack, Grid } from '@m
 import { SurveyCTx } from "../../providers/surveyctx";
 import BountyTable from "./BountyTable";
 import { UserContext } from "../../providers/userCtx";
+import { doc, setDoc } from "firebase/firestore"; 
 
 function Bounty() {
     const [ac_de_Sum, setAc_de_Sum] = useState(0);
@@ -64,14 +65,67 @@ function Bounty() {
       })
       setIdSumArr(Object.entries(Calc_Scor))
       console.log(idSumArr)
-      // DivideRelatively()
       let num = 0;
       idSumArr.map((x)=>num += Number(x[1]))
       setPointsSum(num)
       console.log(pointsSum)
-
     }, [scoreData])
 
+    function tableToCSV() {
+      var csv_data = [];
+      var rows = document.getElementsByTagName('tr');
+      for (var i = 0; i < rows.length; i++) {
+          var cols = rows[i].querySelectorAll('td,th');
+          var csvrow = [];
+          for (var j = 0; j < cols.length-1; j++) {
+              csvrow.push(cols[j].innerHTML);
+          }
+          csv_data.push(csvrow.join(","));
+      }
+      csv_data = csv_data.join('\n');
+      downloadCSVFile(csv_data)
+    }
+
+    function downloadCSVFile(csv_data) {
+        let CSVFile = new Blob([csv_data], { type: "text/csv" });
+        var temp_link = document.createElement('a');
+        temp_link.download = "data.csv";
+        var url = window.URL.createObjectURL(CSVFile);
+        temp_link.href = url;
+        temp_link.style.display = "none";
+        document.body.appendChild(temp_link);
+        temp_link.click();
+        document.body.removeChild(temp_link);
+    }
+  
+    async function tableToJSON() {
+      var arr = [];
+      var rows = document.getElementsByTagName('tr');
+      for (var i = 1; i < rows.length; i++) {
+          var cols = rows[i].querySelectorAll('td,th');
+          var csvrow = {};
+          var row;
+          for (var j = 0; j < cols.length; j++) {
+            row = rows[i];
+            csvrow["name"] = row.cells[0].textContent
+            csvrow["sum_points"] = row.cells[1].textContent
+            csvrow["a_d_ecelBy"] = row.cells[2].textContent
+            csvrow["new_points"] = row.cells[3].textContent
+            csvrow["bounty"] = row.cells[4].textContent
+          }
+          arr.push(csvrow)
+      }
+
+      console.log(arr)
+      await setDoc(doc(Db, "Bounties", "Surveyname"), {
+        arr
+      });
+      // arr.map((x)=>{
+      //   console.log(x)
+      // })
+      return JSON.stringify(obj);
+    }
+    
     return (
       <Container>
       <Stack spacing={4}>
@@ -91,14 +145,23 @@ function Bounty() {
                 fullWidth id="outlined-number" label="Number" 
                 type="number" InputLabelProps={{shrink: true,}}
               />
-              <Button fullWidth variant="contained">Add to Records</Button>
+              
+              <Grid container spacing={1}>
+                <Grid item xs={12} md={6}>
+                <Button onClick={tableToCSV} fullWidth variant="contained">Download</Button>
+                </Grid>
+                <Grid item xs={12} md={6}>
+                <Button onClick={tableToJSON} fullWidth variant="contained">JSON</Button>
+                </Grid>
+              </Grid>
+
               <br/>
             </Stack>
           </Container>
         </Paper> 
 
-      <div>
-        <BountyTable title={["Name", "Total Points", "Acc/Dec Value", "Actions", "New Score", "Bounty"]} 
+      <div style={{"overflow-x": "auto"}}>
+        <BountyTable title={["Name", "Total Points", "Acc/Dec Value", "New Score", "Bounty (Money)", "Actions"]} 
         idSum={idSumArr} totalBounty={totalBounty} bountySum={bountySum} setBountySum={setBountySum} setAcObj={setAcObj} acObj={acObj} ac_de_Sum={ac_de_Sum}
         obj={obj} />
       </div>

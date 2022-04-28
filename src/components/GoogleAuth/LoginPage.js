@@ -59,24 +59,24 @@ function LoginPage() {
     });
   }
 
-  useEffect(()=>{
-    const getAdmins = async () => {
-      const q = query(collection(Db, "Admins"), where("role", "==", "admin"));
-      const querySnapshot = await getDocs(q);
-      if (UserCtx.Loguser!==null) {
-        console.log(UserCtx.Loguser.email)
-        querySnapshot.forEach((doc) => {
-          if (String(doc.data().email)===String(UserCtx.Loguser.email)) {
-            console.log("Admin")
-            UserCtx.setAdmin(true)
-            console.log(UserCtx.admin)
-            console.log(doc.data().email + " equals " + UserCtx.Loguser.email)
-          }
-        });
-      }
-    }
-    getAdmins()
-  }, [user, UserCtx.Loguser])
+  // useEffect(()=>{
+  //   const getAdmins = async () => {
+  //     const q = query(collection(Db, "Admins"), where("role", "==", "admin"));
+  //     const querySnapshot = await getDocs(q);
+  //     if (UserCtx.Loguser!==null) {
+  //       console.log(UserCtx.Loguser.email)
+  //       querySnapshot.forEach((doc) => {
+  //         if (String(doc.data().email)===String(UserCtx.Loguser.email)) {
+  //           console.log("Admin")
+  //           UserCtx.setAdmin(true)
+  //           console.log(UserCtx.admin)
+  //           console.log(doc.data().email + " equals " + UserCtx.Loguser.email)
+  //         }
+  //       });
+  //     }
+  //   }
+  //   getAdmins()
+  // }, [user, UserCtx.Loguser])
 
   onAuthStateChanged(auth, (user) => {
     if (user) {

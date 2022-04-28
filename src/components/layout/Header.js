@@ -1,26 +1,17 @@
 import * as React from 'react';
-// import AppBar from '@mui/material/AppBar';
-// import Box from '@mui/material/Box';
-// import Toolbar from '@mui/material/Toolbar';
-// import IconButton from '@mui/material/IconButton';
-// import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
-// import Container from '@mui/material/Container';
-// import Avatar from '@mui/material/Avatar';
-// import Button from '@mui/material/Button';
-// import Tooltip from '@mui/material/Tooltip';
-// import MenuItem from '@mui/material/MenuItem';
+import PersonIcon from '@mui/icons-material/Person';
 import { MenuItem, Tooltip, Button, Avatar, Container, Menu, IconButton, Toolbar, Box, AppBar } from '@mui/material';
 import { Typography, MenuList, ListItemText } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
-import {SurveyCTx} from '../../providers/surveyctx'
+import { SurveyCTx } from '../../providers/surveyctx'
 import { UserContext } from "../../providers/userCtx";
-import { getAuth, signOut } from "firebase/auth";
-import PersonIcon from '@mui/icons-material/Person';
+import { getAuth } from "firebase/auth";
 import { Db } from "../../firebase-config/db";
 import { collection, getDocs } from "firebase/firestore";
 import { query, where } from "firebase/firestore";
+import BasicMenu from "./SurveyMenu";
 
 const auth = getAuth();
 
@@ -42,7 +33,7 @@ const Header = () => {
     getAdmins();
   }, []);
 
-  const admin = true;
+  const admin = false;
   var linked_pages = []
   if (admin) {
     linked_pages = [
@@ -51,8 +42,11 @@ const Header = () => {
       { "page": currentSurvey, "route": "/admin"},
     ];  
   } else {
+    const xyzbtn = <BasicMenu />
+
     linked_pages = [
-      { "page": "Surveys", "route": "/admin"},
+      // { "page": "Surveys", "route": "/admin"},
+      { "page": xyzbtn,},
     ];
   }
 

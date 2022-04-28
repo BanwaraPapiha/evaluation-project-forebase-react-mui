@@ -28,14 +28,14 @@ const TableRow = (props) => {
             <td style={{border: "1px solid black"}}>{props.data[0]}</td>
             <td>{props.data[1]}</td>
             <td style={{border: "1px solid black"}}>{acc_value}</td>
+            <td style={{border: "1px solid black"}}>{acc_value} X {props.data[1]}: {oneScore}</td>
+            <td>{bounty}</td>
             <td style={{border: "1px solid black"}}>
                 <Stack direction="row" spacing={2}>
                     <ArrowUpwardIcon onClick={accelerate}/>
                     <ArrowDownwardIcon onClick={decelerate}/>
                 </Stack>
             </td>
-            <td style={{border: "1px solid black"}}>{acc_value} X {props.data[1]}: {oneScore}</td>
-            <td>Money {bounty}</td>
         </tr>
     )
 }
