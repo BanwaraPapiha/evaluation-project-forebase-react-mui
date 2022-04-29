@@ -17,8 +17,16 @@ function MultiStep() {
   const current_survey = surveyCtx.survey[0]['id']
   const current_user = UserCtx.Loguser.email;
 
+  // const [page, setPage] = useState(0);
+  // let PageContents;
+  // PageContents = survFeature.length > 0 ?
+  // survFeature.map((x, index) => {
+  //   return (
+  //     <UnitStepForm className="UnitSteps" pageNo2={index+1} personsList={ survUser } featureName={x} scores={2000} />
+  //     )
+  // }) : 'Loading';
+
   const Submit = async () => {
-    // current_user = UserCtx.Loguser.email
     alert("Submit!");
     console.log(current_user)
     console.log(points.pointsdata)
@@ -45,7 +53,7 @@ function MultiStep() {
 
   return (
     <Container>
-      <Typography variant="h5" gutterBottom component="div">
+      <Typography variant="button" gutterBottom component="div">
         Survey {current_survey}<br/>
         Evaluate All the given users in the following Features Step By Step
       </Typography>
@@ -53,9 +61,17 @@ function MultiStep() {
       {survFeature.length > 0 ?
        survFeature.map((x, index) => {
         return (
-          <UnitStepForm pageNo2={index+1} personsList={ survUser } featureName={x} scores={2000} />
+          <UnitStepForm className="UnitSteps" pageNo2={index+1} personsList={ survUser } featureName={x} scores={2000} />
           )
        }) : 'Loading'}
+     
+
+      {/* PageContents Length: {survFeature.length > 0 && PageContents.length}
+
+      {survFeature.length > 0 && PageContents[page]}
+
+      <button onClick={()=>{setPage(page+1)}}>Next</button>
+      <button onClick={()=>{setPage(page-1)}}>Back</button> */}
 
       <br/>
       <Button variant="outlined" onClick={Submit}>Submit</Button>

@@ -7,6 +7,7 @@ import { queryObject } from "./Search"
 import { doc, onSnapshot } from "firebase/firestore";
 import FeatureForm from "./FeatureAdd";
 import { SurveyCTx } from "../../providers/surveyctx";
+import { Box, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
 
 function FeatureList() {
     const [features, setFeatures] = useState([]);
@@ -62,15 +63,36 @@ function FeatureList() {
           </Grid>
           <Grid item xs={12} md={6}>
             <div>
-              {addedFeatures.map((x)=>{
+            <Box sx={{ bgcolor: 'background.paper' }}>
+              <nav aria-label="secondary mailbox folders">
+                <List>
+                  {addedFeatures.map((x)=>{
+                  return (
+                    addedFeatures.length > 0? 
+                    <ListItem disablePadding>
+                      <ListItemButton component="a" href="#simple-list">
+                        <ListItemText primary={x} />
+                      </ListItemButton>
+                    </ListItem>
+                  :
+                  <ListItem disablePadding>
+                    <ListItemButton component="a" href="#simple-list">
+                      <ListItemText primary="Loading" />
+                    </ListItemButton>
+                  </ListItem>
+                  )
+                  })}
+                </List>
+              </nav>
+            </Box>
+
+              {/* {addedFeatures.map((x)=>{
                 return (
                   addedFeatures.length > 0? 
-                  // <li>{JSON.parse(x).feature}</li>:
-                  // <li>Hey</li>:
                   <li>{x}</li>:
                   <li>Loading</li>
                 )
-              })}
+              })} */}
             </div>
 
           </Grid>

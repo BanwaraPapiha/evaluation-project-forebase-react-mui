@@ -26,10 +26,8 @@ export default function BasicMenu() {
         fetchSurve();
     }, [open])
 
-    const handleClose = (surv) => {
+    const handleClose = () => {
       setAnchorEl(null);
-      surveyCtx.setSurvey([surv])
-      // console.log(surveyCtx.survey[0]['name'])
     };
     useEffect(()=>{
       console.log(surveyCtx.survey[0]['name'])
@@ -54,15 +52,14 @@ export default function BasicMenu() {
         >
           Dashboard
         </Button>
-        {/* <Menu id="basic-menu" anchorEl={anchorEl} open={open} onClose={handleClose} */}
-        <Menu id="basic-menu" anchorEl={anchorEl} open={open}
+        <Menu id="basic-menu" anchorEl={anchorEl} open={open} onClose={handleClose}
         MenuListProps={{
             'aria-labelledby': 'basic-button',
           }}
         >
           {actSurve.map((x)=>{
             return (
-              <MenuItem onClick={()=>{handleClose(x)}}>{x.name}</MenuItem>
+              <MenuItem onClick={()=>{handleClose(x);surveyCtx.setSurvey([x])}}>{x.name}</MenuItem>
             )
           })}
         </Menu>

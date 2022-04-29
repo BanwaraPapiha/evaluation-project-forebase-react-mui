@@ -9,8 +9,7 @@ import { SurveyCTx } from '../../providers/surveyctx'
 import { UserContext } from "../../providers/userCtx";
 import { getAuth } from "firebase/auth";
 import { Db } from "../../firebase-config/db";
-import { collection, getDocs } from "firebase/firestore";
-import { query, where } from "firebase/firestore";
+import { getDoc, doc } from "firebase/firestore";
 import BasicMenu from "./SurveyMenu";
 
 const auth = getAuth();
@@ -23,26 +22,40 @@ const Header = () => {
   const currentSurvey = SurveyData.survey[0]['name']
   const [admins, setAdmins] = useState([])
   const navigate = useNavigate();
-  const q = query(collection(Db, "Admins"), where("role", "==", "admin"));
-  useEffect(() => {
-    const getAdmins = async () => {
-      const data = await getDocs(q);
-      console.log(data.docs);
-      setAdmins(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    };
-    getAdmins();
-  }, []);
 
-  const admin = false;
+  useEffect(()=>{
+    const fetchAdmins = async () => {
+      const docSnap = await getDoc(doc(Db, "Admins", "admins_list"));
+      if (docSnap.exists()) {
+        console.log("Document data:", docSnap.data());
+        setAdmins([docSnap.data()])
+      } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+      }
+    }
+    fetchAdmins()
+
+    if (auth.currentUser) {
+      console.log(admins)
+      // here
+      console.log(auth.currentUser.email)
+      console.log(admins.includes(auth.currentUser.email))
+      UserCtx.setAdmin(admins.includes(auth.currentUser.email))
+      console.log(UserCtx.admin)
+      // added auth.currentUser in on chanhe []
+  
+    }
+  }, [auth.currentUser])
+
   var linked_pages = []
-  if (admin) {
+  if (UserCtx.admin) {
     linked_pages = [
       { "page": "Charts", "route": "/charts"}, 
       { "page": "Bounty", "route": "/bounty"}, 
       { "page": currentSurvey, "route": "/admin"},
     ];  
   } else {
-    // const xyzbtn = <BasicMenu />
     linked_pages = [
       { "page": <BasicMenu />,},
     ];
@@ -66,10 +79,7 @@ const Header = () => {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
             {/* Logo of large screens */}
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
+          <Typography variant="h6" noWrap component="div"
             sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
           >
             Evaluation System
@@ -77,38 +87,20 @@ const Header = () => {
 
           {/* Menu/Nav for small screens */}
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-          <IconButton
-            size="large"
-            aria-label="account of current user"
-            aria-controls="menu-appbar"
-            aria-haspopup="true"
-            onClick={handleOpenNavMenu}
-            color="inherit"
+          <IconButton size="large" aria-label="account of current user" aria-controls="menu-appbar"
+            aria-haspopup="true" onClick={handleOpenNavMenu} color="inherit"
           >
             <MenuIcon />
           </IconButton>
           <Menu
-            id="menu-appbar"
+            id="menu-appbar" keepMounted open={Boolean(anchorElNav)} onClose={handleCloseNavMenu}
             anchorEl={anchorElNav}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'left',
-            }}
-            open={Boolean(anchorElNav)}
-            onClose={handleCloseNavMenu}
-            sx={{
-              display: { xs: 'block', md: 'none' },
-            }}
+            anchorOrigin={{vertical: 'bottom',horizontal: 'left',}}
+            transformOrigin={{vertical: 'top',horizontal: 'left',}}
+            sx={{display: { xs: 'block', md: 'none' },}}
           >
             {linked_pages.map((page) => (
-              <MenuItem key={page} onClick={() => {
-                      handleCloseNavMenu();
-                      navigate(page.route);}}>
+              <MenuItem key={page} onClick={()=>{handleCloseNavMenu();navigate(page.route)}}>
               <Typography textAlign="center">{page.page}</Typography>
               </MenuItem>
             ))}
@@ -116,10 +108,7 @@ const Header = () => {
           </Box>
 
             {/* Logo for small screens */}
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
+          <Typography variant="h6" noWrap component="div"
             sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
           >
             Evaluation System Small
@@ -129,9 +118,7 @@ const Header = () => {
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
               
             {linked_pages.map((page) => (
-              <Button key={page} onClick={() => {navigate(page.route);
-                    // handleCloseNavMenu();
-            }}
+              <Button key={page} onClick={() => {navigate(page.route)}}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
                 {page.page}

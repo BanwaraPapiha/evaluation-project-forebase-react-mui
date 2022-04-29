@@ -12,6 +12,9 @@ import UserProvider from './providers/UserProvider';
 import { UserContext } from "./providers/userCtx";
 import { useEffect, useState, useContext } from "react";
 import { getAuth } from "firebase/auth";
+import { Db } from "./firebase-config/db";
+import { getDoc, doc } from "firebase/firestore";
+
 const auth = getAuth();
 
 const ProtectedRoute = ({isAllowed, redirectPath = '/account', children}) => {
@@ -22,19 +25,42 @@ const ProtectedRoute = ({isAllowed, redirectPath = '/account', children}) => {
 };
 
 const AppRouter = () => {
+    const UserCtx = useContext(UserContext)
+    const [admins, setAdmins] = useState([])
+
+    useEffect(()=>{
+      const fetchAdmins = async () => {
+        const docSnap = await getDoc(doc(Db, "Admins", "admins_list"));
+        if (docSnap.exists()) {
+          console.log("Document data:", docSnap.data());
+          setAdmins([docSnap.data()])
+        } else {
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
+        }
+      }
+      fetchAdmins()
+      if (auth.currentUser) {
+        console.log(admins.includes(auth.currentUser.email))
+      }
+      
+    }, [auth.currentUser])
+  
     return (
       <BrowserRouter>
-        <SurveyProvider>      
         <UserProvider>
+        <SurveyProvider>      
           <Header/>
             <Routes>
-              <Route element={<ProtectedRoute isAllowed={true} />}>
+              {/* changed here  */}
+              <Route element={<ProtectedRoute isAllowed={false} />}>
                 <Route path="admin" element={<Admin />} />
                 <Route path="bounty" element={<Bounty />} />
                 <Route path="charts" element={<Charts />} />
               </Route>
 
-              <Route element={<ProtectedRoute isAllowed={true} />}>
+              {/* changed here */}
+              <Route element={<ProtectedRoute isAllowed={auth.currentUser} />}>
                 <Route index element={<MultiStepFormCtx />} />
               </Route>
 
@@ -43,8 +69,8 @@ const AppRouter = () => {
             </Routes>
 
           <Footer/>
-        </UserProvider>
         </SurveyProvider>
+        </UserProvider>
       </BrowserRouter>
     );
 }

@@ -7,6 +7,7 @@ import PersonForm from "./PersonAdd";
 import { doc, onSnapshot } from "firebase/firestore";
 import { queryObject } from "./Search"
 import { SurveyCTx } from "../../providers/surveyctx";
+import { Box, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
 
 function PersonList() {
     const [persons, setPersons] = useState([]);
@@ -64,13 +65,37 @@ function PersonList() {
             <PersonTable title={["Name", "Email", "Add/Remove", "Delete"]} body={body}/>
           </Grid>
           <Grid item xs={12} md={6}>
-            {addedUsers.length>0 && addedUsers.map((x)=>{
+
+          <Box sx={{ bgcolor: 'background.paper' }}>
+              <nav aria-label="secondary mailbox folders">
+                <List>
+                  {addedUsers.map((x)=>{
+                  return (
+                    addedUsers.length > 0? 
+                    <ListItem disablePadding>
+                      <ListItemButton component="a" href="#simple-list">
+                        <ListItemText primary={x} />
+                      </ListItemButton>
+                    </ListItem>
+                  :
+                  <ListItem disablePadding>
+                    <ListItemButton component="a" href="#simple-list">
+                      <ListItemText primary="Loading" />
+                    </ListItemButton>
+                  </ListItem>
+                  )
+                  })}
+                </List>
+              </nav>
+            </Box>
+
+            {/* {addedUsers.length>0 && addedUsers.map((x)=>{
               return (
                 addedUsers.length > 0? 
                 <li>{x}</li>:
                 <li>Loading</li>
               )
-            })}
+            })} */}
           </Grid>
         </Grid>
         <PersonForm id="PersonAddOnlyForm" /><br/>
