@@ -5,6 +5,7 @@ import PersonList from "./PersonList";
 import { Stepper, Step, StepLabel, Button, Container, Grid, Paper } from '@mui/material';
 import { useState, useContext } from 'react';
 import {SurveyCTx} from "../../providers/surveyctx";
+import { useNavigate } from 'react-router-dom';
 
 const steps = ['Create Survey', 'Select Persons', 'Add Features'];
 export default function Admin(props) {
@@ -18,9 +19,12 @@ export default function Admin(props) {
       setPage(currPage => currPage - 1);
     };
 
+    const navigate = useNavigate()
     const handleFinish = () => {
       alert(String(CurrentSurvey.survey[0]["id"]));
       console.log("Submitted!\nCopy and Go to this URL: ", String(CurrentSurvey.survey[0]["id"]));
+      // redirect
+      navigate('/account', { replace: true });
   }
     return (
       <Container>

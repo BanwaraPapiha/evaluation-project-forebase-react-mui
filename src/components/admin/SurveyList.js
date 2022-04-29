@@ -36,8 +36,7 @@ function SurveyList() {
           Survey
         </Typography>
         <TextField fullWidth label="Search Persons" id="search-persons" onChange={handleSearch}/>
-        {/* <SurveyTable title={["Id", "Name", "Active"]} body={body}/> */}
-        <SurveyTable title={["Name", "Active"]} body={body}/>
+        <SurveyTable title={["Name", "Active", "Toggle Status", "Select"]} body={body}/>
         <SurveyForm/>
     </Container>
     );

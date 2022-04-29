@@ -3,17 +3,37 @@ import { MenuItem, Button, Avatar, Container, Menu, IconButton, Toolbar, Box, Ap
 import { useState, useEffect, useContext } from "react";
 import { collection, query, where, onSnapshot, getDocs } from "firebase/firestore";
 import { Db } from "../../firebase-config/db";
+import { SurveyCTx } from "../../providers/surveyctx";
 
 export default function BasicMenu() {
-    // const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [anchorEl, setAnchorEl] = useState(null);
+    const [actSurve, setActSurve] = useState([]);
     const open = Boolean(anchorEl);
+    const surveyCtx = useContext(SurveyCTx);
     const handleClick = (e) => {
       setAnchorEl(e.currentTarget);
     };
-    const handleClose = () => {
+
+  useEffect(()=>{
+      const fetchSurve = async () => {
+        console.log("Changed")
+        const q = query(collection(Db, "surveys"), where("active", "==", true));
+        const querySnapshot = await getDocs(q);
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+          setActSurve(querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+          });
+        }
+        fetchSurve();
+    }, [open])
+
+    const handleClose = (surv) => {
       setAnchorEl(null);
+      surveyCtx.setSurvey([surv])
+      // console.log(surveyCtx.survey[0]['name'])
     };
+    useEffect(()=>{
+      console.log(surveyCtx.survey[0]['name'])
+    }, [anchorEl])
 
     useEffect(()=>{
         const activeSurveys = async () => {
@@ -29,28 +49,23 @@ export default function BasicMenu() {
     return (
       <div>
         <Button
-          id="basic-button" color='secondary' variant="contained"
-          aria-controls={open ? 'basic-menu' : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? 'true' : undefined}
-          onClick={handleClick}
+          aria-controls={open ? 'basic-menu' : undefined} id="basic-button" color='secondary' variant="contained"
+          aria-expanded={open ? 'true' : undefined} aria-haspopup="true" onClick={handleClick}
         >
           Dashboard
         </Button>
-        <Menu
-          id="basic-menu"
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
-          MenuListProps={{
+        {/* <Menu id="basic-menu" anchorEl={anchorEl} open={open} onClose={handleClose} */}
+        <Menu id="basic-menu" anchorEl={anchorEl} open={open}
+        MenuListProps={{
             'aria-labelledby': 'basic-button',
           }}
         >
-          <MenuItem onClick={handleClose}>Profile</MenuItem>
-          <MenuItem onClick={handleClose}>My account</MenuItem>
-          <MenuItem onClick={handleClose}>Logout</MenuItem>
+          {actSurve.map((x)=>{
+            return (
+              <MenuItem onClick={()=>{handleClose(x)}}>{x.name}</MenuItem>
+            )
+          })}
         </Menu>
       </div>
     );
   }
-  

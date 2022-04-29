@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { Db } from "../../firebase-config/db";
 import { collection, getDocs, doc, setDoc, getDoc, addDoc } from "firebase/firestore";
 import UnitStepForm from "./UnitStepForm";
-import { Typography, MobileStepper, Container } from '@mui/material';
+import { Typography, MobileStepper, Container, Button } from '@mui/material';
 import { PointsCtx } from "../../providers/pointsctx";
 import { PointsCtxProvider } from "../../providers/pointsProvider";
 import { SurveyCTx } from "../../providers/surveyctx";
@@ -57,7 +57,8 @@ function MultiStep() {
           )
        }) : 'Loading'}
 
-      <button onClick={Submit}>Submit</button>
+      <br/>
+      <Button variant="outlined" onClick={Submit}>Submit</Button>
     </Container>
   );  
 

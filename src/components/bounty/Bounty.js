@@ -151,7 +151,7 @@ function Bounty() {
                 <Button onClick={tableToCSV} fullWidth variant="contained">Download</Button>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                <Button onClick={tableToJSON} fullWidth variant="contained">JSON</Button>
+                <Button onClick={tableToJSON} fullWidth variant="contained">Add to Records</Button>
                 </Grid>
               </Grid>
 

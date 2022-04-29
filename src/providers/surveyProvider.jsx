@@ -6,8 +6,6 @@ export default function SurveyProvider(props) {
     id: "Not Selected",
     name: "Not Selected",
     active: "Not Selected",
-    endDate: "Not Selected",
-    startDate: "Not Selected",
   }]
 );
 

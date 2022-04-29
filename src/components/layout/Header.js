@@ -42,11 +42,9 @@ const Header = () => {
       { "page": currentSurvey, "route": "/admin"},
     ];  
   } else {
-    const xyzbtn = <BasicMenu />
-
+    // const xyzbtn = <BasicMenu />
     linked_pages = [
-      // { "page": "Surveys", "route": "/admin"},
-      { "page": xyzbtn,},
+      { "page": <BasicMenu />,},
     ];
   }
 
