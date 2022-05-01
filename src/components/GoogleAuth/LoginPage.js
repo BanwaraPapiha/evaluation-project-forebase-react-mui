@@ -56,7 +56,7 @@ function LoginPage() {
     signOut(auth).then(() => {
       console.log("Sign Out Successful")
       UserCtx.setLogUser(null)
-      // UserCtx.setAdmin(false)
+      UserCtx.setAdmin(false)
       // Sign-out successful.
     }).catch((error) => {
         console.log(error)
@@ -74,13 +74,8 @@ function LoginPage() {
         console.log("admins")
         console.log(admins)
         console.log(auth.currentUser.email)
-        // console.log(Object.keys(admins).includes(String(auth.currentUser.email)))
-        // console.log(Object.values(admins).includes(String(auth.currentUser.email)))
-        // console.log(Object.values(admins)[0].includes(String(auth.currentUser.email)))
         console.log(admins.includes(String(auth.currentUser.email)))
         if (auth.currentUser && admins.length>0) {
-          // console.log(admins)
-          // console.log(auth.currentUser.email)
           console.log("authentcated check")
           console.log(admins.includes(String(auth.currentUser.email)))
           UserCtx.setAdmin(admins.includes(String(auth.currentUser.email)))

@@ -7,8 +7,6 @@ import ErrorPAge from "./components/errorpage"
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import MultiStepFormCtx from "./components/home/MultiStepForm";
-import SurveyProvider from './providers/surveyProvider';
-import UserProvider from './providers/UserProvider';
 import { UserContext } from "./providers/userCtx";
 import { useEffect, useState, useContext } from "react";
 import { getAuth } from "firebase/auth";
@@ -44,15 +42,16 @@ const AppRouter = () => {
         console.log(admins.includes(auth.currentUser.email))
       }
     }, [auth.currentUser])
+    const UserCtx = useContext(UserContext)
 
     return (
-      <BrowserRouter>
-        <UserProvider>
-        <SurveyProvider>      
+      // <UserProvider>
+      // <SurveyProvider>      
+        <BrowserRouter>
           <Header/>
             <Routes>
               {/* changed here  */}
-              <Route element={<ProtectedRoute isAllowed={false} />}>
+              <Route element={<ProtectedRoute isAllowed={UserCtx.admin} />}>
                 <Route path="admin" element={<Admin />} />
                 <Route path="bounty" element={<Bounty />} />
                 <Route path="charts" element={<Charts />} />
@@ -68,9 +67,9 @@ const AppRouter = () => {
             </Routes>
 
           <Footer/>
-        </SurveyProvider>
-        </UserProvider>
-      </BrowserRouter>
+        </BrowserRouter>
+      // </SurveyProvider>
+      // </UserProvider>
     );
 }
 

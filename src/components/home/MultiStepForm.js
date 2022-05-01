@@ -30,9 +30,12 @@ function MultiStep() {
 
   useEffect(() => {
     const getSurveyFeatures = async () => {
-      const docRef = doc(Db, "surveys", "Work Survey April 2022");
+      // const docRef = doc(Db, "surveys", "Work Survey April 2022");
+      const docRef = doc(Db, "surveys", current_survey);
       const docSnap = await getDoc(docRef);
       console.log(current_user)
+      // Still incomplete
+      points.setPointsdata({})
       console.log(points.pointsdata)  
       console.log(docSnap.data().users);
       console.log(docSnap.data().features);
@@ -40,7 +43,7 @@ function MultiStep() {
       setSurvFeature(docSnap.data().features)
     };
     getSurveyFeatures();
-  }, []);
+  }, [current_survey]);
 
   return (
     <Container>

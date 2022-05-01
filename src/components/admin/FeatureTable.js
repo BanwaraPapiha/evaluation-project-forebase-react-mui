@@ -22,18 +22,17 @@ const Added = (props) => {
       }
   });
   checkState(props.featureDetail.feature)
-  
   }
+
   async function Remove2Array(user2Add) {
     const result = await updateDoc(taskDocRef, {
         features: arrayRemove(String(user2Add))
-      });
+    });
   }
-
   async function Add2Array(user2Add) {
       const result = await updateDoc(taskDocRef, {
         features: arrayUnion(String(user2Add))
-          });
+      });
   }
 
   const HandleAdd = () => {
@@ -42,10 +41,11 @@ const Added = (props) => {
       Remove2Array(props.featureDetail.feature);
     }
     else if (!added) {
-        setAdded(!added)
-        Add2Array(props.featureDetail.feature);
+      setAdded(!added)
+      Add2Array(props.featureDetail.feature);
     }            
   }
+  
   return(
       <div onClick={()=>HandleAdd()}>{added? <CheckCircleRoundedIcon style={{color: 'green'}}/>:<AddCircleIcon />}</div>
   )
