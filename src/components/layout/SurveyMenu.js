@@ -4,12 +4,14 @@ import { useState, useEffect, useContext } from "react";
 import { collection, query, where, onSnapshot, getDocs } from "firebase/firestore";
 import { Db } from "../../firebase-config/db";
 import { SurveyCTx } from "../../providers/surveyctx";
+import { useNavigate } from "react-router-dom";
 
 export default function BasicMenu() {
     const [anchorEl, setAnchorEl] = useState(null);
     const [actSurve, setActSurve] = useState([]);
     const open = Boolean(anchorEl);
     const surveyCtx = useContext(SurveyCTx);
+    const navigate = useNavigate();
     const handleClick = (e) => {
       setAnchorEl(e.currentTarget);
     };
@@ -50,7 +52,7 @@ export default function BasicMenu() {
           aria-controls={open ? 'basic-menu' : undefined} id="basic-button" color='secondary' variant="contained"
           aria-expanded={open ? 'true' : undefined} aria-haspopup="true" onClick={handleClick}
         >
-          Dashboard
+          {surveyCtx.survey[0]['name']}
         </Button>
         <Menu id="basic-menu" anchorEl={anchorEl} open={open} onClose={handleClose}
         MenuListProps={{
@@ -59,7 +61,7 @@ export default function BasicMenu() {
         >
           {actSurve.map((x)=>{
             return (
-              <MenuItem onClick={()=>{handleClose(x);surveyCtx.setSurvey([x])}}>{x.name}</MenuItem>
+              <MenuItem onClick={()=>{handleClose(x);surveyCtx.setSurvey([x]);navigate("/")}}>{x.name}</MenuItem>
             )
           })}
         </Menu>

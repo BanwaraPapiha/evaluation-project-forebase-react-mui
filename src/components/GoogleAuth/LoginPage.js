@@ -5,8 +5,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useEffect, useState, useContext } from "react";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
 import { UserContext } from "../../providers/userCtx";
-import { Db } from "../../firebase-config/db";
 import { collection, query, where, getDocs } from "firebase/firestore";
+import { Db } from "../../firebase-config/db";
+import { getDoc, doc } from "firebase/firestore";
 
 const useStyles = makeStyles({
   root: {
@@ -33,7 +34,10 @@ const provider = new GoogleAuthProvider();
 function LoginPage() {
   const classes = useStyles();
   const UserCtx = useContext(UserContext)
+  const [admins, setAdmins] = useState([])
+
   const user = auth.currentUser;
+
   const signInWithGoogle = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
@@ -52,6 +56,7 @@ function LoginPage() {
     signOut(auth).then(() => {
       console.log("Sign Out Successful")
       UserCtx.setLogUser(null)
+      // UserCtx.setAdmin(false)
       // Sign-out successful.
     }).catch((error) => {
         console.log(error)
@@ -59,15 +64,52 @@ function LoginPage() {
     });
   }
 
+  useEffect(()=>{
+    const fetchAdmins = async () => {
+      const docSnap = await getDoc(doc(Db, "Admins", "admins_list"));
+      if (docSnap.exists()) {
+        // console.log("Admins Data: ", docSnap.data());
+        // console.log("Admins Data admins_list: ", docSnap.data().admins_list);
+        setAdmins(docSnap.data().admins_list)
+        console.log("admins")
+        console.log(admins)
+        console.log(auth.currentUser.email)
+        // console.log(Object.keys(admins).includes(String(auth.currentUser.email)))
+        // console.log(Object.values(admins).includes(String(auth.currentUser.email)))
+        // console.log(Object.values(admins)[0].includes(String(auth.currentUser.email)))
+        console.log(admins.includes(String(auth.currentUser.email)))
+        if (auth.currentUser && admins.length>0) {
+          // console.log(admins)
+          // console.log(auth.currentUser.email)
+          console.log("authentcated check")
+          console.log(admins.includes(String(auth.currentUser.email)))
+          UserCtx.setAdmin(admins.includes(String(auth.currentUser.email)))
+          console.log(UserCtx.admin)
+        }
+    
+      } else {
+        console.log("No admins retrieved");
+      }
+    }
+    fetchAdmins()
+    console.log(UserCtx.admin)
+  }, [auth.currentUser])
+
   onAuthStateChanged(auth, (user) => {
     if (user) {
       // const uid = user.uid;
       UserCtx.setLogUser(user)
+      // console.log(admins)
+      // console.log(auth.currentUser.email)
+      console.log(UserCtx.admin)
+
     } else {
       // User is signed out
       UserCtx.setLogUser(null)
     }
   });
+
+  console.log(UserCtx.admin)
 
   return (
     <div className={classes.root}>
@@ -76,9 +118,9 @@ function LoginPage() {
         {
           user?
           <div>
-            <Button variant="contained" startIcon={<LogoutIcon />} onClick={LogoutGoogle}>Sign Out</Button><br/>
+            <img style={{"border-radius": "50%", border: "1px solid black"}} src={UserCtx.Loguser.photoURL} alt="Profile Photo"/><br/>
             {UserCtx.Loguser.displayName}<br/>{UserCtx.Loguser.email}<br/>
-            <img src={UserCtx.Loguser.photoURL} alt="Profile Photo"/>
+            <Button variant="contained" startIcon={<LogoutIcon />} onClick={LogoutGoogle}>Sign Out</Button><br/>
           </div> :
             <Button variant="contained" startIcon={<GoogleIcon />} onClick={signInWithGoogle}>
               Sign in with Google

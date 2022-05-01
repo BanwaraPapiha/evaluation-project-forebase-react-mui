@@ -20,33 +20,33 @@ const Header = () => {
   const UserCtx = useContext(UserContext)
   const SurveyData = useContext(SurveyCTx);
   const currentSurvey = SurveyData.survey[0]['name']
-  const [admins, setAdmins] = useState([])
+  // const [admins, setAdmins] = useState([])
   const navigate = useNavigate();
 
-  useEffect(()=>{
-    const fetchAdmins = async () => {
-      const docSnap = await getDoc(doc(Db, "Admins", "admins_list"));
-      if (docSnap.exists()) {
-        console.log("Document data:", docSnap.data());
-        setAdmins([docSnap.data()])
-      } else {
-        // doc.data() will be undefined in this case
-        console.log("No such document!");
-      }
-    }
-    fetchAdmins()
+  // useEffect(()=>{
+  //   const fetchAdmins = async () => {
+  //     const docSnap = await getDoc(doc(Db, "Admins", "admins_list"));
+  //     if (docSnap.exists()) {
+  //       console.log("Document data:", docSnap.data());
+  //       setAdmins([docSnap.data()])
+  //     } else {
+  //       // doc.data() will be undefined in this case
+  //       console.log("No such document!");
+  //     }
+  //   }
+  //   fetchAdmins()
 
-    if (auth.currentUser) {
-      console.log(admins)
-      // here
-      console.log(auth.currentUser.email)
-      console.log(admins.includes(auth.currentUser.email))
-      UserCtx.setAdmin(admins.includes(auth.currentUser.email))
-      console.log(UserCtx.admin)
-      // added auth.currentUser in on chanhe []
+  //   if (auth.currentUser) {
+  //     console.log(admins)
+  //     // here
+  //     console.log(auth.currentUser.email)
+  //     console.log(admins.includes(auth.currentUser.email))
+  //     UserCtx.setAdmin(admins.includes(auth.currentUser.email))
+  //     console.log(UserCtx.admin)
+  //     // added auth.currentUser in on chanhe []
   
-    }
-  }, [auth.currentUser])
+  //   }
+  // }, [auth.currentUser])
 
   var linked_pages = []
   if (UserCtx.admin) {
@@ -133,7 +133,7 @@ const Header = () => {
                 {auth.currentUser?
                 <Avatar alt="Profile Photo" src={UserCtx.Loguser.photoURL} />:
                 <Avatar alt="Login"><PersonIcon/></Avatar>}
-                                
+
               </IconButton>
             </Tooltip>
             <Menu

@@ -14,6 +14,7 @@ import { useEffect, useState, useContext } from "react";
 import { getAuth } from "firebase/auth";
 import { Db } from "./firebase-config/db";
 import { getDoc, doc } from "firebase/firestore";
+import { SurveyCTx } from "./providers/surveyctx";
 
 const auth = getAuth();
 
@@ -25,7 +26,6 @@ const ProtectedRoute = ({isAllowed, redirectPath = '/account', children}) => {
 };
 
 const AppRouter = () => {
-    const UserCtx = useContext(UserContext)
     const [admins, setAdmins] = useState([])
 
     useEffect(()=>{
@@ -35,17 +35,16 @@ const AppRouter = () => {
           console.log("Document data:", docSnap.data());
           setAdmins([docSnap.data()])
         } else {
-          // doc.data() will be undefined in this case
           console.log("No such document!");
         }
       }
       fetchAdmins()
+      console.log(admins)
       if (auth.currentUser) {
         console.log(admins.includes(auth.currentUser.email))
       }
-      
     }, [auth.currentUser])
-  
+
     return (
       <BrowserRouter>
         <UserProvider>
@@ -60,7 +59,7 @@ const AppRouter = () => {
               </Route>
 
               {/* changed here */}
-              <Route element={<ProtectedRoute isAllowed={auth.currentUser} />}>
+              <Route element={<ProtectedRoute isAllowed={Boolean(auth.currentUser)} />}>
                 <Route index element={<MultiStepFormCtx />} />
               </Route>
 
