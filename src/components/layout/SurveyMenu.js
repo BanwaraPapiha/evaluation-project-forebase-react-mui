@@ -29,8 +29,22 @@ export default function BasicMenu() {
     }, [open])
 
     const handleClose = () => {
-      setAnchorEl(null);
+      setAnchorEl(null);    
     };
+
+    const allowd = (arr) => {
+      if (arr.includes("muhammadabdullahnabeel@gmail.com")) {
+        console.log(arr)
+        console.log("Found and Allowed")
+        navigate('/survey')
+      }
+      else {
+        console.log(arr)
+        navigate('/')
+        alert("You are not in this survey")
+      }
+    }
+
     useEffect(()=>{
       console.log(surveyCtx.survey[0]['name'])
     }, [anchorEl])
@@ -61,7 +75,7 @@ export default function BasicMenu() {
         >
           {actSurve.map((x)=>{
             return (
-              <MenuItem onClick={()=>{handleClose(x);surveyCtx.setSurvey([x]);navigate("/")}}>{x.name}</MenuItem>
+              <MenuItem onClick={()=>{handleClose(x);surveyCtx.setSurvey([x]);allowd(x.users);navigate("/survey")}}>{x.name}</MenuItem>
             )
           })}
         </Menu>

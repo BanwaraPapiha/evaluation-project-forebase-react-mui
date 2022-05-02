@@ -64,6 +64,29 @@ function LoginPage() {
     });
   }
 
+  // const fetchAdmins = async () => {
+  //   const docSnap = await getDoc(doc(Db, "Admins", "admins_list"));
+  //   if (docSnap.exists()) {
+  //     // console.log("Admins Data: ", docSnap.data());
+  //     // console.log("Admins Data admins_list: ", docSnap.data().admins_list);
+  //     setAdmins(docSnap.data().admins_list)
+  //     console.log("admins")
+  //     console.log(admins)
+  //     console.log(auth.currentUser.email)
+  //     console.log(admins.includes(String(auth.currentUser.email)))
+  //     if (auth.currentUser && admins.length>0) {
+  //       console.log("authentcated check")
+  //       console.log(admins.includes(String(auth.currentUser.email)))
+  //       UserCtx.setAdmin(admins.includes(String(auth.currentUser.email)))
+  //       console.log(UserCtx.admin)
+  //     }
+  
+  //   } else {
+  //     console.log("No admins retrieved");
+  //   }
+  // }
+
+
   useEffect(()=>{
     const fetchAdmins = async () => {
       const docSnap = await getDoc(doc(Db, "Admins", "admins_list"));
@@ -86,6 +109,7 @@ function LoginPage() {
         console.log("No admins retrieved");
       }
     }
+  
     fetchAdmins()
     console.log(UserCtx.admin)
   }, [auth.currentUser])
@@ -93,6 +117,7 @@ function LoginPage() {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       // const uid = user.uid;
+      // fetchAdmins()
       UserCtx.setLogUser(user)
       // console.log(admins)
       // console.log(auth.currentUser.email)
@@ -103,8 +128,6 @@ function LoginPage() {
       UserCtx.setLogUser(null)
     }
   });
-
-  console.log(UserCtx.admin)
 
   return (
     <div className={classes.root}>

@@ -13,10 +13,11 @@ import { getAuth } from "firebase/auth";
 import { Db } from "./firebase-config/db";
 import { getDoc, doc } from "firebase/firestore";
 import { SurveyCTx } from "./providers/surveyctx";
+import Actions from "./components/actions/Actions";
 
 const auth = getAuth();
 
-const ProtectedRoute = ({isAllowed, redirectPath = '/account', children}) => {
+const ProtectedRoute = ({isAllowed, redirectPath = '/', children}) => {
   if (!isAllowed) {
     return <Navigate to={redirectPath} replace />;
   }
@@ -45,31 +46,32 @@ const AppRouter = () => {
     const UserCtx = useContext(UserContext)
 
     return (
-      // <UserProvider>
-      // <SurveyProvider>      
         <BrowserRouter>
           <Header/>
             <Routes>
               {/* changed here  */}
               <Route element={<ProtectedRoute isAllowed={UserCtx.admin} />}>
                 <Route path="admin" element={<Admin />} />
+                <Route path="actions" element={<Actions />} />
                 <Route path="bounty" element={<Bounty />} />
                 <Route path="charts" element={<Charts />} />
               </Route>
 
-              {/* changed here */}
-              <Route element={<ProtectedRoute isAllowed={Boolean(auth.currentUser)} />}>
-                <Route index element={<MultiStepFormCtx />} />
+              <Route element={<ProtectedRoute isAllowed={Boolean(auth.currentUser==="baanwarapapiha@gmail.com")} />}>
+                <Route path="actions" element={<Actions />} />
               </Route>
 
-              <Route path="account" element={<LoginPage />} />
+              {/* changed here */}
+              <Route element={<ProtectedRoute isAllowed={Boolean(auth.currentUser)} />}>
+              <Route path="survey" element={<MultiStepFormCtx />} />
+              </Route>
+
+              <Route index element={<LoginPage />} />
               <Route path="*" element={<ErrorPAge />} />
             </Routes>
 
           <Footer/>
         </BrowserRouter>
-      // </SurveyProvider>
-      // </UserProvider>
     );
 }
 

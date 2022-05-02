@@ -45,24 +45,103 @@ function MultiStep() {
     getSurveyFeatures();
   }, [current_survey]);
 
-  return (
-    <Container>
-      <Typography variant="button" gutterBottom component="div">
+  // const allowd = (arr) => {
+  //   if (arr.includes("muhammadabdullahnabeel@gmail.com")) {
+  //     console.log(arr)
+  //     console.log("Found and Allowed")
+  //     navigate('/survey')
+  //   }
+  //   else {
+  //     console.log(arr)
+  //     navigate('/')
+  //     alert("You are not in this survey")
+  //   }
+  // }
+
+  if (survUser.includes(UserCtx.Loguser.email) && current_survey!=="Not Selected")
+  {
+    return (
+      <Container>
+        <Typography variant="button" gutterBottom component="div" style={{"text-align": "center"}}>
+          Survey {current_survey}<br/>
+          Evaluate All the given users in the following Features Step By Step
+        </Typography>
+  
+        {survFeature.length > 0 ?
+         survFeature.map((x, index) => {
+          return (
+            <UnitStepForm className="UnitSteps" personsList={ survUser } featureName={x} scores={2000} />
+            )
+         }) : 'Loading'}
+       
+        <br/>
+  
+      {
+        current_survey!=="Not Selected" && current_user ? <Button variant="contained" color="secondary" onClick={Submit}>Submit</Button>
+        : <Button disabled>Submit</Button>
+      }
+        {/* <Button variant="contained" color="secondary" onClick={Submit}>Submit</Button> */}
+      </Container>
+    );  
+  
+  }
+  else if (!survUser.includes(UserCtx.Loguser.email)) {
+    return (
+      <Container>
+        <Typography variant="button" gutterBottom component="div">
         Survey {current_survey}<br/>
-        Evaluate All the given users in the following Features Step By Step
+        You are not found in the current survey
       </Typography>
 
-      {survFeature.length > 0 ?
-       survFeature.map((x, index) => {
-        return (
-          <UnitStepForm className="UnitSteps" pageNo2={index+1} personsList={ survUser } featureName={x} scores={2000} />
-          )
-       }) : 'Loading'}
+      </Container> 
+    )
+  }
+  else if (current_survey==="Not Selected") {
+    return (
+      <Container>
+        <Typography variant="button" gutterBottom component="div">
+        Survey {current_survey}<br/>
+        Please Select a Survey
+      </Typography>
+
+      </Container> 
+    )
+  }
+  else {
+    return (
+      <Container>
+        <Typography variant="button" gutterBottom component="div">
+        Survey {current_survey}<br/>
+        Some Error Occurred, please ensure that you are alowed to submit a survey and you are choosing the right one
+      </Typography>
+
+      </Container> 
+    )
+
+  }
+  // return (
+  //   <Container>
+  //     <Typography variant="button" gutterBottom component="div" style={{"text-align": "center"}}>
+  //       Survey {current_survey}<br/>
+  //       Evaluate All the given users in the following Features Step By Step
+  //     </Typography>
+
+  //     {survFeature.length > 0 ?
+  //      survFeature.map((x, index) => {
+  //       return (
+  //         <UnitStepForm className="UnitSteps" personsList={ survUser } featureName={x} scores={2000} />
+  //         )
+  //      }) : 'Loading'}
      
-      <br/>
-      <Button variant="contained" color="secondary" onClick={Submit}>Submit</Button>
-    </Container>
-  );  
+  //     <br/>
+
+  //   {
+  //     current_survey!=="Not Selected" && current_user ? <Button variant="contained" color="secondary" onClick={Submit}>Submit</Button>
+  //     : <Button disabled>Submit</Button>
+  //   }
+  //     {/* <Button variant="contained" color="secondary" onClick={Submit}>Submit</Button> */}
+  //   </Container>
+  // );  
 
 }
 

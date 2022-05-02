@@ -51,6 +51,7 @@ const Header = () => {
   var linked_pages = []
   if (UserCtx.admin) {
     linked_pages = [
+      { "page": "Actions", "route": "/actions"}, 
       { "page": "Charts", "route": "/charts"}, 
       { "page": "Bounty", "route": "/bounty"}, 
       { "page": currentSurvey, "route": "/admin"},
@@ -131,7 +132,7 @@ const Header = () => {
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 {auth.currentUser?
-                <Avatar alt="Profile Photo" src={UserCtx.Loguser.photoURL} />:
+                <Avatar alt={UserCtx.Loguser.displayName} src={UserCtx.Loguser.photoURL} />:
                 <Avatar alt="Login"><PersonIcon/></Avatar>}
 
               </IconButton>
@@ -155,16 +156,16 @@ const Header = () => {
 
               {auth.currentUser?
               <MenuList>
-                <MenuItem onClick={()=>{handleCloseUserMenu();navigate('/')}}>
+                <MenuItem onClick={()=>{handleCloseUserMenu();navigate('/survey')}}>
                   <ListItemText>Survey</ListItemText>
                 </MenuItem>
-                <MenuItem onClick={()=>{handleCloseUserMenu();navigate('/account')}}>
+                <MenuItem onClick={()=>{handleCloseUserMenu();navigate('/')}}>
                   <ListItemText>Account</ListItemText>
                 </MenuItem>
               </MenuList>
                 :
               <MenuList>
-                <MenuItem onClick={()=>{handleCloseUserMenu();navigate('/account')}}>
+                <MenuItem onClick={()=>{handleCloseUserMenu();navigate('/')}}>
                   <ListItemText>Account</ListItemText>
                 </MenuItem>
 

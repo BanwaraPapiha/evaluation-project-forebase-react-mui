@@ -1,17 +1,18 @@
-import { Grid, Typography } from '@mui/material';
+import { Grid, Typography, Divider, Box } from '@mui/material';
 import UnitComponent from "./UnitComponent";
 import { useState } from "react";
 
 function UnitStepForm(props) {
   const [listData, setListData] = useState({});
   return (
-    <div>
-      <Typography variant="h6" gutterBottom component="div">
-        Page Number is: {props.pageNo2} <br/>
+    <>
+      <Typography variant="h5" gutterBottom component="div" style={{"text-align": "center", "height": "20vh", "margin-top": "20vh"}}>
         Feature Seleted is: {props.featureName}
         <br/>
         You have total {props.scores} Scores to distribute
       </Typography>
+      <Divider/>
+      <br/>
 
       <Grid container spacing={2}>
         { props.personsList.map((prsn) => {
@@ -22,8 +23,9 @@ function UnitStepForm(props) {
         );
         })}
       </Grid>
-
-    </div>
+      <br/>
+      <Divider />
+    </>
   );
 }
 

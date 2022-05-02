@@ -11,7 +11,7 @@ import { Box, List, ListItem, ListItemButton, ListItemText } from '@mui/material
 
 function FeatureList() {
     const [features, setFeatures] = useState([]);
-    const usersCollectionRef_features = collection(Db, "features for evaluation");
+    const usersCollectionRef_features = collection(Db, "all_features");
     const [searchQuery, setSearchQuery] = useState("");
     const [addedFeatures, setFeaturesUsers] = useState([]);
     const surveyCtx = useContext(SurveyCTx)
@@ -58,7 +58,6 @@ function FeatureList() {
         <TextField fullWidth label="Search Feature" id="search-feature" onChange={handleSearch}/><br/>
         <Grid container spacing={3}>
           <Grid item xs={12} md={6} style={{"overflow-x":"auto"}}>
-            {/* <FeatureTable title={["Id", "Feature", "Total Sum of Scores", "Add", "Delete"]} body={body}/> */}
             <FeatureTable title={["Feature", "Total Sum of Scores", "Add/Remove", "Delete"]} body={body}/>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -85,14 +84,6 @@ function FeatureList() {
                 </List>
               </nav>
             </Box>
-
-              {/* {addedFeatures.map((x)=>{
-                return (
-                  addedFeatures.length > 0? 
-                  <li>{x}</li>:
-                  <li>Loading</li>
-                )
-              })} */}
             </div>
 
           </Grid>
