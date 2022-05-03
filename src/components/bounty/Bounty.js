@@ -69,7 +69,7 @@ function Bounty() {
       idSumArr.map((x)=>num += Number(x[1]))
       setPointsSum(num)
       console.log(pointsSum)
-    }, [scoreData])
+    }, [scoreData, survey])
 
     function tableToCSV() {
       var csv_data = [];
@@ -169,6 +169,5 @@ function Bounty() {
     </Container>
     );
   }
-  
-  export default Bounty;
-  
+
+export default Bounty;

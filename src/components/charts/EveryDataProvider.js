@@ -3,29 +3,29 @@ import { Db } from "../../firebase-config/db";
 import { collection, getDocs } from "firebase/firestore";
 import { SurveyCTx } from "../../providers/surveyctx";
 import AllDataTable from "./TableEveryData";
-import { UserContext } from "../../providers/userCtx";
+// import { UserContext } from "../../providers/userCtx";
 
 function AllData() {
-    const [persons, setPersons] = useState([]);
+    // const [persons, setPersons] = useState([]);
     const [scoreData, setScoreData] = useState([]);
     const [sumData, setSumData] = useState([]);
     const [idSum, setIdSum] = useState([]);
-    const UserCtx = useContext(UserContext)
+    // const UserCtx = useContext(UserContext)
     const Calc_Data = [];
     const Calc_Scor = {};
     const surveyCtx = useContext(SurveyCTx)
     const survey = surveyCtx.survey[0]['id']
     const usersCollectionRef_survey = collection(Db, survey);
-    const usersCollectionRef_persons = collection(Db, "persons to be evaluated");
+    // const usersCollectionRef_persons = collection(Db, "persons to be evaluated");
 
-    useEffect(() => {
-        const getPersons = async () => {
-          const data = await getDocs(usersCollectionRef_persons);
-          console.log(data.docs);
-          setPersons(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-        };
-        getPersons();
-      }, []);
+    // useEffect(() => {
+    //     const getPersons = async () => {
+    //       const data = await getDocs(usersCollectionRef_persons);
+    //       console.log(data.docs);
+    //       setPersons(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    //     };
+    //     getPersons();
+    //   }, []);
 
     useEffect(() => {
       const getData = async () => {
@@ -39,6 +39,7 @@ function AllData() {
 
     useEffect(()=>{
       console.log("Strted\n")
+      console.log(survey)
       scoreData.map((x)=>{
         for (const [key, value] of Object.entries(x)) {
           var giver = x['id']
@@ -59,7 +60,7 @@ function AllData() {
       setIdSum(Calc_Scor)
       // console.log(idSum)
 
-    }, [scoreData])
+    }, [scoreData, survey])
 
     return (
       <div>

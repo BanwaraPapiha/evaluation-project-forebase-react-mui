@@ -1,23 +1,27 @@
-import { doc, getDoc } from "firebase/firestore";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Db } from "../../firebase-config/db";
+import {arrayUnion, arrayRemove, updateDoc, doc, getDoc, setDoc, onSnapshot} from "firebase/firestore";
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 
 const AdminTable = () => {
     const [admins_li, setAdmins_li] = useState([]);
 
-    const fetch_admin_li = async () => {
-        const docSnap = await getDoc(doc(Db, "Admins", "admins_list"));
-    
-        if (docSnap.exists()) {
-            console.log("Document data:", docSnap.data());
-            setAdmins_li(docSnap.data().admins_list)
-        } else {
-            // doc.data() will be undefined in this case
-            console.log("No such document!");
-        }    
-    }
-    fetch_admin_li()
+    const handleRemove = async (val) => {
+        const ref = doc(Db, "Admins", "admins_list");
+        await updateDoc(ref, {
+          admins_list: arrayRemove(val)
+        });    
+      };
+  
+    useEffect(()=>{
+        const fetch_admin_li = async () => {
+            const unsub = onSnapshot(doc(Db, "Admins", "admins_list"), (doc) => {
+                console.log("Current data: ", doc.data());
+                setAdmins_li(doc.data().admins_list)
+            });
+        }
+        fetch_admin_li()
+    }, [])
     
     return (
         <div style={{"overflow-x": "auto"}}>
@@ -33,10 +37,8 @@ const AdminTable = () => {
                         return (
                             <tr>
                                 <td>{String(trow)}</td>
-                                <td><PersonRemoveIcon/></td>
-                                
+                                <td><PersonRemoveIcon onClick={()=>{handleRemove(trow)}}/></td>
                             </tr>
-
                         )
                     })}
 

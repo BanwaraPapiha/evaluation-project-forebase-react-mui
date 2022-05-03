@@ -35,7 +35,6 @@ function LoginPage() {
   const classes = useStyles();
   const UserCtx = useContext(UserContext)
   const [admins, setAdmins] = useState([])
-
   const user = auth.currentUser;
 
   const signInWithGoogle = () => {
@@ -63,29 +62,6 @@ function LoginPage() {
       // An error happened.
     });
   }
-
-  // const fetchAdmins = async () => {
-  //   const docSnap = await getDoc(doc(Db, "Admins", "admins_list"));
-  //   if (docSnap.exists()) {
-  //     // console.log("Admins Data: ", docSnap.data());
-  //     // console.log("Admins Data admins_list: ", docSnap.data().admins_list);
-  //     setAdmins(docSnap.data().admins_list)
-  //     console.log("admins")
-  //     console.log(admins)
-  //     console.log(auth.currentUser.email)
-  //     console.log(admins.includes(String(auth.currentUser.email)))
-  //     if (auth.currentUser && admins.length>0) {
-  //       console.log("authentcated check")
-  //       console.log(admins.includes(String(auth.currentUser.email)))
-  //       UserCtx.setAdmin(admins.includes(String(auth.currentUser.email)))
-  //       console.log(UserCtx.admin)
-  //     }
-  
-  //   } else {
-  //     console.log("No admins retrieved");
-  //   }
-  // }
-
 
   useEffect(()=>{
     const fetchAdmins = async () => {
@@ -117,12 +93,8 @@ function LoginPage() {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       // const uid = user.uid;
-      // fetchAdmins()
       UserCtx.setLogUser(user)
-      // console.log(admins)
-      // console.log(auth.currentUser.email)
-      console.log(UserCtx.admin)
-
+      // console.log(UserCtx.admin)
     } else {
       // User is signed out
       UserCtx.setLogUser(null)

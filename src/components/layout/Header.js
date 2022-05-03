@@ -54,11 +54,13 @@ const Header = () => {
       { "page": "Actions", "route": "/actions"}, 
       { "page": "Charts", "route": "/charts"}, 
       { "page": "Bounty", "route": "/bounty"}, 
-      { "page": currentSurvey, "route": "/admin"},
-    ];  
+      // { "page": currentSurvey, "route": "/admin"},
+      { "page": "Manage Surveys", "route": "/admin"},
+      { "page": <BasicMenu user_scope="admin"/>,},
+    ];
   } else {
     linked_pages = [
-      { "page": <BasicMenu />,},
+      { "page": <BasicMenu user_scope="client_user"/>,},
     ];
   }
 

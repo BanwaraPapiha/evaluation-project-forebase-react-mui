@@ -4,10 +4,11 @@ import { collection, getDocs } from "firebase/firestore";
 import { Typography, TextField, Container, Grid } from '@mui/material';
 import FeatureTable from "./FeatureTable";
 import { queryObject } from "./Search"
-import { doc, onSnapshot } from "firebase/firestore";
+import { doc, onSnapshot, getDoc } from "firebase/firestore";
 import FeatureForm from "./FeatureAdd";
 import { SurveyCTx } from "../../providers/surveyctx";
 import { Box, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
+import FeatureScoresTable from "./FeatureScoresTable";
 
 function FeatureList() {
     const [features, setFeatures] = useState([]);
@@ -44,7 +45,7 @@ function FeatureList() {
           }          
         }
     });
-    }, [])
+    }, [surveyCtx.survey[0]['id']])
 
     const handleSearch = (e) => {
       setSearchQuery(e.target.value)
@@ -60,30 +61,10 @@ function FeatureList() {
           <Grid item xs={12} md={6} style={{"overflow-x":"auto"}}>
             <FeatureTable title={["Feature", "Total Sum of Scores", "Add/Remove", "Delete"]} body={body}/>
           </Grid>
+
           <Grid item xs={12} md={6}>
             <div>
-            <Box sx={{ bgcolor: 'background.paper' }}>
-              <nav aria-label="secondary mailbox folders">
-                <List>
-                  {addedFeatures.map((x)=>{
-                  return (
-                    addedFeatures.length > 0? 
-                    <ListItem disablePadding>
-                      <ListItemButton component="a" href="#simple-list">
-                        <ListItemText primary={x} />
-                      </ListItemButton>
-                    </ListItem>
-                  :
-                  <ListItem disablePadding>
-                    <ListItemButton component="a" href="#simple-list">
-                      <ListItemText primary="Loading" />
-                    </ListItemButton>
-                  </ListItem>
-                  )
-                  })}
-                </List>
-              </nav>
-            </Box>
+              <FeatureScoresTable/>
             </div>
 
           </Grid>

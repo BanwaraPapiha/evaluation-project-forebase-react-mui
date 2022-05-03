@@ -1,24 +1,22 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Db } from "../../firebase-config/db";
-import {collection, addDoc, doc, setDoc} from "firebase/firestore";
+import {arrayUnion, arrayRemove, updateDoc, doc, setDoc} from "firebase/firestore";
 import { TextField, Container, Button, Grid, Stack, Paper } from '@mui/material';
 
 export default function MakeAdminForm() {  
-
   const { register, handleSubmit, formState: { errors } } = useForm();  
-  const adminInput = React.useRef(null);
-    const onSubmit = data => {
-      
-
-    //   const createAdmin = async () => {
-    //     await setDoc(doc(Db, "all_features", data.Admin), {feature: data.Admin});
-    //   };
-    //   createAdmin();
-      adminInput.current.value = "";
-      console.log(data);
-    }
-    console.log(errors);
+  const onSubmit = data => {
+    const createAdmin = async () => {
+      const ref = doc(Db, "Admins", "admins_list");
+      await updateDoc(ref, {
+        admins_list: arrayUnion(data.Admin)
+      });    
+    };
+    createAdmin();
+    console.log(data);
+  }
+  console.log(errors);
 
   return (
     <Grid item xs={12} md={12}>

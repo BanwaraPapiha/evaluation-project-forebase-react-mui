@@ -3,7 +3,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import { Db } from "../../firebase-config/db";
-import { doc, deleteDoc, updateDoc, arrayUnion, arrayRemove, onSnapshot } from "firebase/firestore";
+import { doc, deleteDoc, updateDoc, arrayUnion, arrayRemove, onSnapshot, setDoc } from "firebase/firestore";
 import { Link, TextField } from '@mui/material';
 import { SurveyCTx } from "../../providers/surveyctx";
 import "../../styles/table.css";
@@ -31,14 +31,18 @@ const Added = (props) => {
     });
   }
   async function Add2Array(user2Add) {
-      // const result = await updateDoc(taskDocRef, {
-      //   features: arrayUnion(String(user2Add))
-      // });
-      // alert({user2Add: 30})
+      const result = await updateDoc(taskDocRef, {
+        features: arrayUnion(String(user2Add))
+      });
+      console.log({user2Add: 30})
+      const createFeature = async () => {
+        await setDoc(doc(Db, "all_features", String(user2Add)), 
+        {[Curr_survey]: score_value}, { merge: true });
+      };
+      createFeature()
   }
 
   const HandleAdd = () => {
-    alert()
     if (added) {
       setAdded(!added)
       Remove2Array(props.featureDetail.feature);
@@ -65,12 +69,11 @@ const Added = (props) => {
   return(
     <>
       {/* <td>{prsn.id} </td> */}
-      <td>{props.prsn.feature}</td>
+      <td>{String(props.prsn.feature)}</td>
       <td>{props.prsn.id?<input onChange={event => setScore_value(event.target.value)} value={score_value} type="number" id="quantity" name="quantity" min="1" />:""}</td>
       <td>{props.prsn.id?<div onClick={()=>HandleAdd()}>{added? <CheckCircleRoundedIcon style={{color: 'green'}}/>:<AddCircleIcon />}</div>:""}</td>
       <td>{props.prsn.id?<DeleteIcon onClick={()=>handleDelete(props.prsn.id, props.prsn.feature)}/>:<Link href="#FeatureAddOnlyForm">No Matches. Create New Feature?</Link>}</td>
     </>
-      
   )
 }
 
@@ -116,7 +119,7 @@ const FeatureTable = (props) => {
         {props.body.map((prsn) => {
           return (
             <tr>
-              <Added featureDetail={prsn} />
+              <Added featureDetail={prsn} prsn={prsn} />
               {/*  
                <td>{prsn.id} </td>
                <td>{prsn.feature}</td>

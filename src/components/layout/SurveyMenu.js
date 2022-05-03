@@ -6,7 +6,7 @@ import { Db } from "../../firebase-config/db";
 import { SurveyCTx } from "../../providers/surveyctx";
 import { useNavigate } from "react-router-dom";
 
-export default function BasicMenu() {
+export default function BasicMenu(props) {
     const [anchorEl, setAnchorEl] = useState(null);
     const [actSurve, setActSurve] = useState([]);
     const open = Boolean(anchorEl);
@@ -19,7 +19,11 @@ export default function BasicMenu() {
   useEffect(()=>{
       const fetchSurve = async () => {
         console.log("Changed")
-        const q = query(collection(Db, "surveys"), where("active", "==", true));
+        var q = query(collection(Db, "surveys"), where("active", "==", true));
+        if (props.user_scope==="admin") {
+          q = query(collection(Db, "surveys"));
+        }
+        // const q = query(collection(Db, "surveys"), where("active", "==", true));
         const querySnapshot = await getDocs(q);
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
           setActSurve(querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
@@ -28,9 +32,18 @@ export default function BasicMenu() {
         fetchSurve();
     }, [open])
 
-    const handleClose = () => {
-      setAnchorEl(null);    
+    const handleClose = (dval) => {
+      setAnchorEl(null); 
     };
+
+    const handleOnClose = (y) => {
+      surveyCtx.setSurvey([y])
+      if (props.user_scope!=="admin") {
+        allowd(y.users);
+        navigate("/survey")
+      }
+      
+    }
 
     const allowd = (arr) => {
       if (arr.includes("muhammadabdullahnabeel@gmail.com")) {
@@ -49,17 +62,6 @@ export default function BasicMenu() {
       console.log(surveyCtx.survey[0]['name'])
     }, [anchorEl])
 
-    useEffect(()=>{
-        const activeSurveys = async () => {
-            const querySnapshot = await getDocs(query(collection(Db, "surveys"), where("active", "==", "true")));
-            querySnapshot.forEach((doc) => {
-                // doc.data() is never undefined for query doc snapshots
-                console.log(doc.id, " => ", doc.data());
-            });    
-        }
-        activeSurveys();
-    })
-
     return (
       <div>
         <Button
@@ -75,7 +77,8 @@ export default function BasicMenu() {
         >
           {actSurve.map((x)=>{
             return (
-              <MenuItem onClick={()=>{handleClose(x);surveyCtx.setSurvey([x]);allowd(x.users);navigate("/survey")}}>{x.name}</MenuItem>
+              // <MenuItem onClick={()=>{handleClose(x);surveyCtx.setSurvey([x]);allowd(x.users);navigate("/survey")}}>{x.name}</MenuItem>
+              <MenuItem onClick={()=>{handleClose(x);handleOnClose(x)}}>{x.name}</MenuItem>
             )
           })}
         </Menu>

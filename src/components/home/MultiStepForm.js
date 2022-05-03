@@ -45,19 +45,6 @@ function MultiStep() {
     getSurveyFeatures();
   }, [current_survey]);
 
-  // const allowd = (arr) => {
-  //   if (arr.includes("muhammadabdullahnabeel@gmail.com")) {
-  //     console.log(arr)
-  //     console.log("Found and Allowed")
-  //     navigate('/survey')
-  //   }
-  //   else {
-  //     console.log(arr)
-  //     navigate('/')
-  //     alert("You are not in this survey")
-  //   }
-  // }
-
   if (survUser.includes(UserCtx.Loguser.email) && current_survey!=="Not Selected")
   {
     return (
@@ -80,7 +67,6 @@ function MultiStep() {
         current_survey!=="Not Selected" && current_user ? <Button variant="contained" color="secondary" onClick={Submit}>Submit</Button>
         : <Button disabled>Submit</Button>
       }
-        {/* <Button variant="contained" color="secondary" onClick={Submit}>Submit</Button> */}
       </Container>
     );  
   
@@ -119,30 +105,6 @@ function MultiStep() {
     )
 
   }
-  // return (
-  //   <Container>
-  //     <Typography variant="button" gutterBottom component="div" style={{"text-align": "center"}}>
-  //       Survey {current_survey}<br/>
-  //       Evaluate All the given users in the following Features Step By Step
-  //     </Typography>
-
-  //     {survFeature.length > 0 ?
-  //      survFeature.map((x, index) => {
-  //       return (
-  //         <UnitStepForm className="UnitSteps" personsList={ survUser } featureName={x} scores={2000} />
-  //         )
-  //      }) : 'Loading'}
-     
-  //     <br/>
-
-  //   {
-  //     current_survey!=="Not Selected" && current_user ? <Button variant="contained" color="secondary" onClick={Submit}>Submit</Button>
-  //     : <Button disabled>Submit</Button>
-  //   }
-  //     {/* <Button variant="contained" color="secondary" onClick={Submit}>Submit</Button> */}
-  //   </Container>
-  // );  
-
 }
 
 function MultiStepFormCtx() {
