@@ -24,14 +24,12 @@ function UnitComponent(props) {
       props.setOpen(true)
       // console.log("Exceeding")
     }
-    else {
-      if ((Number(Math.abs(score_change-slide_score))+Number(props.score_done))<=Number(props.fet_scor)) {
+    else if ((Number(Math.abs(score_change-slide_score))+Number(props.score_done))<=Number(props.fet_scor)) {
         setSlide_score(score_change)
         props.setListData({...props.listData, [PersonName]:score_change})  
       }
       // setSlide_score(score_change)
       // props.setListData({...props.listData, [PersonName]:score_change})
-    }
   }
 
   useEffect(() => {
