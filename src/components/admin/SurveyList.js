@@ -4,7 +4,8 @@ import { collection, getDocs } from "firebase/firestore";
 import { Typography, TextField, Container } from '@mui/material';
 import SurveyTable from "./SurveyTable";
 import SurveyForm from './SurveyForm';
-import { queryObject } from "./Search";
+// import { queryObject } from "./Search";
+import queryObject from "./Search";
 import { doc, onSnapshot } from "firebase/firestore";
 
 function SurveyList() {

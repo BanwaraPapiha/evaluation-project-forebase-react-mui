@@ -5,7 +5,8 @@ import { Paper, Typography, Button, TextField, Container, Stack, Grid } from '@m
 import PersonTable from "./PersonTable";
 import PersonForm from "./PersonAdd";
 import { doc, onSnapshot } from "firebase/firestore";
-import { queryObject } from "./Search"
+// import { queryObject } from "./Search"
+import queryObject from "./Search"
 import { SurveyCTx } from "../../providers/surveyctx";
 import { Box, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
 

@@ -3,7 +3,8 @@ import { Db } from "../../firebase-config/db";
 import { collection, getDocs } from "firebase/firestore";
 import { Typography, TextField, Container, Grid } from '@mui/material';
 import FeatureTable from "./FeatureTable";
-import { queryObject } from "./Search"
+// import { queryObject } from "./Search"
+import queryObject from "./Search"
 import { doc, onSnapshot, getDoc } from "firebase/firestore";
 import FeatureForm from "./FeatureAdd";
 import { SurveyCTx } from "../../providers/surveyctx";
