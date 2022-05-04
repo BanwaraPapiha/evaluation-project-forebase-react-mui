@@ -5,32 +5,23 @@ import { collection, query, where, onSnapshot, getDocs } from "firebase/firestor
 import { Db } from "../../firebase-config/db";
 import { SurveyCTx } from "../../providers/surveyctx";
 import { useNavigate } from "react-router-dom";
+import { getAuth } from "firebase/auth";
+
+const auth = getAuth();
 
 export default function BasicMenu(props) {
     const [anchorEl, setAnchorEl] = useState(null);
     const [actSurve, setActSurve] = useState([]);
     const open = Boolean(anchorEl);
+    const user = auth.currentUser;
     const surveyCtx = useContext(SurveyCTx);
     const navigate = useNavigate();
-    const handleClick = (e) => {
-      setAnchorEl(e.currentTarget);
-    };
 
-  useEffect(()=>{
-      const fetchSurve = async () => {
-        console.log("Changed")
-        var q = query(collection(Db, "surveys"), where("active", "==", true));
-        if (props.user_scope==="admin") {
-          q = query(collection(Db, "surveys"));
-        }
-        // const q = query(collection(Db, "surveys"), where("active", "==", true));
-        const querySnapshot = await getDocs(q);
-        const unsubscribe = onSnapshot(q, (querySnapshot) => {
-          setActSurve(querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-          });
-        }
-        fetchSurve();
-    }, [open])
+    const handleClick = (e) => {
+      if (user) {
+        setAnchorEl(e.currentTarget);
+      }
+    };
 
     const handleClose = (dval) => {
       setAnchorEl(null); 
@@ -46,7 +37,7 @@ export default function BasicMenu(props) {
     }
 
     const allowd = (arr) => {
-      if (arr.includes("muhammadabdullahnabeel@gmail.com")) {
+      if (arr.includes()) {
         console.log(arr)
         console.log("Found and Allowed")
         navigate('/survey')
@@ -54,13 +45,25 @@ export default function BasicMenu(props) {
       else {
         console.log(arr)
         navigate('/')
-        alert("You are not in this survey")
+        // alert("You are not in this survey")
       }
     }
 
     useEffect(()=>{
-      console.log(surveyCtx.survey[0]['name'])
-    }, [anchorEl])
+      const fetchSurve = async () => {
+        console.log("Changed")
+        var q = query(collection(Db, "surveys"), where("active", "==", true));
+        if (props.user_scope==="admin") {
+          q = query(collection(Db, "surveys"));
+        }
+        // const q = query(collection(Db, "surveys"), where("active", "==", true));
+        const querySnapshot = await getDocs(q);
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+          setActSurve(querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+          });
+        }
+        fetchSurve();
+    }, [open])
 
     return (
       <div>
@@ -68,6 +71,7 @@ export default function BasicMenu(props) {
           aria-controls={open ? 'basic-menu' : undefined} id="basic-button" color='secondary' variant="contained"
           aria-expanded={open ? 'true' : undefined} aria-haspopup="true" onClick={handleClick}
         >
+          {/* {surveyCtx.survey[0]['name'] || "Choose a Survey"} */}
           {surveyCtx.survey[0]['name']}
         </Button>
         <Menu id="basic-menu" anchorEl={anchorEl} open={open} onClose={handleClose}
@@ -77,7 +81,6 @@ export default function BasicMenu(props) {
         >
           {actSurve.map((x)=>{
             return (
-              // <MenuItem onClick={()=>{handleClose(x);surveyCtx.setSurvey([x]);allowd(x.users);navigate("/survey")}}>{x.name}</MenuItem>
               <MenuItem onClick={()=>{handleClose(x);handleOnClose(x)}}>{x.name}</MenuItem>
             )
           })}

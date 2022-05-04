@@ -63,25 +63,47 @@ function LoginPage() {
     });
   }
 
+  // useEffect(()=>{
+  //   const fetchAdmins = async () => {
+  //     const docSnap = await getDoc(doc(Db, "Admins", "admins_list"));
+  //     if (docSnap.exists()) {
+  //       // console.log("Admins Data: ", docSnap.data());
+  //       // console.log("Admins Data admins_list: ", docSnap.data().admins_list);
+  //       let temp_adm = docSnap.data().admins_list
+  //       setAdmins(temp_adm)
+  //       console.log("admins")
+  //       console.log(admins)
+  //       console.log(auth.currentUser.email)
+  //       console.log(admins.includes(String(auth.currentUser.email)))
+  //       if (Boolean(auth.currentUser) && admins.length>0) {
+  //         console.log("authentcated check")
+  //         console.log(admins.includes(String(auth.currentUser.email)))
+  //         UserCtx.setAdmin(admins.includes(String(auth.currentUser.email)))
+  //         console.log(UserCtx.admin)
+  //       }
+    
+  //     } else {
+  //       console.log("No admins retrieved");
+  //     }
+  //   }
+  
+  //   fetchAdmins()
+  //   console.log(UserCtx.admin)
+  // }, [auth.currentUser])
+
   useEffect(()=>{
     const fetchAdmins = async () => {
       const docSnap = await getDoc(doc(Db, "Admins", "admins_list"));
       if (docSnap.exists()) {
-        // console.log("Admins Data: ", docSnap.data());
         // console.log("Admins Data admins_list: ", docSnap.data().admins_list);
+        // let temp_adm = docSnap.data().admins_list
+        // setAdmins(temp_adm)
         setAdmins(docSnap.data().admins_list)
         console.log("admins")
         console.log(admins)
         console.log(auth.currentUser.email)
         console.log(admins.includes(String(auth.currentUser.email)))
-        if (auth.currentUser && admins.length>0) {
-          console.log("authentcated check")
-          console.log(admins.includes(String(auth.currentUser.email)))
-          UserCtx.setAdmin(admins.includes(String(auth.currentUser.email)))
-          console.log(UserCtx.admin)
-        }
-    
-      } else {
+        } else {
         console.log("No admins retrieved");
       }
     }
@@ -89,6 +111,23 @@ function LoginPage() {
     fetchAdmins()
     console.log(UserCtx.admin)
   }, [auth.currentUser])
+
+  useEffect(()=>{
+    const checkAdmins = async () => {
+      console.log("admins")
+      console.log(admins)
+      console.log(auth.currentUser.email)
+      console.log(admins.includes(String(auth.currentUser.email)))
+      if (Boolean(auth.currentUser) && admins.length>0) {
+        console.log("authentcated check")
+        console.log(admins.includes(String(auth.currentUser.email)))
+        UserCtx.setAdmin(admins.includes(String(auth.currentUser.email)))
+        console.log(UserCtx.admin)
+      }
+    }
+    checkAdmins()
+    console.log(UserCtx.admin)
+  }, [auth.currentUser, admins])
 
   onAuthStateChanged(auth, (user) => {
     if (user) {

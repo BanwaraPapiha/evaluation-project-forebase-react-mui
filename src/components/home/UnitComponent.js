@@ -5,6 +5,9 @@ import { PointsCtx } from "../../providers/pointsctx";
 import { SurveyCTx } from "../../providers/surveyctx";
 import { updateDoc, serverTimestamp } from "firebase/firestore";
 import { UserContext } from "../../providers/userCtx";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
+
+const auth = getAuth();
 
 function UnitComponent(props) {
   const [slide_score, setSlide_score] = useState(0);
@@ -13,18 +16,30 @@ function UnitComponent(props) {
   const PersonName = props.person;
   const FeatureName = props.feature;
 
+  const curr_user = auth.currentUser.email;
+  
   const HandleChange = (e) => {
-      let score_change = e.target.value;
-      setSlide_score(score_change)
-      props.setListData({...props.listData, [PersonName]:score_change})
-      console.log(props.listData)
+    let score_change = e.target.value;
+    if ((Number(Math.abs(score_change-slide_score))+Number(props.score_done))>Number(props.fet_scor)) {
+      props.setOpen(true)
+      // console.log("Exceeding")
+    }
+    else {
+      if ((Number(Math.abs(score_change-slide_score))+Number(props.score_done))<=Number(props.fet_scor)) {
+        setSlide_score(score_change)
+        props.setListData({...props.listData, [PersonName]:score_change})  
+      }
+      // setSlide_score(score_change)
+      // props.setListData({...props.listData, [PersonName]:score_change})
+    }
   }
+
   useEffect(() => {
     points.setPointsdata({...points.pointsdata, [props.feature]: props.listData})
     console.log(points.pointsdata)
-}, [props.listData]);
+  }, [props.listData]);
 
-  if (props.person==="muhammadabdullahnabeel@gmail.com") {
+  if (props.person===curr_user) {
     return (
       <Grid item sm={10} md={6}>
       <Card elevation={10}>
@@ -33,37 +48,16 @@ function UnitComponent(props) {
         Score Awarded: <Chip variant="outlined" label={(typeof(slide_score) === 'undefined') ? 0 : slide_score} color="info" />
         </Paper>
           <Typography gutterBottom variant="h5" component="div">
-          {/* Name: { JSON.parse(props.person).Name } <br />
-          Email: { JSON.parse(props.person).Email } <br />
-          Score: { JSON.parse(props.t_scores)} <br/> */}
+          {/* Email: { JSON.parse(props.person).Email } <br /> */}
           Name: { props.person } <br />
-          </Typography>
-
-          <Typography variant="body2" color="text.secondary">
-          You can give a total scores of: {props.t_scores} <br />
-          Stats =&gt; Given: {slide_score} <br />
           </Typography>
         </CardContent>
 
-        {/* <CardActions>
-          <Container>
-            <Slider defaultValue={0}  max={props.t_scores} step={0.5} 
-              aria-label="Default" valueLabelDisplay="auto" 
-              onChange={HandleChange}
-            />
-          </Container>
-        </CardActions> */}
-
         <CardActions>
           <Container>
-          <Typography variant="caption" display="block" gutterBottom>
-            &nbsp;&nbsp;&nbsp; You cant evluate yourself
-          </Typography>
-
-            {/* <Slider defaultValue={0}  max={props.t_scores} step={0.5} 
-              aria-label="Default" valueLabelDisplay="auto" 
-              onChange={HandleChange}
-            /> */}
+            <Typography variant="caption" display="block" gutterBottom>
+              &nbsp;&nbsp;&nbsp; You can't evluate yourself
+            </Typography>
           </Container>
         </CardActions>
 
@@ -75,6 +69,7 @@ function UnitComponent(props) {
    
     )
   }
+
   return (
     <Grid item sm={10} md={6}>
       <Card elevation={10}>
@@ -83,23 +78,24 @@ function UnitComponent(props) {
         Score Awarded: <Chip variant="outlined" label={(typeof(slide_score) === 'undefined') ? 0 : slide_score} color="info" />
         </Paper>
           <Typography gutterBottom variant="h5" component="div">
-          {/* Name: { JSON.parse(props.person).Name } <br />
-          Email: { JSON.parse(props.person).Email } <br />
-          Score: { JSON.parse(props.t_scores)} <br/> */}
+          {/* Email: { JSON.parse(props.person).Email } <br /> */}
           Name: { props.person } <br />
           </Typography>
 
           <Typography variant="body2" color="text.secondary">
-          You can give a total scores of: {props.t_scores} <br />
-          Stats =&gt; Given: {slide_score} <br />
+            You can give a total scores of: {props.fet_scor} <br />
+            You already have given: {props.score_done} <br />
+            Remaining: {props.fet_scor-props.score_done} <br />
+            Stats =&gt; Given: {slide_score} <br />
           </Typography>
         </CardContent>
 
         <CardActions>
           <Container>
-            <Slider defaultValue={0}  max={props.t_scores} step={0.5} 
+            <Slider defaultValue={0}  max={props.fet_scor} step={0.5} 
               aria-label="Default" valueLabelDisplay="auto" 
               onChange={HandleChange}
+              value={slide_score}
             />
           </Container>
         </CardActions>

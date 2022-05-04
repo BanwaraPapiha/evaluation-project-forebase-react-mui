@@ -45,6 +45,31 @@ function MultiStep() {
     getSurveyFeatures();
   }, [current_survey]);
 
+  if (UserCtx.admin) {
+    return (
+      <Container>
+        <Typography variant="button" gutterBottom component="div" style={{"text-align": "center"}}>
+          Survey {current_survey}<br/>
+          Evaluate All the given users in the following Features Step By Step
+        </Typography>
+
+        {survFeature.length > 0 ?
+         survFeature.map((x, index) => {
+          return (
+            <UnitStepForm className="UnitSteps" personsList={ survUser } featureName={x} scores={2000} />
+            )
+         }) : 'Loading'}
+        <br/>
+    
+        {
+          current_survey!=="Not Selected" && current_user ? <Button variant="contained" color="secondary" onClick={Submit}>Submit</Button>
+          : <Button disabled>Submit</Button>
+        }
+      </Container>
+    );  
+  
+  }
+
   if (survUser.includes(UserCtx.Loguser.email) && current_survey!=="Not Selected")
   {
     return (
@@ -53,20 +78,19 @@ function MultiStep() {
           Survey {current_survey}<br/>
           Evaluate All the given users in the following Features Step By Step
         </Typography>
-  
+
         {survFeature.length > 0 ?
          survFeature.map((x, index) => {
           return (
             <UnitStepForm className="UnitSteps" personsList={ survUser } featureName={x} scores={2000} />
             )
          }) : 'Loading'}
-       
         <br/>
-  
-      {
-        current_survey!=="Not Selected" && current_user ? <Button variant="contained" color="secondary" onClick={Submit}>Submit</Button>
-        : <Button disabled>Submit</Button>
-      }
+    
+        {
+          current_survey!=="Not Selected" && current_user ? <Button variant="contained" color="secondary" onClick={Submit}>Submit</Button>
+          : <Button disabled>Submit</Button>
+        }
       </Container>
     );  
   
@@ -75,21 +99,20 @@ function MultiStep() {
     return (
       <Container>
         <Typography variant="button" gutterBottom component="div">
-        Survey {current_survey}<br/>
-        You are not found in the current survey
-      </Typography>
-
+          Survey {current_survey}<br/>
+          You are not found in the current survey
+        </Typography>
       </Container> 
     )
   }
+
   else if (current_survey==="Not Selected") {
     return (
       <Container>
         <Typography variant="button" gutterBottom component="div">
-        Survey {current_survey}<br/>
-        Please Select a Survey
-      </Typography>
-
+          Survey {current_survey}<br/>
+          Please Select a Survey
+        </Typography>
       </Container> 
     )
   }
@@ -103,7 +126,6 @@ function MultiStep() {
 
       </Container> 
     )
-
   }
 }
 
