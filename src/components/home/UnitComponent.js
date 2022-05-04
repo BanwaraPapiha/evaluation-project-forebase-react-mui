@@ -20,17 +20,28 @@ function UnitComponent(props) {
   
   const HandleChange = (e) => {
     let score_change = e.target.value;
-    if ((Number(Math.abs(score_change-slide_score))+Number(props.score_done))>Number(props.fet_scor)) {
+    console.log(score_change-slide_score)
+    
+    if ((score_change-slide_score)>0 && (Number(Math.abs(score_change-slide_score))+Number(props.score_done))>Number(props.fet_scor)) {
+      console.log("Increasing")
       props.setOpen(true)
-      // console.log("Exceeding")
     }
-    else if ((Number(Math.abs(score_change-slide_score))+Number(props.score_done))<=Number(props.fet_scor)) {
-        setSlide_score(score_change)
-        props.setListData({...props.listData, [PersonName]:score_change})  
-      }
-      // setSlide_score(score_change)
-      // props.setListData({...props.listData, [PersonName]:score_change})
-  }
+
+    if ((score_change-slide_score)>0 && (Number(Math.abs(score_change-slide_score))+Number(props.score_done))<Number(props.fet_scor)) {
+      console.log("Increasing")
+      props.setOpen(false)
+      setSlide_score(score_change) // remove
+      props.setListData({...props.listData, [PersonName]:score_change})  
+    }
+
+    if ((score_change-slide_score)<0) {
+      console.log("Decreasing")
+      props.setOpen(false)
+      setSlide_score(score_change) // remove
+      props.setListData({...props.listData, [PersonName]:score_change})  
+
+    }
+}
 
   useEffect(() => {
     points.setPointsdata({...points.pointsdata, [props.feature]: props.listData})
