@@ -3,7 +3,7 @@ import GoogleIcon from '@mui/icons-material/Google';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { makeStyles } from "@material-ui/core/styles";
 import { useEffect, useState, useContext } from "react";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, signInWithRedirect, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
 import { UserContext } from "../../providers/userCtx";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { Db } from "../../firebase-config/db";
@@ -38,7 +38,9 @@ function LoginPage() {
   const user = auth.currentUser;
 
   const signInWithGoogle = () => {
-    signInWithPopup(auth, provider)
+    signInWithRedirect(auth, provider)
+
+    // signInWithPopup(auth, provider)
       .then((result) => {
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;

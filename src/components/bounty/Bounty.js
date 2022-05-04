@@ -41,7 +41,7 @@ function Bounty() {
         setScoreData(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
       };
       getData();
-    }, []);
+    }, [survey]);
 
     useEffect(()=>{
       console.log("Strted\n")
@@ -130,9 +130,9 @@ function Bounty() {
       <Container>
       <Stack spacing={4}>
         <br />
-        <Typography variant="h5" gutterBottom component="div">
+        <Typography variant="h5" gutterBottom component="div" style={{"text-align": "center"}}>
+            The Survey Selected is: "{survey}" <br/>
             Total Changed Points Score = {ac_de_Sum} 
-            {/* | Total Points Score = {pointsSum} */}
         </Typography>
 
         <Paper elevation={5} >

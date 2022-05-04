@@ -52,7 +52,7 @@ const Header = () => {
   if (UserCtx.admin) {
     linked_pages = [
       { "page": "Actions", "route": "/actions"}, 
-      { "page": "Charts", "route": "/charts"}, 
+      // { "page": "Charts", "route": "/charts"}, 
       { "page": "Bounty", "route": "/bounty"}, 
       // { "page": currentSurvey, "route": "/admin"},
       { "page": "Manage Surveys", "route": "/admin"},
