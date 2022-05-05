@@ -39,9 +39,8 @@ function UnitComponent(props) {
       props.setOpen(false)
       setSlide_score(score_change) // remove
       props.setListData({...props.listData, [PersonName]:score_change})  
-
     }
-}
+  }
 
   useEffect(() => {
     points.setPointsdata({...points.pointsdata, [props.feature]: props.listData})

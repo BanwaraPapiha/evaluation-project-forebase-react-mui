@@ -38,7 +38,7 @@ const AppRouter = () => {
         }
       }
       fetchAdmins()
-      console.log(admins)
+      // console.log(admins)
       if (auth.currentUser) {
         console.log(admins.includes(auth.currentUser.email))
       }

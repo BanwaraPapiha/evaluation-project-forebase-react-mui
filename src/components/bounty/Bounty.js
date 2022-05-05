@@ -1,11 +1,12 @@
 import { useState, useEffect, useContext } from "react";
 import { Db } from "../../firebase-config/db";
-import { collection, getDocs } from "firebase/firestore";
-import { Paper, Typography, Button, TextField, Container, Stack, Grid } from '@mui/material';
+import { doc, setDoc, getDoc } from "firebase/firestore"; 
+import { collection, getDocs } from "firebase/firestore"; 
+import { Paper, Typography, Button, TextField, Container, Stack, Grid, Divider } from '@mui/material';
 import { SurveyCTx } from "../../providers/surveyctx";
-import BountyTable from "./BountyTable";
 import { UserContext } from "../../providers/userCtx";
-import { doc, setDoc } from "firebase/firestore"; 
+import BountyTable from "./BountyTable";
+import TableRow from "./BountyTable";
 
 function Bounty() {
     const [ac_de_Sum, setAc_de_Sum] = useState(0);
@@ -14,6 +15,7 @@ function Bounty() {
     const [totalBounty, setTotalBounty] = useState(0);
     const [pointsSum, setPointsSum] = useState(0);
     const [acObj, setAcObj] = useState({});
+    const [last_b_data, setLast_b_data] = useState({});
     const [idSumArr, setIdSumArr] = useState([]);
     const Calc_Scor = {};
     const surveyCtx = useContext(SurveyCTx)
@@ -97,7 +99,7 @@ function Bounty() {
         temp_link.click();
         document.body.removeChild(temp_link);
     }
-  
+
     async function tableToJSON() {
       var arr = [];
       var rows = document.getElementsByTagName('tr');
@@ -115,17 +117,33 @@ function Bounty() {
           }
           arr.push(csvrow)
       }
-
       console.log(arr)
-      await setDoc(doc(Db, "Bounties", "Surveyname"), {
+      await setDoc(doc(Db, "Bounties", survey), {
         arr
       });
-      // arr.map((x)=>{
-      //   console.log(x)
-      // })
       return JSON.stringify(obj);
     }
-    
+
+    useEffect(()=>{
+      const handleRead = async () => {
+        console.log(true)
+        const docRef = doc(Db, "Bounties", survey);
+        const docSnap = await getDoc(docRef);
+        
+        if (docSnap.exists()) {
+          console.log("Last survey data:", docSnap.data());
+          console.log("Last survey data:", docSnap.data().arr);
+          // last_b_data, setLast_b_data
+          setLast_b_data(docSnap.data().arr)
+        } else {
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
+        }
+      }
+      handleRead()  
+
+    }, [survey])
+
     return (
       <Container>
       <Stack spacing={4}>
@@ -164,6 +182,51 @@ function Bounty() {
         <BountyTable title={["Name", "Total Points", "Acc/Dec Value", "New Score", "Bounty (Money)", "Actions"]} 
         idSum={idSumArr} totalBounty={totalBounty} bountySum={bountySum} setBountySum={setBountySum} setAcObj={setAcObj} acObj={acObj} ac_de_Sum={ac_de_Sum}
         obj={obj} />
+      </div>
+
+      <Divider/>
+
+      <Paper elevation={5} >
+        <Container>
+          <Stack spacing={2}>  
+            <br/>            
+            {/* <Button onClick={handleRead} fullWidth variant="contained">Get Last Saved Data</Button> */}
+            <Typography variant="button" gutterBottom component="div" style={{"text-align": "center"}}>
+              Get Last Saved Data
+            </Typography>
+            <br/>
+          </Stack>
+        </Container>
+      </Paper> 
+
+      <div>
+      <table style={{width: "100%"}}>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Total Points	</th>
+            <th>Acc/Dec Value</th>
+            <th>New Score</th>
+            <th>Bounty (Money)</th>
+            {/* <th>Bounty (Money)</th> */}
+          </tr>
+        </thead>
+            {last_b_data.length>0 &&
+                <tbody>
+                {last_b_data.map((ub)=>{
+                  return (
+                    <tr>
+                      <td>{ub.name}</td>
+                      <td>{ub.sum_points}</td>
+                      <td>{ub.a_d_ecelBy}</td>
+                      <td>{ub.new_points}</td>
+                      <td>{ub.bounty}</td>
+                    </tr>
+                  )
+                })}
+                </tbody>
+            }
+        </table>
       </div>
     </Stack>
     </Container>

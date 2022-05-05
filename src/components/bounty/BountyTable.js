@@ -4,7 +4,7 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { Stack } from '@mui/material';
 import "../../styles/table.css";
 
-const TableRow = (props) => {
+export const TableRow = (props) => {
     const [acc_value, setAcc_value] = useState(1)
     const [bounty, setBounty] = useState(0)
     const accelerate = () => setAcc_value(acc_value+.25)

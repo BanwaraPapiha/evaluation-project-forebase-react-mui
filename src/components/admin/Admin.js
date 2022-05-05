@@ -21,10 +21,9 @@ export default function Admin(props) {
 
     const navigate = useNavigate()
     const handleFinish = () => {
-      alert(String(CurrentSurvey.survey[0]["id"]));
-      console.log("Submitted!\nCopy and Go to this URL: ", String(CurrentSurvey.survey[0]["id"]));
+      alert("Survey Created/modified: " + String(CurrentSurvey.survey[0]["id"]));
       // redirect
-      navigate('/account', { replace: true });
+      navigate('/survey', { replace: true });
   }
     return (
       <Container>
