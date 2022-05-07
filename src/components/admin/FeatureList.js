@@ -55,21 +55,25 @@ function FeatureList() {
     body = queryObject(searchQuery, features);
 
     return (
-      <Container>      
-        <Typography variant="h5" gutterBottom component="div">Features</Typography>
-        <TextField fullWidth label="Search Feature" id="search-feature" onChange={handleSearch}/><br/>
+      <Container>
+        <br/><br/>   
+        <Typography variant="h4" gutterBottom component="div">Manage Features</Typography>
+        <TextField fullWidth label="Search Feature" id="search-feature" onChange={handleSearch}/><br/><br/>
         <Grid container spacing={3}>
           <Grid item xs={12} md={6} style={{"overflow-x":"auto"}}>
+          <Typography variant="h6" gutterBottom component="div">All Features</Typography>
             <FeatureTable title={["Feature", "Total Sum of Scores", "Add/Remove", "Delete"]} body={body}/>
           </Grid>
 
           <Grid item xs={12} md={6}>
+          <Typography variant="h6" gutterBottom component="div">Features in this survey</Typography>
             <div>
               <FeatureScoresTable/>
             </div>
 
           </Grid>
         </Grid>
+        <br/><br/>
         <FeatureForm id="FeatureAddOnlyForm"/><br/>
 
     </Container>

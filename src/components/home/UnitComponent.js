@@ -23,21 +23,21 @@ function UnitComponent(props) {
     console.log(score_change-slide_score)
     
     if ((score_change-slide_score)>0 && (Number(Math.abs(score_change-slide_score))+Number(props.score_done))>Number(props.fet_scor)) {
-      console.log("Increasing")
+      console.log("Exceeding")
       props.setOpen(true)
     }
 
-    if ((score_change-slide_score)>0 && (Number(Math.abs(score_change-slide_score))+Number(props.score_done))<Number(props.fet_scor)) {
+    if ((score_change-slide_score)>0 && (Number(Math.abs(score_change-slide_score))+Number(props.score_done))<=Number(props.fet_scor)) {
       console.log("Increasing")
       props.setOpen(false)
-      setSlide_score(score_change) // remove
+      setSlide_score(score_change)
       props.setListData({...props.listData, [PersonName]:score_change})  
     }
 
     if ((score_change-slide_score)<0) {
       console.log("Decreasing")
       props.setOpen(false)
-      setSlide_score(score_change) // remove
+      setSlide_score(score_change)
       props.setListData({...props.listData, [PersonName]:score_change})  
     }
   }
@@ -49,10 +49,10 @@ function UnitComponent(props) {
 
   if (props.person===curr_user) {
     return (
-      <Grid item sm={10} md={6}>
-      <Card elevation={10}>
+      <Grid item sm={12} md={6}>
+      <Card elevation={4}>
         <CardContent>
-        <Paper elevation={6} style={{padding: "10px"}}>
+        <Paper elevation={1} style={{padding: "10px"}}>
         Score Awarded: <Chip variant="outlined" label={(typeof(slide_score) === 'undefined') ? 0 : slide_score} color="info" />
         </Paper>
           <Typography gutterBottom variant="h5" component="div">
@@ -79,22 +79,23 @@ function UnitComponent(props) {
   }
 
   return (
-    <Grid item sm={10} md={6}>
-      <Card elevation={10}>
+    <Grid item sm={12} md={6}>
+      <Card elevation={4}>
         <CardContent>
-        <Paper elevation={6} style={{padding: "10px"}}>
-        Score Awarded: <Chip variant="outlined" label={(typeof(slide_score) === 'undefined') ? 0 : slide_score} color="info" />
+        <Paper elevation={1} style={{padding: "10px"}}>
+          Score Awarded: <Chip variant="outlined" label={(typeof(slide_score) === 'undefined') ? 0 : slide_score} color="info" />
         </Paper>
-          <Typography gutterBottom variant="h5" component="div">
+          <Typography gutterBottom variant="h6" component="div">
           {/* Email: { JSON.parse(props.person).Email } <br /> */}
-          Name: { props.person } <br />
+          {/* Name: { props.person } <br /> */}
+          Email: { props.person } <br />
           </Typography>
 
           <Typography variant="body2" color="text.secondary">
             You can give a total scores of: {props.fet_scor} <br />
-            You already have given: {props.score_done} <br />
+            You already have given {props.score_done} of total scores <br />
             Remaining: {props.fet_scor-props.score_done} <br />
-            Stats =&gt; Given: {slide_score} <br />
+            {/* Stats =&gt; Given: {slide_score} <br /> */}
           </Typography>
         </CardContent>
 
@@ -108,9 +109,9 @@ function UnitComponent(props) {
           </Container>
         </CardActions>
 
-        <Typography variant="caption" display="block" gutterBottom>
+        {/* <Typography variant="caption" display="block" gutterBottom>
           &nbsp;&nbsp;&nbsp;Id: { props.person }
-        </Typography>
+        </Typography> */}
       </Card>
     </Grid>
 );

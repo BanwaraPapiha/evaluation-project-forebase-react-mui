@@ -7,24 +7,34 @@ import "../../styles/table.css";
 export const TableRow = (props) => {
     const [acc_value, setAcc_value] = useState(1)
     const [bounty, setBounty] = useState(0)
-    const accelerate = () => setAcc_value(acc_value+.25)
-    const decelerate = () => acc_value > 0 ? setAcc_value(parseFloat(Number(acc_value-.05).toFixed(2))) : setAcc_value(0)
+    const accelerate = () => {setAcc_value(acc_value+.25);
+        // props.setTotalBounty(Number(0))
+    }
+    const decelerate = () => {
+        acc_value > 0 ? setAcc_value(parseFloat(Number(acc_value-.05).toFixed(2))) : setAcc_value(0)
+        // props.setTotalBounty(Number(0))
+    }
     const oneScore = parseFloat(Number(acc_value*props.data[1]).toFixed(2));
     props.obj[[props.data[0]]] = oneScore
     console.log(props.obj);
 
     useEffect(()=>{
+        // const oneScore = parseFloat(Number(acc_value*props.data[1]).toFixed(2));
+        props.obj[[props.data[0]]] = oneScore
+        console.log(props.obj);
+    
         props.setAcObj(props.obj)
-    }, [acc_value])
+    }, [acc_value, props.ac_de_Sum])
 
     useEffect(()=>{
         console.log("This is One's Money")
+        console.log()
         setBounty(Number((oneScore/props.ac_de_Sum)*props.totalBounty).toFixed(1))
         console.log(bounty)
-    }, [acc_value, props.totalBounty])
+    }, [acc_value, props.totalBounty, props.ac_de_Sum])
 
     return (
-        <tr>
+        <tr className="arr">
             <td style={{border: "1px solid black"}}>{props.data[0]}</td>
             <td>{props.data[1]}</td>
             <td style={{border: "1px solid black"}}>{acc_value}</td>

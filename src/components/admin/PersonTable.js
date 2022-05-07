@@ -15,16 +15,19 @@ const Added = (props) => {
     const Curr_survey = surveyCtx.survey[0]['id']
     const taskDocRef = doc(Db, "surveys", Curr_survey)
 
-    const checkState = async (qfeature) => {
-        const unsub = onSnapshot(taskDocRef, (doc) => {
-        //   console.log("Current data: ", doc.data().users);
-          if (doc.data().users.includes(qfeature)) {
-            console.log("Found in Array")
-            setAdded(true)
-          }
-      });
-    }
-    checkState(props.userDetail.Email)
+    useEffect(()=>{
+        const checkState = async (qfeature) => {
+            const unsub = onSnapshot(taskDocRef, (doc) => {
+            //   console.log("Current data: ", doc.data().users);
+              if (doc.data().users.includes(qfeature)) {
+                console.log("Found in Array")
+                setAdded(true)
+              }
+          });
+        }
+        checkState(props.userDetail.Email)
+    
+    }, [])
 
     async function Remove2Array(user2Add) {
         const result = await updateDoc(taskDocRef, {
@@ -62,7 +65,7 @@ const PersonTable = (props) => {
 
     const handleDelete = async (id, person) => {
         Remove2Array(SurveyDocRef, person)
-        alert(`You are going to delete? ${person}`)
+        // alert(`${person} is being deleted`)
         const taskDocRef = doc(Db, "persons to be evaluated", id)
         try{
           await deleteDoc(taskDocRef)
@@ -92,7 +95,7 @@ const PersonTable = (props) => {
                 <td>{prsn.Name}</td>
                 <td>{prsn.Email}</td>
                 <td>{prsn.id?<Added userDetail={prsn}/>:""}</td>
-                <td>{prsn.id?<DeleteIcon onClick={()=>handleDelete(prsn.id, prsn.Name)}/>:<Link href="#PersonAddOnlyForm">No Matches. Create New Person?</Link>}</td>
+                <td>{prsn.id?<DeleteIcon style={{color:"rgb(235, 0, 20)"}} onClick={()=>handleDelete(prsn.id, prsn.Name)}/>:<Link href="#PersonAddOnlyForm">No Matches. Create New Person?</Link>}</td>
                 </tr>
             );
             })}

@@ -5,7 +5,7 @@ import { Db } from "../../firebase-config/db";
 import { doc, onSnapshot, getDoc } from "firebase/firestore";
 import { SurveyCTx } from "../../providers/surveyctx";
 
-function TransitionLeft(props) {
+function Transitiondown(props) {
   return <Slide {...props} direction="down" />;
 }
 
@@ -57,21 +57,21 @@ function UnitStepForm(props) {
           vertical: 'bottom',
           horizontal: 'center',
          }}
-        TransitionComponent={TransitionLeft} 
+        TransitionComponent={Transitiondown} 
         onClose={handleClose}
         message="Note archived"
       >
         <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
-          You can't give more than {fet_scor} total poits for the feature {props.featureName}!
+          You can't give more than {fet_scor} total points for the feature {props.featureName}!
         </Alert>
 
       </Snackbar>: null
       }
-      <Typography variant="h5" gutterBottom component="div" style={{"text-align": "center", "height": "20vh", "margin-top": "20vh"}}>
-        Feature Seleted is: {props.featureName}
-        <br/>
-        Feature Scores Done are: {score_done}
-        <br/>
+      <Typography variant="h6" gutterBottom component="div"       
+      style={{"text-align": "center", "min-height": "10vh", "background-color":"rgb(123, 31, 162)", "color": "rgb(248, 247, 249)", "border-radius": "10px"}}
+      >
+        Feature Seleted is: {props.featureName}<br/>
+        Feature Scores Done are: {score_done}<br/>
         {/* You have total {props.scores} Scores to distribute <br/> */}
         You have total {fet_scor} Scores to distribute
       </Typography>

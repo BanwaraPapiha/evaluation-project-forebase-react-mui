@@ -4,6 +4,7 @@ import "../../styles/table.css";
 import { doc, updateDoc } from "firebase/firestore";
 import { Db } from "../../firebase-config/db";
 import SwitchAccessShortcutIcon from '@mui/icons-material/SwitchAccessShortcut';
+import { Typography, TextField, Container } from '@mui/material';
 
 const SurveyTable = (props) => { 
     const CurrentSurvey = useContext(SurveyCTx);
@@ -22,8 +23,13 @@ const SurveyTable = (props) => {
 
     return (
         <div style={{"overflow-x":"auto" }}>
-            <h1>Name: {CurrentSurvey.survey[0]['name']} <br/>Id: {CurrentSurvey.survey[0]['id']}</h1>
-            <table style={{border: "1px solid black", width: "100%"}}>
+            <Typography variant="h4" gutterBottom component="div"       
+                style={{"text-align": "center", "min-height": "10vh", "background-color":"rgb(123, 31, 162)", "color": "rgb(248, 247, 249)", "border-radius": "10px"}}
+            >
+                <br/>Survey Name: {CurrentSurvey.survey[0]['name']} <br/><br/>
+            </Typography>
+
+            <table style={{border: "1px solid black", width: "100%", "overflow-x":"auto"}}>
                 <thead>
                     <tr>
                         {props.title.map(t=>{

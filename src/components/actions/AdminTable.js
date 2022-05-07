@@ -11,8 +11,8 @@ const AdminTable = () => {
         await updateDoc(ref, {
           admins_list: arrayRemove(val)
         });    
-      };
-  
+    };
+
     useEffect(()=>{
         const fetch_admin_li = async () => {
             const unsub = onSnapshot(doc(Db, "Admins", "admins_list"), (doc) => {

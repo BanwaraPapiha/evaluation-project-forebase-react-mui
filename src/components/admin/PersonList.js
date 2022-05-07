@@ -1,20 +1,23 @@
 import { useState, useEffect, useContext } from "react";
 import { Db } from "../../firebase-config/db";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, getDoc } from "firebase/firestore";
+import { doc, onSnapshot } from "firebase/firestore";
 import { Paper, Typography, Button, TextField, Container, Stack, Grid } from '@mui/material';
 import PersonTable from "./PersonTable";
 import PersonForm from "./PersonAdd";
-import { doc, onSnapshot } from "firebase/firestore";
 // import { queryObject } from "./Search"
 import queryObject from "./Search"
 import { SurveyCTx } from "../../providers/surveyctx";
-import { Box, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
+import { Box, List, ListItem, ListItemButton, ListItemText, IconButton } from '@mui/material';
+import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
+import PendingIcon from '@mui/icons-material/Pending';
 
 function PersonList() {
     const [persons, setPersons] = useState([]);
     const usersCollectionRef_persons = collection(Db, "persons to be evaluated");
     const [searchQuery, setSearchQuery] = useState("");
     const [addedUsers, setAddedUsers] = useState([]);
+    const [tracked_data, setTracked_data] = useState([]);
     const surveyCtx = useContext(SurveyCTx)
     const Curr_survey = surveyCtx.survey[0]['name']
   
@@ -47,8 +50,19 @@ function PersonList() {
           }          
         }
     });
-    }, [])
+    }, [surveyCtx.survey[0]['id']])
 
+    useEffect(()=>{
+      const fetchTrack = async () => {
+        const unsub = onSnapshot(doc(Db, "track_persons", Curr_survey), (doc) => {
+          console.log("Tracked data: ", doc.data());
+          setTracked_data(doc.data())
+        });
+
+        unsub();
+      }
+      fetchTrack()
+    })
     const handleSearch = (e) => {
       setSearchQuery(e.target.value)
       queryObject(searchQuery, persons)
@@ -58,29 +72,46 @@ function PersonList() {
 
     return (
       <Container>
-        <Typography variant="h5" gutterBottom component="div">Persons</Typography>
-        <TextField fullWidth label="Search Persons" id="search-persons" onChange={handleSearch}/><br/>
+        <br/><br/>
+        <Typography variant="h4" gutterBottom component="div">Manage Persons</Typography>
+        <TextField fullWidth label="Search Persons" id="search-persons" onChange={handleSearch}/><br/><br/>
         <Grid container spacing={2}>
           <Grid item xs={12} md={6} style={{"overflow-x":"auto"}}>
-            {/* <PersonTable title={["Id", "Name", "Email", "Add", "Delete"]} body={body}/> */}
+          <Typography variant="h6" gutterBottom component="div">All Persons</Typography>
             <PersonTable title={["Name", "Email", "Add/Remove", "Delete"]} body={body}/>
           </Grid>
           <Grid item xs={12} md={6}>
 
+          <Typography variant="h6" gutterBottom component="div">Persons in this survey</Typography>
           <Box sx={{ bgcolor: 'background.paper' }}>
               <nav aria-label="secondary mailbox folders">
                 <List>
                   {addedUsers.map((x)=>{
                   return (
                     addedUsers.length > 0? 
-                    <ListItem disablePadding>
-                      <ListItemButton component="a" href="#simple-list">
+                    <ListItem disablePadding 
+                    secondaryAction={
+                      <IconButton edge="end" aria-label="delete">
+                        {tracked_data[[x]]?
+                        <div>
+                          <Typography variant="caption" component="p">Filled the Survey</Typography><DoneOutlineIcon style={{color:"green"}}/>
+                        </div>
+                        :
+                        <div>
+                          <Typography variant="caption" component="p">Pending</Typography>
+                          <PendingIcon style={{color:"blue"}}/>
+                        </div>}
+                        
+                      </IconButton>
+                    }
+                    >
+                      <ListItemButton component="div">
                         <ListItemText primary={x} />
                       </ListItemButton>
                     </ListItem>
                   :
                   <ListItem disablePadding>
-                    <ListItemButton component="a" href="#simple-list">
+                    <ListItemButton component="div">
                       <ListItemText primary="Loading" />
                     </ListItemButton>
                   </ListItem>
@@ -89,16 +120,9 @@ function PersonList() {
                 </List>
               </nav>
             </Box>
-
-            {/* {addedUsers.length>0 && addedUsers.map((x)=>{
-              return (
-                addedUsers.length > 0? 
-                <li>{x}</li>:
-                <li>Loading</li>
-              )
-            })} */}
           </Grid>
         </Grid>
+        <br/><br/>
         <PersonForm id="PersonAddOnlyForm" /><br/>
       </Container>
     );

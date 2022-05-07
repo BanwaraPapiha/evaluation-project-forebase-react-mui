@@ -15,7 +15,7 @@ export default function PersonForm() {
       await addDoc(usersCollectionRef, { Name: data.Name, Email: data.Email });
     };
     createPerson();
-    alert("The name is: " + data.Name + "and the email is: " + data.Email );
+    // alert("The name is: " + data.Name + "and the email is: " + data.Email );
     nameInput.current.value = "";
     emailInput.current.value = "";
     console.log(data);

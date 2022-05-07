@@ -32,12 +32,13 @@ function SurveyList() {
     body = queryObject(searchQuery, eval_data);
 
     return (
-      <Container style={{"overflow-x":"auto"}}>      
-        <Typography variant="h5" gutterBottom component="div">
-          Survey
+      <Container style={{"overflow-x":"auto"}}>  
+      <br/><br/>    
+        <Typography variant="h4" gutterBottom component="div">
+          Manage Surveys
         </Typography>
-        <TextField fullWidth label="Search Survey Name" id="search-surveys" onChange={handleSearch}/>
-        <SurveyTable title={["Name", "Active", "Toggle Status", "Select"]} body={body}/>
+        <TextField fullWidth label="Search Survey Name" id="search-surveys" onChange={handleSearch}/><br/><br/>
+        <SurveyTable title={["Name", "Active", "Toggle Status", "Select"]} body={body}/><br/><br/>
         <SurveyForm/>
     </Container>
     );

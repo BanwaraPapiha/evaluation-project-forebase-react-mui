@@ -16,6 +16,7 @@ function Bounty() {
     const [pointsSum, setPointsSum] = useState(0);
     const [acObj, setAcObj] = useState({});
     const [last_b_data, setLast_b_data] = useState({});
+    const [prev_bonus, setPrev_bonus] = useState(0);
     const [idSumArr, setIdSumArr] = useState([]);
     const Calc_Scor = {};
     const surveyCtx = useContext(SurveyCTx)
@@ -102,8 +103,10 @@ function Bounty() {
 
     async function tableToJSON() {
       var arr = [];
-      var rows = document.getElementsByTagName('tr');
-      for (var i = 1; i < rows.length; i++) {
+      // var rows = document.getElementsByTagName('tr');
+      var rows = document.getElementsByClassName('arr');
+      for (var i = 0; i < rows.length; i++) {
+      // for (var i = 1; i < rows.length; i++) {
           var cols = rows[i].querySelectorAll('td,th');
           var csvrow = {};
           var row;
@@ -119,8 +122,10 @@ function Bounty() {
       }
       console.log(arr)
       await setDoc(doc(Db, "Bounties", survey), {
+        totalMoney: totalBounty,
         arr
       });
+      // arr = []
       return JSON.stringify(obj);
     }
 
@@ -131,17 +136,16 @@ function Bounty() {
         const docSnap = await getDoc(docRef);
         
         if (docSnap.exists()) {
-          console.log("Last survey data:", docSnap.data());
+          // console.log("Last survey data:", docSnap.data());
           console.log("Last survey data:", docSnap.data().arr);
-          // last_b_data, setLast_b_data
           setLast_b_data(docSnap.data().arr)
+          setPrev_bonus(docSnap.data().totalMoney)
         } else {
           // doc.data() will be undefined in this case
           console.log("No such document!");
         }
       }
       handleRead()  
-
     }, [survey])
 
     return (
@@ -149,8 +153,8 @@ function Bounty() {
       <Stack spacing={4}>
         <br />
         <Typography variant="h5" gutterBottom component="div" style={{"text-align": "center"}}>
-            The Survey Selected is: "{survey}" <br/>
-            Total Changed Points Score = {ac_de_Sum} 
+            You are seeing data of: {survey} <br/>
+            Total sum of points is: {ac_de_Sum} 
         </Typography>
 
         <Paper elevation={5} >
@@ -180,7 +184,7 @@ function Bounty() {
 
       <div style={{"overflow-x": "auto"}}>
         <BountyTable title={["Name", "Total Points", "Acc/Dec Value", "New Score", "Bounty (Money)", "Actions"]} 
-        idSum={idSumArr} totalBounty={totalBounty} bountySum={bountySum} setBountySum={setBountySum} setAcObj={setAcObj} acObj={acObj} ac_de_Sum={ac_de_Sum}
+        idSum={idSumArr} totalBounty={totalBounty} bountySum={bountySum} setBountySum={setBountySum} setAcObj={setAcObj} acObj={acObj} ac_de_Sum={ac_de_Sum} setTotalBounty={setTotalBounty}
         obj={obj} />
       </div>
 
@@ -190,42 +194,44 @@ function Bounty() {
         <Container>
           <Stack spacing={2}>  
             <br/>            
-            {/* <Button onClick={handleRead} fullWidth variant="contained">Get Last Saved Data</Button> */}
             <Typography variant="button" gutterBottom component="div" style={{"text-align": "center"}}>
-              Get Last Saved Data
+              Here is last saved data
+            </Typography>
+            <Typography variant="button" gutterBottom component="div" style={{"text-align": "center"}}>
+              Total Bonus was: {prev_bonus}
             </Typography>
             <br/>
           </Stack>
         </Container>
       </Paper> 
 
-      <div>
+      <div style={{"overflow-x": "auto"}}>
       <table style={{width: "100%"}}>
         <thead>
         <tr>
-            <th>Name</th>
-            <th>Total Points	</th>
-            <th>Acc/Dec Value</th>
-            <th>New Score</th>
-            <th>Bounty (Money)</th>
-            {/* <th>Bounty (Money)</th> */}
-          </tr>
+          <th>Name</th>
+          <th>Total Points	</th>
+          <th>Acc/Dec Value</th>
+          <th>New Score</th>
+          <th>Bounty (Money)</th>
+        </tr>
         </thead>
-            {last_b_data.length>0 &&
-                <tbody>
-                {last_b_data.map((ub)=>{
-                  return (
-                    <tr>
-                      <td>{ub.name}</td>
-                      <td>{ub.sum_points}</td>
-                      <td>{ub.a_d_ecelBy}</td>
-                      <td>{ub.new_points}</td>
-                      <td>{ub.bounty}</td>
-                    </tr>
-                  )
-                })}
-                </tbody>
-            }
+        {last_b_data.length>0 &&
+            <tbody>
+            {last_b_data.map((ub)=>{
+              console.log(ub)
+              return (
+                <tr>
+                  <td>{ub.name}</td>
+                  <td>{ub.sum_points}</td>
+                  <td>{ub.a_d_ecelBy}</td>
+                  <td>{ub.new_points}</td>
+                  <td>{ub.bounty}</td>
+                </tr>
+              )
+            })}
+            </tbody>
+        }
         </table>
       </div>
     </Stack>

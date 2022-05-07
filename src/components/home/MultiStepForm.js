@@ -7,6 +7,8 @@ import { PointsCtx } from "../../providers/pointsctx";
 import { PointsCtxProvider } from "../../providers/pointsProvider";
 import { SurveyCTx } from "../../providers/surveyctx";
 import { UserContext } from "../../providers/userCtx";
+import { useNavigate } from 'react-router-dom';
+import { PinDropSharp } from "@material-ui/icons";
 
 function MultiStep() {
   const [survUser, setSurvUser] = useState([]);
@@ -16,16 +18,25 @@ function MultiStep() {
   const surveyCtx = useContext(SurveyCTx)
   const current_survey = surveyCtx.survey[0]['id']
   const current_user = UserCtx.Loguser.email;
+  const navigate = useNavigate()
 
   const Submit = async () => {
-    alert("Submit!");
-    console.log(current_user)
+    // alert("Submit!");
+    // console.log(current_user)
     console.log(points.pointsdata)
     try {
       await setDoc(doc(Db, current_survey, current_user), points.pointsdata);
     } catch (e) {
       console.error(e);
-    }  
+    } 
+    try {
+      await setDoc(doc(Db, "track_persons", current_survey), {
+        [current_user]: true,
+      });      
+    } catch (e) {
+      console.error(e)
+    }
+    navigate('/', { replace: true });
   };
 
   useEffect(() => {
