@@ -152,7 +152,9 @@ function Bounty() {
       <Container>
       <Stack spacing={4}>
         <br />
-        <Typography variant="h5" gutterBottom component="div" style={{"text-align": "center"}}>
+        <Typography variant="h6" gutterBottom component="div"       
+        style={{"text-align": "center", "min-height": "10vh", "background-color":"rgb(123, 31, 162)", "color": "rgb(248, 247, 249)", "border-radius": "10px 10px 0px 0px"}}
+        >
             You are seeing data of: {survey} <br/>
             Total sum of points is: {ac_de_Sum} 
         </Typography>

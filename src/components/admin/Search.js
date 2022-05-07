@@ -24,6 +24,4 @@ function queryObject(q, data){
     }
 }
 
-// module.exports = { queryObject }
-// exports default {queryObject};
 export default queryObject;

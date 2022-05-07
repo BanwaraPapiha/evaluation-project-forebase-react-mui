@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate, Outlet } from "react-router-dom";
 import LoginPage from "./components/GoogleAuth/LoginPage";
-// import Charts from "./components/charts/Charts";
+import Charts from "./components/charts/Charts";
 import Bounty from "./components/bounty/Bounty";
 import Admin from "./components/admin/Admin";
 import ErrorPAge from "./components/errorpage"
@@ -54,7 +54,7 @@ const AppRouter = () => {
                 <Route path="admin" element={<Admin />} />
                 <Route path="actions" element={<Actions />} />
                 <Route path="bounty" element={<Bounty />} />
-                {/* <Route path="charts" element={<Charts />} /> */}
+                <Route path="charts" element={<Charts />} />
               </Route>
 
               <Route element={<ProtectedRoute isAllowed={Boolean(auth.currentUser==="baanwarapapiha@gmail.com")} />}>

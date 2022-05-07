@@ -24,7 +24,7 @@ const SurveyTable = (props) => {
     return (
         <div style={{"overflow-x":"auto" }}>
             <Typography variant="h4" gutterBottom component="div"       
-                style={{"text-align": "center", "min-height": "10vh", "background-color":"rgb(123, 31, 162)", "color": "rgb(248, 247, 249)", "border-radius": "10px"}}
+                style={{"text-align": "center", "min-height": "10vh", "background-color":"rgb(123, 31, 162)", "color": "rgb(248, 247, 249)", "border-radius": "10px 10px 0px 0px"}}
             >
                 <br/>Survey Name: {CurrentSurvey.survey[0]['name']} <br/><br/>
             </Typography>

@@ -23,36 +23,11 @@ const Header = () => {
   // const [admins, setAdmins] = useState([])
   const navigate = useNavigate();
 
-  // useEffect(()=>{
-  //   const fetchAdmins = async () => {
-  //     const docSnap = await getDoc(doc(Db, "Admins", "admins_list"));
-  //     if (docSnap.exists()) {
-  //       console.log("Document data:", docSnap.data());
-  //       setAdmins([docSnap.data()])
-  //     } else {
-  //       // doc.data() will be undefined in this case
-  //       console.log("No such document!");
-  //     }
-  //   }
-  //   fetchAdmins()
-
-  //   if (auth.currentUser) {
-  //     console.log(admins)
-  //     // here
-  //     console.log(auth.currentUser.email)
-  //     console.log(admins.includes(auth.currentUser.email))
-  //     UserCtx.setAdmin(admins.includes(auth.currentUser.email))
-  //     console.log(UserCtx.admin)
-  //     // added auth.currentUser in on chanhe []
-  
-  //   }
-  // }, [auth.currentUser])
-
   var linked_pages = []
   if (UserCtx.admin) {
     linked_pages = [
       { "page": "Actions", "route": "/actions"}, 
-      // { "page": "Charts", "route": "/charts"}, 
+      { "page": "Data Units", "route": "/charts"}, 
       { "page": "Bounty", "route": "/bounty"}, 
       // { "page": currentSurvey, "route": "/admin"},
       { "page": "Manage Surveys", "route": "/admin"},

@@ -1,6 +1,6 @@
 const AllDataTable = (props) => {     
     return (
-        <table>
+        <table style={{"width": "100%"}}>
             <tr>
                 {props.title.map(t=>{
                     return(
