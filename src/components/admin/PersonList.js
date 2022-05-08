@@ -59,10 +59,11 @@ function PersonList() {
           setTracked_data(doc.data())
         });
 
-        unsub();
+        // unsub();
       }
       fetchTrack()
-    })
+    }, [])
+
     const handleSearch = (e) => {
       setSearchQuery(e.target.value)
       queryObject(searchQuery, persons)
