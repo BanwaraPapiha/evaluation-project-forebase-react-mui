@@ -51,15 +51,11 @@ function UnitStepForm(props) {
     <>
       {open?       
       <Snackbar
-        open={open}
-        autoHideDuration={6000}
+        open={open} autoHideDuration={6000} TransitionComponent={Transitiondown} onClose={handleClose} message="Note archived"
         anchorOrigin={{ 
           vertical: 'bottom',
           horizontal: 'center',
          }}
-        TransitionComponent={Transitiondown} 
-        onClose={handleClose}
-        message="Note archived"
       >
         <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
           You can't give more than {fet_scor} total points for the feature {props.featureName}!
@@ -68,14 +64,13 @@ function UnitStepForm(props) {
       </Snackbar>: null
       }
       <Typography variant="h6" gutterBottom component="div"       
-      style={{"text-align": "center", "min-height": "10vh", "background-color":"rgb(123, 31, 162)", "color": "rgb(248, 247, 249)", "border-radius": "10px"}}
+      style={{"text-align": "center", "min-height": "10vh", "background-color":"rgba(123, 31, 162, .5)", "color": "rgb(248, 247, 249)", "border-radius": "10px"}}
       >
         Feature Seleted: {props.featureName}<br/>
         Total Feature Scores Given: {score_done}<br/>
         {/* You have total {props.scores} Scores to distribute <br/> */}
         You have total {fet_scor} Scores to distribute
       </Typography>
-      {/* <Divider/> */}
       <br/>
 
       <Grid container spacing={2}>

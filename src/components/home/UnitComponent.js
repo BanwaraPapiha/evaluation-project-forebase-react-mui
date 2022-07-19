@@ -50,57 +50,20 @@ function UnitComponent(props) {
     return null
   }
 
-
-  // if (props.person===curr_user) {
-  //   return (
-  //     <Grid item sm={12} md={6}>
-  //     <Card elevation={4}>
-  //       <CardContent>
-  //       <Paper elevation={1} style={{padding: "10px"}}>
-  //       Score Awarded: <Chip variant="outlined" label={(typeof(slide_score) === 'undefined') ? 0 : slide_score} color="info" />
-  //       </Paper>
-  //         <Typography gutterBottom variant="h5" component="div">
-  //         {/* Email: { JSON.parse(props.person).Email } <br /> */}
-  //         Name: { props.person } <br />
-  //         </Typography>
-  //       </CardContent>
-
-  //       <CardActions>
-  //         <Container>
-  //           <Typography variant="caption" display="block" gutterBottom>
-  //             &nbsp;&nbsp;&nbsp; You can't evluate yourself
-  //           </Typography>
-  //         </Container>
-  //       </CardActions>
-
-  //       <Typography variant="caption" display="block" gutterBottom>
-  //         &nbsp;&nbsp;&nbsp;Id: { props.person }
-  //       </Typography>
-  //     </Card>
-  //   </Grid>
-   
-  //   )
-  // }
-
   return (
     <Grid item sm={12} md={6}>
-      <Card elevation={4} style={{minHeight: '200px'}}>
+      <Card elevation={4} style={{minHeight: '200px', width: { md: '100%', xs: '85vw' , sm: '85vw'}}}>
         <CardContent>
           <div style={{padding: "10px", display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
             <Typography>Score Awarded</Typography>
             <Chip variant="contained" label={(typeof(slide_score) === 'undefined') ? 0 : slide_score} color="info" />
           </div>
           <Typography gutterBottom variant="h6" component="div">
-          {/* Email: { JSON.parse(props.person).Email } <br /> */}
           Name: { props.person } <br />
           Email: { props.person } <br />
           </Typography>
 
           <Typography variant="body2" color="text.secondary">
-            {/* You can give a total scores of: {props.fet_scor} <br />
-            You already have given {props.score_done} of total scores <br />
-            Remaining: {props.fet_scor-props.score_done} <br /> */}
-            {/* Stats =&gt; Given: {slide_score} <br /> */}
           </Typography>
         </CardContent>
 
@@ -113,10 +76,6 @@ function UnitComponent(props) {
             />
           </Container>
         </CardActions>
-
-        {/* <Typography variant="caption" display="block" gutterBottom>
-          &nbsp;&nbsp;&nbsp;Id: { props.person }
-        </Typography> */}
       </Card>
     </Grid>
 );
