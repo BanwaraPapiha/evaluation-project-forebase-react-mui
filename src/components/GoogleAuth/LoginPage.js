@@ -21,6 +21,7 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
+import Divider from '@mui/material/Divider';
 
 const auth = getAuth();
 const provider = new GoogleAuthProvider();
@@ -131,6 +132,15 @@ function LoginPage() {
               <Typography align='center'>{UserCtx.Loguser.displayName}</Typography>
               <Typography align='center'>{UserCtx.Loguser.email}</Typography>
             </Box>
+            <Divider/>
+            <Box sx={{minHeight: 100, minWidth: 100, marginBottom: 5}}>
+              <ul>
+                <li>This system is for evaluating the performance of the employees of your company.</li>
+                <li>The system is based on your feedback for each of the other employee in specific features.</li>
+                <li>Please login to continue</li>
+              </ul>
+            </Box>
+
             <Box sx={{display: 'flex', flexDirection: 'column'}}>
               <Button variant="contained" onClick={handleClickOpen} color='success'>Select a Survey</Button><br/>
               <Button variant="contained" startIcon={<LogoutIcon />} onClick={LogoutGoogle} color='error'>Sign Out</Button><br/>
@@ -163,10 +173,13 @@ function LoginPage() {
 
             </Box>
           </div> :
-          <div>
-            <Box>
-              <Typography align='center'>dxtcfgh</Typography>
-              <Typography align='center'>fdghg</Typography>
+          <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
+            <Box sx={{minHeight: 100, minWidth: 100, marginBottom: 5}}>
+              <ul>
+                <li>This system is for evaluating the performance of the employees of your company.</li>
+                <li>The system is based on your feedback for each of the other employee in specific features.</li>
+                <li>Please login to continue</li>
+              </ul>
             </Box>
             <Button variant="contained" startIcon={<GoogleIcon />} onClick={signInWithGoogle} style={{display: 'flex', justifyContent: 'center',}}>
               Sign in with Google

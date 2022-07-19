@@ -63,7 +63,7 @@ const Header = () => {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
             {/* Logo of large screens */}
-          <Typography variant="h6" noWrap component="div"
+          <Typography variant="h5" noWrap component="div" fontFamily={'Abril Fatface'}
             sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
           >
             Performance Management System
@@ -93,22 +93,16 @@ const Header = () => {
               ))
               : null
             }
-            {/* {linked_pages.map((page) => (
-              <MenuItem key={page} onClick={()=>{handleCloseNavMenu();navigate(page.route)}}>
-              <Typography textAlign="center">{page.page}</Typography>
-              </MenuItem>
-            ))} */}
           </Menu>
           </Box>
 
             {/* Logo for small screens */}
-          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }}}>
-            Performance Management System Small
+          <Typography variant="h6" component="p" align='center' fontFamily={'Abril Fatface'} sx={{ lineHeight: '1.4', flexGrow: 1, display: { xs: 'flex', md: 'none' }}}>
+            Performance Management System
           </Typography>
           
             {/* Menu / Nav for large screens */}
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-              
               {
                 UserCtx.Loguser!==null
                 ?
@@ -121,23 +115,17 @@ const Header = () => {
                 ))
                 : null
               }
-            {/* {linked_pages.map((page) => (
-              <Button key={page} onClick={() => {navigate(page.route)}}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page.page}
-              </Button>
-            ))} */}
             </Box>  
           
           {/* This is for Settings */}
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                {auth.currentUser?
-                <Avatar alt={UserCtx.Loguser.displayName} src={UserCtx.Loguser.photoURL} />:
+                {auth.currentUser
+                ?
+                <Avatar alt={UserCtx.Loguser.displayName} src={UserCtx.Loguser.photoURL} />
+                :
                 <Avatar alt="Login"><PersonIcon/></Avatar>}
-
               </IconButton>
             </Tooltip>
             <Menu
