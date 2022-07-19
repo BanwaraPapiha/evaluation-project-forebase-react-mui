@@ -75,7 +75,7 @@ function UnitStepForm(props) {
         {/* You have total {props.scores} Scores to distribute <br/> */}
         You have total {fet_scor} Scores to distribute
       </Typography>
-      <Divider/>
+      {/* <Divider/> */}
       <br/>
 
       <Grid container spacing={2}>

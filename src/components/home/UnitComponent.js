@@ -84,11 +84,12 @@ function UnitComponent(props) {
 
   return (
     <Grid item sm={12} md={6}>
-      <Card elevation={4} style={{minHeight: '250px'}}>
+      <Card elevation={4} style={{minHeight: '200px'}}>
         <CardContent>
-          {/* <Paper elevation={1} style={{padding: "10px"}}> */}
-            Score Awarded: <Chip variant="outlined" label={(typeof(slide_score) === 'undefined') ? 0 : slide_score} color="info" />
-          {/* </Paper> */}
+          <div style={{padding: "10px", display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+            <Typography>Score Awarded</Typography>
+            <Chip variant="contained" label={(typeof(slide_score) === 'undefined') ? 0 : slide_score} color="info" />
+          </div>
           <Typography gutterBottom variant="h6" component="div">
           {/* Email: { JSON.parse(props.person).Email } <br /> */}
           Name: { props.person } <br />
@@ -96,9 +97,9 @@ function UnitComponent(props) {
           </Typography>
 
           <Typography variant="body2" color="text.secondary">
-            You can give a total scores of: {props.fet_scor} <br />
+            {/* You can give a total scores of: {props.fet_scor} <br />
             You already have given {props.score_done} of total scores <br />
-            Remaining: {props.fet_scor-props.score_done} <br />
+            Remaining: {props.fet_scor-props.score_done} <br /> */}
             {/* Stats =&gt; Given: {slide_score} <br /> */}
           </Typography>
         </CardContent>

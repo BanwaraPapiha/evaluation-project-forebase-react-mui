@@ -113,22 +113,6 @@ function MultiStep() {
 
           </div>
         }
-        {/* <Guides guide={guide} setGuide={setGuide}/> */}
-
-        {/* {
-        survFeature.length > 0 ?
-         survFeature.map((x, index) => {
-          return (
-            <UnitStepForm className="UnitSteps" personsList={ survUser } featureName={x} scores={2000} />
-            )
-         }) : 'Loading'
-        } */}
-        <br/>
-    
-        {/* {
-          current_survey!=="Not Selected" && current_user ? <Button variant="contained" color="secondary" onClick={Submit}>Submit</Button>
-          : <Button disabled>Submit</Button>
-        } */}
       </Container>
     );  
   
