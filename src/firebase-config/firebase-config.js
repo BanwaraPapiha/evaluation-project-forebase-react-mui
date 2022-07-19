@@ -13,7 +13,7 @@ const firebaseConfig = {
   measurementId: "G-T50VWGPMD2"
 };
 
-// manabeel account
+// covid fighters account
 // const firebaseConfig = {
 //   apiKey: "AIzaSyAD_IA0nkyjxPwFZRugCtnVrJp18fZPvvA",
 //   authDomain: "covid-fighters-bonus-algorithm.firebaseapp.com",
@@ -22,6 +22,7 @@ const firebaseConfig = {
 //   messagingSenderId: "209339362108",
 //   appId: "1:209339362108:web:27363366e407720a0f0c39"
 // };
+
 
 const app = initializeApp(firebaseConfig);
 export default app;

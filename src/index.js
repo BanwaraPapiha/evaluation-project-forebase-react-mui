@@ -8,7 +8,6 @@ import UserProvider from './providers/UserProvider';
 
 ReactDOM.render(
   <React.StrictMode>
-    {/* Context */}
     <UserProvider>
     <SurveyProvider>      
       <AppRouter />

@@ -15,7 +15,6 @@ function UnitComponent(props) {
   const surveyCtx = useContext(SurveyCTx)
   const PersonName = props.person;
   const FeatureName = props.feature;
-
   const curr_user = auth.currentUser.email;
   
   const HandleChange = (e) => {
@@ -48,46 +47,51 @@ function UnitComponent(props) {
   }, [props.listData]);
 
   if (props.person===curr_user) {
-    return (
-      <Grid item sm={12} md={6}>
-      <Card elevation={4}>
-        <CardContent>
-        <Paper elevation={1} style={{padding: "10px"}}>
-        Score Awarded: <Chip variant="outlined" label={(typeof(slide_score) === 'undefined') ? 0 : slide_score} color="info" />
-        </Paper>
-          <Typography gutterBottom variant="h5" component="div">
-          {/* Email: { JSON.parse(props.person).Email } <br /> */}
-          Name: { props.person } <br />
-          </Typography>
-        </CardContent>
-
-        <CardActions>
-          <Container>
-            <Typography variant="caption" display="block" gutterBottom>
-              &nbsp;&nbsp;&nbsp; You can't evluate yourself
-            </Typography>
-          </Container>
-        </CardActions>
-
-        <Typography variant="caption" display="block" gutterBottom>
-          &nbsp;&nbsp;&nbsp;Id: { props.person }
-        </Typography>
-      </Card>
-    </Grid>
-   
-    )
+    return null
   }
+
+
+  // if (props.person===curr_user) {
+  //   return (
+  //     <Grid item sm={12} md={6}>
+  //     <Card elevation={4}>
+  //       <CardContent>
+  //       <Paper elevation={1} style={{padding: "10px"}}>
+  //       Score Awarded: <Chip variant="outlined" label={(typeof(slide_score) === 'undefined') ? 0 : slide_score} color="info" />
+  //       </Paper>
+  //         <Typography gutterBottom variant="h5" component="div">
+  //         {/* Email: { JSON.parse(props.person).Email } <br /> */}
+  //         Name: { props.person } <br />
+  //         </Typography>
+  //       </CardContent>
+
+  //       <CardActions>
+  //         <Container>
+  //           <Typography variant="caption" display="block" gutterBottom>
+  //             &nbsp;&nbsp;&nbsp; You can't evluate yourself
+  //           </Typography>
+  //         </Container>
+  //       </CardActions>
+
+  //       <Typography variant="caption" display="block" gutterBottom>
+  //         &nbsp;&nbsp;&nbsp;Id: { props.person }
+  //       </Typography>
+  //     </Card>
+  //   </Grid>
+   
+  //   )
+  // }
 
   return (
     <Grid item sm={12} md={6}>
-      <Card elevation={4}>
+      <Card elevation={4} style={{minHeight: '250px'}}>
         <CardContent>
-        <Paper elevation={1} style={{padding: "10px"}}>
-          Score Awarded: <Chip variant="outlined" label={(typeof(slide_score) === 'undefined') ? 0 : slide_score} color="info" />
-        </Paper>
+          {/* <Paper elevation={1} style={{padding: "10px"}}> */}
+            Score Awarded: <Chip variant="outlined" label={(typeof(slide_score) === 'undefined') ? 0 : slide_score} color="info" />
+          {/* </Paper> */}
           <Typography gutterBottom variant="h6" component="div">
           {/* Email: { JSON.parse(props.person).Email } <br /> */}
-          {/* Name: { props.person } <br /> */}
+          Name: { props.person } <br />
           Email: { props.person } <br />
           </Typography>
 
@@ -103,7 +107,7 @@ function UnitComponent(props) {
           <Container>
             <Slider defaultValue={0}  max={props.fet_scor} step={0.5} 
               aria-label="Default" valueLabelDisplay="auto" 
-              onChange={HandleChange}
+              onChange={HandleChange} color="secondary"
               value={slide_score}
             />
           </Container>

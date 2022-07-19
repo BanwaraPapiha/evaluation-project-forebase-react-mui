@@ -81,6 +81,28 @@ function MultiStep() {
   
   }
 
+  // else if (current_survey==="Not Selected") {
+  //   return (
+  //     <Container>
+  //       <Typography variant="button" gutterBottom component="div">
+  //         Survey {current_survey}<br/>
+  //         Please Select a Survey
+  //       </Typography>
+  //     </Container> 
+  //   )
+  // }
+
+  // else if (!survUser.includes(UserCtx.Loguser.email)) {
+  //   return (
+  //     <Container>
+  //       <Typography variant="button" gutterBottom component="div">
+  //         Survey {current_survey}<br/>
+  //         You are not found in the current survey
+  //       </Typography>
+  //     </Container> 
+  //   )
+  // }
+
   if (survUser.includes(UserCtx.Loguser.email) && current_survey!=="Not Selected")
   {
     return (
@@ -106,7 +128,8 @@ function MultiStep() {
     );  
   
   }
-  else if (!survUser.includes(UserCtx.Loguser.email)) {
+
+  if (!survUser.includes(UserCtx.Loguser.email)) {
     return (
       <Container>
         <Typography variant="button" gutterBottom component="div">
@@ -117,7 +140,7 @@ function MultiStep() {
     )
   }
 
-  else if (current_survey==="Not Selected") {
+  if (current_survey==="Not Selected") {
     return (
       <Container>
         <Typography variant="button" gutterBottom component="div">
@@ -127,7 +150,7 @@ function MultiStep() {
       </Container> 
     )
   }
-  else {
+  else{
     return (
       <Container>
         <Typography variant="button" gutterBottom component="div">

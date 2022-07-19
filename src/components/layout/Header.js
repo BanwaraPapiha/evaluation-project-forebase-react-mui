@@ -21,6 +21,7 @@ const Header = () => {
   const SurveyData = useContext(SurveyCTx);
   const currentSurvey = SurveyData.survey[0]['name']
   // const [admins, setAdmins] = useState([])
+  const user = auth.currentUser;
   const navigate = useNavigate();
 
   var linked_pages = []
@@ -29,13 +30,18 @@ const Header = () => {
       { "page": "Actions", "route": "/actions"}, 
       { "page": "Data Units", "route": "/charts"}, 
       { "page": "Bounty", "route": "/bounty"}, 
-      // { "page": currentSurvey, "route": "/admin"},
       { "page": "Manage Surveys", "route": "/admin"},
       { "page": <BasicMenu user_scope="admin"/>,},
     ];
-  } else {
+  } 
+  else if (UserCtx.Loguser!==null) {
     linked_pages = [
       { "page": <BasicMenu user_scope="client_user"/>,},
+    ];
+  } 
+  else {
+    linked_pages = [
+      { "page": null,},
     ];
   }
 
@@ -60,7 +66,7 @@ const Header = () => {
           <Typography variant="h6" noWrap component="div"
             sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
           >
-            Evaluation System
+            Performance Management System
           </Typography>
 
           {/* Menu/Nav for small screens */}
@@ -77,31 +83,51 @@ const Header = () => {
             transformOrigin={{vertical: 'top',horizontal: 'left',}}
             sx={{display: { xs: 'block', md: 'none' },}}
           >
-            {linked_pages.map((page) => (
+            {
+              UserCtx.Loguser!==null
+              ?
+              linked_pages.map((page) => (
+                <MenuItem key={page} onClick={()=>{handleCloseNavMenu();navigate(page.route)}}>
+                <Typography textAlign="center">{page.page}</Typography>
+                </MenuItem>
+              ))
+              : null
+            }
+            {/* {linked_pages.map((page) => (
               <MenuItem key={page} onClick={()=>{handleCloseNavMenu();navigate(page.route)}}>
               <Typography textAlign="center">{page.page}</Typography>
               </MenuItem>
-            ))}
+            ))} */}
           </Menu>
           </Box>
 
             {/* Logo for small screens */}
-          <Typography variant="h6" noWrap component="div"
-            sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
-          >
-            Evaluation System Small
+          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }}}>
+            Performance Management System Small
           </Typography>
           
             {/* Menu / Nav for large screens */}
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
               
-            {linked_pages.map((page) => (
+              {
+                UserCtx.Loguser!==null
+                ?
+                linked_pages.map((page) => (
+                  <Button key={page} onClick={() => {navigate(page.route)}}
+                    sx={{ my: 2, color: 'white', display: 'block' }}
+                  >
+                    {page.page}
+                  </Button>
+                ))
+                : null
+              }
+            {/* {linked_pages.map((page) => (
               <Button key={page} onClick={() => {navigate(page.route)}}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
                 {page.page}
               </Button>
-            ))}
+            ))} */}
             </Box>  
           
           {/* This is for Settings */}

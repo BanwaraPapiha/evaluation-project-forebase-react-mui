@@ -46,32 +46,34 @@ const AppRouter = () => {
     const UserCtx = useContext(UserContext)
 
     return (
-        <BrowserRouter>
-          <Header/>
-            <Routes>
-              {/* changed here  */}
-              <Route element={<ProtectedRoute isAllowed={UserCtx.admin} />}>
-                <Route path="admin" element={<Admin />} />
-                <Route path="actions" element={<Actions />} />
-                <Route path="bounty" element={<Bounty />} />
-                <Route path="charts" element={<Charts />} />
-              </Route>
+          <div style={{position: 'relative'}}>
+            <BrowserRouter>
+              <Header/>
+              <Routes>
+                {/* changed here  */}
+                <Route element={<ProtectedRoute isAllowed={UserCtx.admin} />}>
+                  <Route path="admin" element={<Admin />} />
+                  <Route path="actions" element={<Actions />} />
+                  <Route path="bounty" element={<Bounty />} />
+                  <Route path="charts" element={<Charts />} />
+                </Route>
 
-              <Route element={<ProtectedRoute isAllowed={Boolean(auth.currentUser==="baanwarapapiha@gmail.com")} />}>
-                <Route path="actions" element={<Actions />} />
-              </Route>
+                {/* <Route element={<ProtectedRoute isAllowed={Boolean(auth.currentUser==="baanwarapapiha@gmail.com" || auth.currentUser==="muhammadabdullahnabeel@gmail.com")} />}> */}
+                <Route element={<ProtectedRoute isAllowed={Boolean(auth.currentUser==="baanwarapapiha@gmail.com")} />}>
+                  <Route path="actions" element={<Actions />} />
+                </Route>
 
-              {/* changed here */}
-              <Route element={<ProtectedRoute isAllowed={Boolean(auth.currentUser)} />}>
-              <Route path="survey" element={<MultiStepFormCtx />} />
-              </Route>
+                {/* changed here */}
+                <Route element={<ProtectedRoute isAllowed={Boolean(auth.currentUser)} />}>
+                  <Route path="survey" element={<MultiStepFormCtx />} />
+                </Route>
 
-              <Route index element={<LoginPage />} />
-              <Route path="*" element={<ErrorPAge />} />
-            </Routes>
-
-          <Footer/>
-        </BrowserRouter>
+                <Route index element={<LoginPage />} />
+                <Route path="*" element={<ErrorPAge />} />
+              </Routes>
+              {/* <Footer/> */}
+            </BrowserRouter>
+          </div>
     );
 }
 

@@ -1,4 +1,4 @@
-import { Button, Grid } from '@mui/material';
+import { Container, Card, Typography, Box } from '@mui/material';
 import GoogleIcon from '@mui/icons-material/Google';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { makeStyles } from "@material-ui/core/styles";
@@ -8,33 +8,36 @@ import { UserContext } from "../../providers/userCtx";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { Db } from "../../firebase-config/db";
 import { getDoc, doc } from "firebase/firestore";
-
-const useStyles = makeStyles({
-  root: {
-    // background: "white",
-    minWidth: "100%",
-    minHeight: "70vh",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center"
-  },
-  logincard: {
-    background: "linear-gradient(45deg, #9013FE 15%, #50E3C2 90%)",
-    display: "flex",
-    maxWidth: "100%",
-    alignItems: "center",
-    flexDirection: "column",
-    justifyContent: "center"
-  },
-});
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Link from '@mui/material/Link';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemButton from '@mui/material/ListItemButton';
 
 const auth = getAuth();
 const provider = new GoogleAuthProvider();
 
 function LoginPage() {
-  const classes = useStyles();
   const UserCtx = useContext(UserContext)
   const [admins, setAdmins] = useState([])
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const user = auth.currentUser;
 
   const signInWithGoogle = () => {
@@ -112,23 +115,68 @@ function LoginPage() {
   });
 
   return (
-    <div className={classes.root}>
-    <Grid className={classes.root} spacing={1} alignItems="center" justify="center">
-      <Grid item xs={12} md={8}>
-        {
+    <Container>
+      <Card elevation={5}
+      sx={{
+        padding: '10px', margin: '30px auto auto auto', //backgroundColor: 'secondary.light',
+        // backgroundColor: 'rgba(255, 192, 203, 0.5)', color: 'green',
+        width: { xs: '80vw', sm: '80vw', md: '400px', lg: '400px', xl: '400px' },
+        display: 'flex', justifyContent: 'center',
+        }}>
+      {
           user?
           <div>
-            <img style={{"border-radius": "50%", border: "1px solid black"}} src={UserCtx.Loguser.photoURL} alt="Profile Photo"/><br/>
-            {UserCtx.Loguser.displayName}<br/>{UserCtx.Loguser.email}<br/>
-            <Button variant="contained" startIcon={<LogoutIcon />} onClick={LogoutGoogle}>Sign Out</Button><br/>
+            <img style={{"border-radius": "50%", border: "1px solid black", margin: '5px auto 5px 30%', padding: '5px', width: '100px'}} src={UserCtx.Loguser.photoURL} alt="Profile Photo"/>
+            <Box>
+              <Typography align='center'>{UserCtx.Loguser.displayName}</Typography>
+              <Typography align='center'>{UserCtx.Loguser.email}</Typography>
+            </Box>
+            <Box sx={{display: 'flex', flexDirection: 'column'}}>
+              <Button variant="contained" onClick={handleClickOpen} color='success'>Select a Survey</Button><br/>
+              <Button variant="contained" startIcon={<LogoutIcon />} onClick={LogoutGoogle} color='error'>Sign Out</Button><br/>
+              <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+              >
+                <DialogTitle id="alert-dialog-title">
+                  <Typography style={{minWidth: 300}}>
+                  Select a Survey
+                  </Typography>
+                  {/* {"Select a Survey"} */}
+                </DialogTitle>
+                <DialogContent>
+                  <List dense={true}>
+                    <ListItemButton role={undefined} onClick={()=>alert()} dense>
+                          <ListItemText
+                            primary="Single-line item"
+                            secondary={'Secondary text'}
+                          />
+                    </ListItemButton>
+                  </List>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleClose} autoFocus>Close</Button>
+                </DialogActions>
+              </Dialog>
+
+            </Box>
           </div> :
-            <Button variant="contained" startIcon={<GoogleIcon />} onClick={signInWithGoogle}>
+          <div>
+            <Box>
+              <Typography align='center'>dxtcfgh</Typography>
+              <Typography align='center'>fdghg</Typography>
+            </Box>
+            <Button variant="contained" startIcon={<GoogleIcon />} onClick={signInWithGoogle} style={{display: 'flex', justifyContent: 'center',}}>
               Sign in with Google
             </Button>
+          </div>
         }
-      </Grid>
-    </Grid>
-    </div>
+
+      </Card>
+
+    </Container>
   );
 }
 

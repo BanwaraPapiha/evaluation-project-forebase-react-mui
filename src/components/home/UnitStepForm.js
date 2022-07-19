@@ -70,8 +70,8 @@ function UnitStepForm(props) {
       <Typography variant="h6" gutterBottom component="div"       
       style={{"text-align": "center", "min-height": "10vh", "background-color":"rgb(123, 31, 162)", "color": "rgb(248, 247, 249)", "border-radius": "10px"}}
       >
-        Feature Seleted is: {props.featureName}<br/>
-        Feature Scores Done are: {score_done}<br/>
+        Feature Seleted: {props.featureName}<br/>
+        Total Feature Scores Given: {score_done}<br/>
         {/* You have total {props.scores} Scores to distribute <br/> */}
         You have total {fet_scor} Scores to distribute
       </Typography>
