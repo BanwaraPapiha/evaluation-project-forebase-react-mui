@@ -30,9 +30,9 @@ function MultiStep() {
       console.error(e);
     } 
     try {
-      await setDoc(doc(Db, "track_persons", current_survey), {
-        [current_user]: true,
-      });      
+      await setDoc(doc(Db, "track_persons", current_survey), 
+      {[current_user]: true}, { merge: true }
+      );      
     } catch (e) {
       console.error(e)
     }

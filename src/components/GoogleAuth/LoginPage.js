@@ -5,7 +5,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useEffect, useState, useContext } from "react";
 import { getAuth, GoogleAuthProvider, signInWithRedirect, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
 import { UserContext } from "../../providers/userCtx";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { SurveyCTx } from "../../providers/surveyctx";
+import { collection, query, where, getDocs, onSnapshot } from "firebase/firestore";
 import { Db } from "../../firebase-config/db";
 import { getDoc, doc } from "firebase/firestore";
 import Button from '@mui/material/Button';
@@ -22,28 +23,42 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
 import Divider from '@mui/material/Divider';
+import { async } from '@firebase/util';
+import { useNavigate } from "react-router-dom";
 
 const auth = getAuth();
 const provider = new GoogleAuthProvider();
 
 function LoginPage() {
   const UserCtx = useContext(UserContext)
+  const surveyCtx = useContext(SurveyCTx);
   const [admins, setAdmins] = useState([])
+  const [surveys, setSurveys] = useState([])
   const [open, setOpen] = useState(false);
+  const user = auth.currentUser;
+  const navigate = useNavigate();
 
-  const handleClickOpen = () => {
+  const handleClickOpen = async () => {
     setOpen(true);
+
+    const q = query(collection(Db, "surveys"));
+    const querySnapshot = await getDocs(q);
+    var surveysTmp = []
+    querySnapshot.forEach((doc) => {
+      // console.log(doc.id, " => ", doc.data());
+      surveysTmp.push({id: doc.id, ...doc.data()})
+    });
+    setSurveys(surveysTmp)
+    
   };
 
   const handleClose = () => {
     setOpen(false);
   };
 
-  const user = auth.currentUser;
-
   const signInWithGoogle = () => {
-    signInWithRedirect(auth, provider)
-    // signInWithPopup(auth, provider)
+    // signInWithRedirect(auth, provider)
+    signInWithPopup(auth, provider)
       .then((result) => {
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
@@ -118,11 +133,10 @@ function LoginPage() {
   return (
     <Container>
       <Card elevation={5}
-      sx={{
-        padding: '10px', margin: '30px auto auto auto', //backgroundColor: 'secondary.light',
-        // backgroundColor: 'rgba(255, 192, 203, 0.5)', color: 'green',
-        width: { xs: '80vw', sm: '80vw', md: '400px', lg: '400px', xl: '400px' },
-        display: 'flex', justifyContent: 'center',
+        sx={{
+          padding: '10px', margin: '30px auto auto auto',
+          width: { xs: '80vw', sm: '80vw', md: '400px', lg: '400px', xl: '400px' },
+          display: 'flex', justifyContent: 'center',
         }}>
       {
           user?
@@ -142,8 +156,20 @@ function LoginPage() {
             </Box>
 
             <Box sx={{display: 'flex', flexDirection: 'column'}}>
-              <Button variant="contained" onClick={handleClickOpen} color='success'>Select a Survey</Button><br/>
-              <Button variant="contained" startIcon={<LogoutIcon />} onClick={LogoutGoogle} color='error'>Sign Out</Button><br/>
+              <Button style={{margin: 5}} variant="contained" onClick={handleClickOpen} color='success'>
+                {`${surveyCtx.survey[0]['name']!=='Not Selected'?'Change the': 'Select a'} Survey`}
+              </Button>
+              {
+                surveyCtx.survey[0]['name']!=='Not Selected'
+                ?
+                <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: 5}}>
+                  <Button variant="outlined" style={{width: '45%'}}>{surveyCtx.survey[0]['name']}</Button>
+                  <Button variant="outlined" style={{width: '45%'}} onClick={()=>navigate('/survey')}>Next</Button>
+                </div> 
+                : null  
+              }
+
+              <Button style={{margin: 5}} variant="contained" startIcon={<LogoutIcon />} onClick={LogoutGoogle} color='error'>Sign Out</Button><br/>
               <Dialog
                 open={open}
                 onClose={handleClose}
@@ -151,26 +177,30 @@ function LoginPage() {
                 aria-describedby="alert-dialog-description"
               >
                 <DialogTitle id="alert-dialog-title">
-                  <Typography style={{minWidth: 300}}>
-                  Select a Survey
-                  </Typography>
-                  {/* {"Select a Survey"} */}
+                  <Typography style={{minWidth: 300}}>Select a Survey</Typography>
                 </DialogTitle>
                 <DialogContent>
-                  <List dense={true}>
-                    <ListItemButton role={undefined} onClick={()=>alert()} dense>
-                          <ListItemText
-                            primary="Single-line item"
-                            secondary={'Secondary text'}
-                          />
-                    </ListItemButton>
-                  </List>
+                  {
+                    surveys && surveys.length>0 
+                    ? 
+                    <List dense={true}>
+                      {
+                        surveys.map((s)=>{
+                          return (
+                            <ListItemButton role={undefined} onClick={()=>{surveyCtx.setSurvey([s]);handleClose()}} dense>
+                              <ListItemText primary={String(s.name)}/>
+                            </ListItemButton>
+                          )
+                        })
+                      }
+                    </List>
+                      : 'Loading'
+                  }
                 </DialogContent>
                 <DialogActions>
                   <Button onClick={handleClose} autoFocus>Close</Button>
                 </DialogActions>
               </Dialog>
-
             </Box>
           </div> :
           <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
@@ -188,7 +218,6 @@ function LoginPage() {
         }
 
       </Card>
-
     </Container>
   );
 }

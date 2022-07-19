@@ -1,7 +1,7 @@
 import * as React from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import PersonIcon from '@mui/icons-material/Person';
-import { MenuItem, Tooltip, Button, Avatar, Container, Menu, IconButton, Toolbar, Box, AppBar } from '@mui/material';
+import { MenuItem, Tooltip, Button, Avatar, Container, Menu, IconButton, Toolbar, Box, AppBar, Link } from '@mui/material';
 import { Typography, MenuList, ListItemText } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
@@ -64,7 +64,7 @@ const Header = () => {
         <Toolbar disableGutters>
             {/* Logo of large screens */}
           <Typography variant="h5" noWrap component="div" fontFamily={'Abril Fatface'}
-            sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
+            sx={{ mr: 2, display: { xs: 'none', md: 'flex' }, cursor: 'pointer'}} onClick={()=>navigate('/')}
           >
             Performance Management System
           </Typography>
@@ -97,7 +97,9 @@ const Header = () => {
           </Box>
 
             {/* Logo for small screens */}
-          <Typography variant="h6" component="p" align='center' fontFamily={'Abril Fatface'} sx={{ lineHeight: '1.4', flexGrow: 1, display: { xs: 'flex', md: 'none' }}}>
+          <Typography variant="h6" component="p" align='center' fontFamily={'Abril Fatface'} 
+            sx={{ lineHeight: '1.4', flexGrow: 1, display: { xs: 'flex', md: 'none'}, cursor: 'pointer'}} 
+            onClick={()=>navigate('/')}>
             Performance Management System
           </Typography>
           

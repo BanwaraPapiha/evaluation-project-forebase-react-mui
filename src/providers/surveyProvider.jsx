@@ -7,6 +7,7 @@ export default function SurveyProvider(props) {
     name: "Not Selected",
     active: "Not Selected",
   }]
+  // const [survey, setSurvey] = useState([{}]
 );
 
   return (
