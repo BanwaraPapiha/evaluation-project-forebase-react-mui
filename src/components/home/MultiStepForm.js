@@ -2,13 +2,14 @@ import { useState, useEffect, useContext } from "react";
 import { Db } from "../../firebase-config/db";
 import { collection, getDocs, doc, setDoc, getDoc, addDoc } from "firebase/firestore";
 import UnitStepForm from "./UnitStepForm";
-import { Typography, MobileStepper, Container, Button } from '@mui/material';
+import { Typography, MobileStepper, Container, Button, Box, Card, CardContent, CardActions } from '@mui/material';
 import { PointsCtx } from "../../providers/pointsctx";
 import { PointsCtxProvider } from "../../providers/pointsProvider";
 import { SurveyCTx } from "../../providers/surveyctx";
 import { UserContext } from "../../providers/userCtx";
 import { useNavigate } from 'react-router-dom';
 import { PinDropSharp } from "@material-ui/icons";
+import TopUi from "../common/errSurv";
 
 function MultiStep() {
   const [survUser, setSurvUser] = useState([]);
@@ -56,13 +57,17 @@ function MultiStep() {
     getSurveyFeatures();
   }, [current_survey]);
 
+  const [guide, setGuide] = useState(true)
+
   if (UserCtx.admin) {
     return (
       <Container>
-        <Typography variant="button" gutterBottom component="div" style={{"text-align": "center"}}>
-          Survey {current_survey}<br/>
-          Evaluate All the given users in the following Features Step By Step
-        </Typography>
+        <Box sx={{height: '400px', color: 'red'}}>
+          <Typography variant="h3" gutterBottom component="div" style={{"text-align": "center"}}>
+            Survey {current_survey}<br/>
+            Evaluate All the given ''''''users'''''' in the following Features Step By Step
+          </Typography>
+        </Box>
 
         {survFeature.length > 0 ?
          survFeature.map((x, index) => {
@@ -78,52 +83,52 @@ function MultiStep() {
         }
       </Container>
     );  
-  
   }
-
-  // else if (current_survey==="Not Selected") {
-  //   return (
-  //     <Container>
-  //       <Typography variant="button" gutterBottom component="div">
-  //         Survey {current_survey}<br/>
-  //         Please Select a Survey
-  //       </Typography>
-  //     </Container> 
-  //   )
-  // }
-
-  // else if (!survUser.includes(UserCtx.Loguser.email)) {
-  //   return (
-  //     <Container>
-  //       <Typography variant="button" gutterBottom component="div">
-  //         Survey {current_survey}<br/>
-  //         You are not found in the current survey
-  //       </Typography>
-  //     </Container> 
-  //   )
-  // }
 
   if (survUser.includes(UserCtx.Loguser.email) && current_survey!=="Not Selected")
   {
     return (
       <Container>
-        <Typography variant="button" gutterBottom component="div" style={{"text-align": "center"}}>
-          Survey {current_survey}<br/>
-          Evaluate All the given users in the following Features Step By Step
-        </Typography>
+        {
+          guide===true
+          ? 
+          <Guides guide={guide} setGuide={setGuide}/>
+          : 
+          <div>
+          { 
+            survFeature.length>0 
+            ?
+            survFeature.map((x, index) => {
+              return (
+                <UnitStepForm className="UnitSteps" personsList={ survUser } featureName={x} scores={2000} />
+              )
+            })
+            :
+            'Loading'
+          }
+          {
+            current_survey!=="Not Selected" && current_user ? <Button variant="contained" color="secondary" onClick={Submit}>Submit</Button>
+            : <Button disabled>Submit</Button>
+          }
 
-        {survFeature.length > 0 ?
+          </div>
+        }
+        {/* <Guides guide={guide} setGuide={setGuide}/> */}
+
+        {/* {
+        survFeature.length > 0 ?
          survFeature.map((x, index) => {
           return (
             <UnitStepForm className="UnitSteps" personsList={ survUser } featureName={x} scores={2000} />
             )
-         }) : 'Loading'}
+         }) : 'Loading'
+        } */}
         <br/>
     
-        {
+        {/* {
           current_survey!=="Not Selected" && current_user ? <Button variant="contained" color="secondary" onClick={Submit}>Submit</Button>
           : <Button disabled>Submit</Button>
-        }
+        } */}
       </Container>
     );  
   
@@ -139,7 +144,6 @@ function MultiStep() {
       </Container> 
     )
   }
-
   if (current_survey==="Not Selected") {
     return (
       <Container>
@@ -172,3 +176,34 @@ function MultiStepFormCtx() {
 }
 
 export default MultiStepFormCtx;
+
+const Guides = (props) => {
+  return (
+    <Box sx={{height: '60vh'}}>
+      <Card
+        sx={{
+          padding: '10px', margin: '30px auto auto auto',
+          width: { xs: '80vw', sm: '80vw', md: '400px', lg: '400px', xl: '400px' },
+          display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'
+        }}
+      >
+        <CardContent>
+          <Typography sx={{ mb: 1.5 }} color="text.secondary">
+            Guides
+            , {String(props.guide)}
+          </Typography>
+          <ul>
+            <li>vgbhskj bhjv  bjbv bhb hbv jhjvh sjs hsdhbh h f cgcg jh</li>
+            <li>vgbhskj</li>
+            <li>vgbhskj</li>
+            <li>vgbhskj</li>
+          </ul>
+        </CardContent>
+        <CardActions>
+          <Button align='center' onClick={()=>{props.setGuide(false);}} size="small">Start</Button>
+        </CardActions>
+      </Card>
+    </Box>
+
+  )
+}
