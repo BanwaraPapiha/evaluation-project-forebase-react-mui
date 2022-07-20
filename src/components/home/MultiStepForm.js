@@ -243,8 +243,12 @@ const Guides = (props) => {
             {/* , {String(props.guide)} */}
           </Typography>
           <ul>
-            <li>This system is for evaluating the performance of the employees of your company.</li>
-            <li>The system is based on your feedback for each of the other employee in specific features.</li>
+            <li>You are shown some features in the next section.</li>
+            <li>Under each feature your colleagues are listed, you have to give some scores to your colleagues for that specific feature</li>
+            <li>Total possible scores for each feature is already provided. You can not give more points than the allowed points</li>
+            <li>Keep in mind, you only have to distribute the total possible scores among your colleagues.</li>
+            <li>You can also leave it blank if you dont want to give score for a particular feature.</li>
+            <li>Your colleagues will be evaluated on the basis of points they get from all of their coworkers</li>
           </ul>
         </CardContent>
         <CardActions>
