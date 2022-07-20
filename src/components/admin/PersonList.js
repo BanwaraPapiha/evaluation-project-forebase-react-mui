@@ -19,7 +19,8 @@ function PersonList() {
     const [addedUsers, setAddedUsers] = useState([]);
     const [tracked_data, setTracked_data] = useState([]);
     const surveyCtx = useContext(SurveyCTx)
-    const Curr_survey = surveyCtx.survey[0]['name']
+    // const Curr_survey = surveyCtx.survey[0]['name']
+    const Curr_survey = surveyCtx.survey[0].name
   
     var body = [];
 
