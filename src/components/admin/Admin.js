@@ -27,9 +27,9 @@ export default function Admin(props) {
   }
     return (
       <Container>
-        <br/>
-        <Paper elevation={3} style={{textAlign: "center"}}>
-        <br/>
+        {/* <br/> */}
+        <Paper elevation={3} style={{textAlign: "center", padding: 10, margin: 10}}>
+        {/* <br/> */}
         <div>
             <Stepper activeStep={page} alternativeLabel>
                 {steps.map((label) => (

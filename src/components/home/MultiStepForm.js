@@ -8,7 +8,6 @@ import { PointsCtxProvider } from "../../providers/pointsProvider";
 import { SurveyCTx } from "../../providers/surveyctx";
 import { UserContext } from "../../providers/userCtx";
 import { useNavigate } from 'react-router-dom';
-import { PinDropSharp } from "@material-ui/icons";
 import TopUi from "../common/errSurv";
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -18,6 +17,7 @@ import Snackbar from '@mui/material/Snackbar';
 function MultiStep() {
   const [survUser, setSurvUser] = useState([]);
   const [survFeature, setSurvFeature] = useState([]);
+  const [guide, setGuide] = useState(true)
   const UserCtx = useContext(UserContext)
   const points = useContext(PointsCtx)
   const surveyCtx = useContext(SurveyCTx)
@@ -29,20 +29,10 @@ function MultiStep() {
   const [open, setOpen] = useState(false);
   const handleClose = () => {setOpen(false)};
   const handleOpen = () => {setOpen(true)};
-  const handleToggle = () => {setOpen(!open)};
-  // // SnackBar Error
-  // const [err, setErr] = useState(false);
-  // const handleErrClick = () => {setErr(true)};
-  // const handleErrClose = () => {setErr(false)};
-  // // SnackBar Success
-  // const [sx, setSx] = useState(false);
-  // const handleSxClick = () => {setSx(true)};
-  // const handleSxClose = () => {setSx(false)};
   const [addSx, setAddSx] = useState(false)
   const [addEr, setAddEr] = useState(false)
   const handleCloseSx = () => setAddSx(false)
   const handleCloseEr = () => setAddEr(false)
-
 
   const Submit = async () => {
     handleOpen()
@@ -77,8 +67,6 @@ function MultiStep() {
     };
     getSurveyFeatures();
   }, [current_survey]);
-
-  const [guide, setGuide] = useState(true)
 
   if (UserCtx.admin) {
     return (

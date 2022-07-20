@@ -73,57 +73,59 @@ function PersonList() {
 
     return (
       <Container>
-        <br/><br/>
-        <Typography variant="h4" gutterBottom component="div">Manage Persons</Typography>
+        <Typography variant="h4" gutterBottom component="div" style={{margin: 10, padding: 10}}>Manage Persons</Typography>
         <TextField fullWidth label="Search Persons" id="search-persons" onChange={handleSearch}/><br/><br/>
         <Grid container spacing={2}>
+          {/* LHS */}
           <Grid item xs={12} md={6} style={{"overflow-x":"auto"}}>
-          <Typography variant="h6" gutterBottom component="div">All Persons</Typography>
+            <Typography variant="h6" gutterBottom component="div">All Persons</Typography>
             <PersonTable title={["Name", "Email", "Add/Remove", "Delete"]} body={body}/>
           </Grid>
+          {/* RHS */}
           <Grid item xs={12} md={6}>
-
-          <Typography variant="h6" gutterBottom component="div">Persons in this survey</Typography>
-          <Box sx={{ bgcolor: 'background.paper' }}>
-              <nav aria-label="secondary mailbox folders">
-                <List>
-                  {addedUsers.map((x)=>{
-                  return (
-                    addedUsers.length > 0? 
-                    <ListItem disablePadding 
-                    secondaryAction={
-                      <IconButton edge="end" aria-label="delete">
-                        {tracked_data[[x]]?
-                        <div>
-                          <Typography variant="caption" component="p">Filled the Survey</Typography><DoneOutlineIcon style={{color:"green"}}/>
-                        </div>
-                        :
-                        <div>
-                          <Typography variant="caption" component="p">Pending</Typography>
-                          <PendingIcon style={{color:"blue"}}/>
-                        </div>}
-                        
-                      </IconButton>
-                    }
-                    >
+            <Typography variant="h6" gutterBottom component="div">Persons in this survey</Typography>
+            <Box sx={{ bgcolor: 'background.paper' }}>
+                <nav aria-label="secondary mailbox folders">
+                  <List>
+                    {addedUsers && addedUsers.map((x)=>{
+                    return (
+                      addedUsers.length > 0
+                      ? 
+                      <ListItem disablePadding 
+                        secondaryAction={
+                        <IconButton edge="end" aria-label="delete">
+                          {tracked_data && tracked_data[[x]] && tracked_data[[x]]!=='undefined'?
+                          <div>
+                            <Typography variant="caption" component="p">Filled the Survey</Typography><DoneOutlineIcon style={{color:"green"}}/>
+                          </div>
+                          :
+                          <div>
+                            <Typography variant="caption" component="p">Pending</Typography>
+                            <PendingIcon style={{color:"blue"}}/>
+                          </div>}
+                          
+                        </IconButton>
+                      }
+                      >
+                        <ListItemButton component="div">
+                          <ListItemText primary={x} />
+                        </ListItemButton>
+                      </ListItem>
+                    :
+                    <ListItem disablePadding>
                       <ListItemButton component="div">
-                        <ListItemText primary={x} />
+                        <ListItemText primary="Loading" />
                       </ListItemButton>
                     </ListItem>
-                  :
-                  <ListItem disablePadding>
-                    <ListItemButton component="div">
-                      <ListItemText primary="Loading" />
-                    </ListItemButton>
-                  </ListItem>
-                  )
-                  })}
-                </List>
-              </nav>
+                    )
+                    })}
+                  </List>
+                </nav>
             </Box>
           </Grid>
         </Grid>
         <br/><br/>
+        {/* Add new persons */}
         <PersonForm id="PersonAddOnlyForm" /><br/>
       </Container>
     );

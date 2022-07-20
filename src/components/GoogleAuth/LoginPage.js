@@ -110,7 +110,7 @@ function LoginPage() {
       // console.log(auth.currentUser.email)
       // console.log(admins.includes(String(auth.currentUser.email)))
       if (Boolean(auth.currentUser) && admins.length>0) {
-        console.log("authentcated check")
+        console.log("authentcated")
         console.log(admins.includes(String(auth.currentUser.email)))
         UserCtx.setAdmin(admins.includes(String(auth.currentUser.email)))
         console.log(UserCtx.admin)

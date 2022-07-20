@@ -50,7 +50,7 @@ const AppRouter = () => {
             <BrowserRouter>
               <Header/>
               <Routes>
-                {/* changed here  */}
+                {/* Admins  */}
                 <Route element={<ProtectedRoute isAllowed={UserCtx.admin} />}>
                   <Route path="admin" element={<Admin />} />
                   <Route path="actions" element={<Actions />} />
@@ -58,12 +58,11 @@ const AppRouter = () => {
                   <Route path="charts" element={<Charts />} />
                 </Route>
 
-                {/* <Route element={<ProtectedRoute isAllowed={Boolean(auth.currentUser==="baanwarapapiha@gmail.com" || auth.currentUser==="muhammadabdullahnabeel@gmail.com")} />}> */}
-                <Route element={<ProtectedRoute isAllowed={Boolean(auth.currentUser==="baanwarapapiha@gmail.com")} />}>
+                {/* <Route element={<ProtectedRoute isAllowed={Boolean(auth.currentUser==="muhammadabdullahnabeel@gmail.com")} />}>
                   <Route path="actions" element={<Actions />} />
-                </Route>
+                </Route> */}
 
-                {/* changed here */}
+                {/* Auth Users can see Surveys */}
                 <Route element={<ProtectedRoute isAllowed={Boolean(auth.currentUser)} />}>
                   <Route path="survey" element={<MultiStepFormCtx />} />
                 </Route>
