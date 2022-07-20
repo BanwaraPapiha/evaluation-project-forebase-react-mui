@@ -43,14 +43,15 @@ const Added = (props) => {
 
     const HandleAdd = () => {
         if (added) {
-            setAdded(!added)
+            // setAdded(!added)
+            setAdded(false)
             Remove2Array(props.userDetail.Email);
         }
         else if (!added) {
-            setAdded(!added)
+            setAdded(true)
             Add2Array(props.userDetail.Email);
-            }            
-        }
+        }            
+    }
 
     return(
         <div onClick={()=>HandleAdd()}>{added? <CheckCircleRoundedIcon style={{color: 'green'}}/>:<AddCircleIcon />}</div>
@@ -65,7 +66,7 @@ const PersonTable = (props) => {
 
     const handleDelete = async (id, person) => {
         Remove2Array(SurveyDocRef, person)
-        // alert(`${person} is being deleted`)
+        alert(`${person} is being deleted`)
         const taskDocRef = doc(Db, "persons to be evaluated", id)
         try{
           await deleteDoc(taskDocRef)

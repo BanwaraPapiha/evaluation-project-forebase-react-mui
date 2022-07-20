@@ -152,7 +152,7 @@ function LoginPage() {
               <ul>
                 <li>This system is for evaluating the performance of the employees of your company.</li>
                 <li>The system is based on your feedback for each of the other employee in specific features.</li>
-                <li>Please login to continue</li>
+                {/* <li>Please login to continue</li> */}
               </ul>
             </Box>
 

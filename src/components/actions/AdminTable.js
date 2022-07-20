@@ -5,8 +5,10 @@ import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 
 const AdminTable = () => {
     const [admins_li, setAdmins_li] = useState([]);
+    const [only, setOnly] = useState(true);
 
     const handleRemove = async (val) => {
+        if (admins_li.length<2) {alert("Can't remove all admins");return}
         const ref = doc(Db, "Admins", "admins_list");
         await updateDoc(ref, {
           admins_list: arrayRemove(val)
@@ -17,11 +19,19 @@ const AdminTable = () => {
         const fetch_admin_li = async () => {
             const unsub = onSnapshot(doc(Db, "Admins", "admins_list"), (doc) => {
                 console.log("Current data: ", doc.data());
+                console.log("Current data: ", doc.data().admins_list);
                 setAdmins_li(doc.data().admins_list)
             });
         }
         fetch_admin_li()
     }, [])
+
+    useEffect(()=>{
+        if (admins_li.length<2) {setOnly(false)}
+    }, [admins_li])
+
+    console.log(admins_li.length)
+
     
     return (
         <div style={{"overflow-x": "auto"}}>
@@ -37,7 +47,7 @@ const AdminTable = () => {
                         return (
                             <tr>
                                 <td>{String(trow)}</td>
-                                <td><PersonRemoveIcon onClick={()=>{handleRemove(trow)}}/></td>
+                                <td>{only?null:<PersonRemoveIcon onClick={()=>{handleRemove(trow)}}/>}</td>
                             </tr>
                         )
                     })}

@@ -20,7 +20,6 @@ function UnitStepForm(props) {
 
   const handleClose = ()=> {
     setOpen(false)
-    // alert(open)
   }
   
   useEffect(()=>{
@@ -57,7 +56,7 @@ function UnitStepForm(props) {
           horizontal: 'center',
          }}
       >
-        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+        <Alert variant='filled' onClose={handleClose} severity="error" sx={{ width: '100%' }}>
           You can't give more than {fet_scor} total points for the feature {props.featureName}!
         </Alert>
       </Snackbar>: null
@@ -67,7 +66,7 @@ function UnitStepForm(props) {
       >
         Feature: {props.featureName}<br/>
         Total Scores Given: {score_done}<br/>
-        Maximum <b>{fet_scor}</b> Scores to distribute
+        Maximum Scores to distribute:<b>{fet_scor && fet_scor? String(fet_scor): 'Loading'}</b>
       </Typography>
 
       <Grid container spacing={2} sx={{display: 'flex', justifyContent: 'center'}}>

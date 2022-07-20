@@ -24,7 +24,6 @@ function MultiStep() {
   const current_survey = surveyCtx.survey[0]['id']
   const current_user = UserCtx.Loguser.email;
   const navigate = useNavigate()
-
   // Backdrop
   const [open, setOpen] = useState(false);
   const handleClose = () => {setOpen(false)};
@@ -53,48 +52,79 @@ function MultiStep() {
 
   useEffect(() => {
     const getSurveyFeatures = async () => {
-      // const docRef = doc(Db, "surveys", "Work Survey April 2022");
       const docRef = doc(Db, "surveys", current_survey);
       const docSnap = await getDoc(docRef);
       console.log(current_user)
       // Still incomplete
       points.setPointsdata({})
       console.log(points.pointsdata)  
-      console.log(docSnap.data().users);
-      console.log(docSnap.data().features);
-      setSurvUser(docSnap.data().users);
-      setSurvFeature(docSnap.data().features)
+      console.log(docSnap.data()?.users);
+      console.log(docSnap.data()?.features);
+      docSnap.data() && docSnap.data().users!=='undefined'?setSurvUser(docSnap.data().users):setSurvUser([])
+      docSnap.data() && docSnap.data().features!=='undefined'?setSurvFeature(docSnap.data().features):setSurvFeature([])
     };
     getSurveyFeatures();
   }, [current_survey]);
 
-  if (UserCtx.admin) {
+  if (survUser.includes(UserCtx.Loguser.email) && current_survey!=="Not Selected")
+  {
     return (
       <Container>
-        <Box sx={{height: '400px', color: 'red'}}>
-          <Typography variant="h3" gutterBottom component="div" style={{"text-align": "center"}}>
-            Survey {current_survey}<br/>
-            Evaluate All the given ''''''users'''''' in the following Features Step By Step
-          </Typography>
-        </Box>
-
-        {survFeature.length > 0 ?
-         survFeature.map((x, index) => {
-          return (
-            <UnitStepForm className="UnitSteps" personsList={ survUser } featureName={x} scores={2000} />
-            )
-         }) : 'Loading'}
-        <br/>
-    
         {
-          current_survey!=="Not Selected" && current_user ? <Button variant="contained" color="secondary" onClick={Submit}>Submit</Button>
-          : <Button disabled>Submit</Button>
+          guide===true
+          ? 
+          <Guides guide={guide} setGuide={setGuide}/>
+          : 
+          <div>
+            <Backdrop
+              sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+              open={open}
+              onClick={handleClose}
+            >
+              <CircularProgress color="inherit" />
+            </Backdrop>
+            {/* success */}
+            <Snackbar open={addSx} autoHideDuration={6000} onClose={(handleCloseSx)} anchorOrigin={{vertical: "top", horizontal: "center" }}>
+              <Alert onClose={handleCloseSx} variant='filled' severity="success" sx={{ width: '100%' }}>
+                Submitted Sucessfully!
+              </Alert>
+            </Snackbar>
+
+            {/* error */}
+            <Snackbar open={addEr} autoHideDuration={6000} onClose={(handleCloseEr)} anchorOrigin={{vertical: "top", horizontal: "center" }}>
+              <Alert onClose={handleCloseEr} variant='filled' severity="error" sx={{ width: '100%' }}>
+                An Error Occured!
+              </Alert>
+            </Snackbar>
+
+
+          { 
+            survFeature.length>0 
+            ?
+            survFeature.map((x, index) => {
+              return (
+                <UnitStepForm className="UnitSteps" personsList={ survUser } featureName={x} scores={2000} />
+              )
+            })
+            :
+            'Loading...'
+          }
+          <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', margin: 10}}>
+          {
+            current_survey!=="Not Selected" && current_user 
+            ? 
+            <Button sx={{width: '45vw'}} variant="contained" color="secondary" onClick={Submit}>Submit</Button>
+            : 
+            <Button sx={{width: '45vw'}} disabled>Submit</Button>
+          }
+          </Box>
+          </div>
         }
       </Container>
     );  
+  
   }
-
-  if (survUser.includes(UserCtx.Loguser.email) && current_survey!=="Not Selected")
+  if (UserCtx.admin && current_survey!=="Not Selected")
   {
     return (
       <Container>
@@ -155,10 +185,11 @@ function MultiStep() {
 
   if (!survUser.includes(UserCtx.Loguser.email)) {
     return (
-      <Container>
-        <Typography variant="button" gutterBottom component="div">
-          Survey {current_survey}<br/>
+      <Container style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
+        <Typography style={{padding: 10, margin: 10}} variant="h4" gutterBottom component="div">
           You are not found in the current survey
+          <br></br>
+          Survey Name: {current_survey}
         </Typography>
       </Container> 
     )
