@@ -6,11 +6,15 @@ import { SurveyCTx } from "../../providers/surveyctx";
 import { updateDoc, serverTimestamp } from "firebase/firestore";
 import { UserContext } from "../../providers/userCtx";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { Db } from "../../firebase-config/db";
 
 const auth = getAuth();
 
 function UnitComponent(props) {
-  const [slide_score, setSlide_score] = useState(0);
+  const [slide_score, setSlide_score] = useState(0)
+  const [name, setName] = useState(0)
   const points = useContext(PointsCtx)
   const surveyCtx = useContext(SurveyCTx)
   const PersonName = props.person;
@@ -41,6 +45,21 @@ function UnitComponent(props) {
     }
   }
 
+  useEffect(()=>{
+    const fetchName = async () => {
+      const q = query(collection(Db, "persons to be evaluated"), where("Email", "==", props.person));
+
+      const querySnapshot = await getDocs(q);
+      var tmpName = []
+      querySnapshot.forEach((doc) => {
+        console.log(doc.id, " => ", doc.data());
+        tmpName.push({id: doc.id, ...doc.data()})
+      });
+      setName(tmpName)
+    }
+    fetchName()
+  }, [])
+
   useEffect(() => {
     points.setPointsdata({...points.pointsdata, [props.feature]: props.listData})
     console.log(points.pointsdata)
@@ -52,14 +71,20 @@ function UnitComponent(props) {
 
   return (
     <Grid item sm={12} md={6}>
-      <Card elevation={4} style={{minHeight: '200px', width: { md: '100%', xs: '85vw' , sm: '85vw'}}}>
+      <Card elevation={6} style={{ borderRadius: 20, minHeight: '200px', width: { md: '100%', xs: '95vw' , sm: '95vw'}}}>
         <CardContent>
           <div style={{padding: "10px", display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
             <Typography>Score Awarded</Typography>
             <Chip variant="contained" label={(typeof(slide_score) === 'undefined') ? 0 : slide_score} color="info" />
           </div>
-          <Typography gutterBottom variant="h6" component="div">
-          Name: { props.person } <br />
+          {/* Medium Screen */}
+          <Typography gutterBottom variant="body1" sx={{ display: {xs: 'none', sm: 'none', md: 'block'}, overflow: 'auto', whiteSpace: 'nowrap'}}>
+          Name: {name && name.length>0 && name[0].Name!=='undefined'?String(name[0].Name):'Loading'} <br />
+          Email: { props.person } <br />
+          </Typography>
+          {/* Small Screen */}
+          <Typography gutterBottom variant="body1" sx={{ display: {xs: 'block', sm: 'block', md: 'none'}, width: 300, overflow: 'auto', whiteSpace: 'nowrap'}}>
+          Name: {name && name.length>0 && name[0].Name!=='undefined'?String(name[0].Name):'Loading'} <br />
           Email: { props.person } <br />
           </Typography>
 

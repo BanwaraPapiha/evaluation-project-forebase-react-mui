@@ -41,7 +41,8 @@ function LoginPage() {
   const handleClickOpen = async () => {
     setOpen(true);
 
-    const q = query(collection(Db, "surveys"));
+    // const q = query(collection(Db, "surveys"));
+    const q = query(collection(Db, "surveys"), where("active", "==", true));
     const querySnapshot = await getDocs(q);
     var surveysTmp = []
     querySnapshot.forEach((doc) => {

@@ -60,20 +60,17 @@ function UnitStepForm(props) {
         <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
           You can't give more than {fet_scor} total points for the feature {props.featureName}!
         </Alert>
-
       </Snackbar>: null
       }
-      <Typography variant="h6" gutterBottom component="div"       
-      style={{"text-align": "center", "min-height": "10vh", "background-color":"rgba(123, 31, 162, .5)", "color": "rgb(248, 247, 249)", "border-radius": "10px"}}
+      <Typography variant="h6" gutterBottom component="div"    
+        style={{"text-align": "center", margin: 10, padding: 5, minHeight: "10vh", backgroundColor:"rgba(123, 31, 162, .8)", color: "rgb(248, 247, 249)", borderRadius: 10}}
       >
-        Feature Seleted: {props.featureName}<br/>
-        Total Feature Scores Given: {score_done}<br/>
-        {/* You have total {props.scores} Scores to distribute <br/> */}
-        You have total {fet_scor} Scores to distribute
+        Feature: {props.featureName}<br/>
+        Total Scores Given: {score_done}<br/>
+        Maximum <b>{fet_scor}</b> Scores to distribute
       </Typography>
-      <br/>
 
-      <Grid container spacing={2}>
+      <Grid container spacing={2} sx={{display: 'flex', justifyContent: 'center'}}>
         { props.personsList.map((prsn) => {
         return (
           <UnitComponent 
@@ -84,8 +81,6 @@ function UnitStepForm(props) {
         );
         })}
       </Grid>
-      <br/>
-      <Divider />
     </>
   );
 }

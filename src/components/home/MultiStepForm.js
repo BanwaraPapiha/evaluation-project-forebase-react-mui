@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { Db } from "../../firebase-config/db";
 import { collection, getDocs, doc, setDoc, getDoc, addDoc } from "firebase/firestore";
 import UnitStepForm from "./UnitStepForm";
-import { Typography, MobileStepper, Container, Button, Box, Card, CardContent, CardActions } from '@mui/material';
+import { Typography, MobileStepper, Container, Box, Card, CardContent, CardActions, Alert } from '@mui/material';
 import { PointsCtx } from "../../providers/pointsctx";
 import { PointsCtxProvider } from "../../providers/pointsProvider";
 import { SurveyCTx } from "../../providers/surveyctx";
@@ -10,6 +10,10 @@ import { UserContext } from "../../providers/userCtx";
 import { useNavigate } from 'react-router-dom';
 import { PinDropSharp } from "@material-ui/icons";
 import TopUi from "../common/errSurv";
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
+import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar';
 
 function MultiStep() {
   const [survUser, setSurvUser] = useState([]);
@@ -21,23 +25,40 @@ function MultiStep() {
   const current_user = UserCtx.Loguser.email;
   const navigate = useNavigate()
 
+  // Backdrop
+  const [open, setOpen] = useState(false);
+  const handleClose = () => {setOpen(false)};
+  const handleOpen = () => {setOpen(true)};
+  const handleToggle = () => {setOpen(!open)};
+  // // SnackBar Error
+  // const [err, setErr] = useState(false);
+  // const handleErrClick = () => {setErr(true)};
+  // const handleErrClose = () => {setErr(false)};
+  // // SnackBar Success
+  // const [sx, setSx] = useState(false);
+  // const handleSxClick = () => {setSx(true)};
+  // const handleSxClose = () => {setSx(false)};
+  const [addSx, setAddSx] = useState(false)
+  const [addEr, setAddEr] = useState(false)
+  const handleCloseSx = () => setAddSx(false)
+  const handleCloseEr = () => setAddEr(false)
+
+
   const Submit = async () => {
-    // alert("Submit!");
-    // console.log(current_user)
+    handleOpen()
     console.log(points.pointsdata)
     try {
       await setDoc(doc(Db, current_survey, current_user), points.pointsdata);
-    } catch (e) {
-      console.error(e);
-    } 
-    try {
       await setDoc(doc(Db, "track_persons", current_survey), 
       {[current_user]: true}, { merge: true }
-      );      
+      );
+      setAddSx(true)
+      navigate('/', { replace: true });
     } catch (e) {
-      console.error(e)
-    }
-    navigate('/', { replace: true });
+      console.error(e);
+      handleClose()
+      setAddEr(true)
+    } 
   };
 
   useEffect(() => {
@@ -95,6 +116,28 @@ function MultiStep() {
           <Guides guide={guide} setGuide={setGuide}/>
           : 
           <div>
+            <Backdrop
+              sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+              open={open}
+              onClick={handleClose}
+            >
+              <CircularProgress color="inherit" />
+            </Backdrop>
+            {/* success */}
+            <Snackbar open={addSx} autoHideDuration={6000} onClose={(handleCloseSx)} anchorOrigin={{vertical: "top", horizontal: "center" }}>
+              <Alert onClose={handleCloseSx} variant='filled' severity="success" sx={{ width: '100%' }}>
+                Submitted Sucessfully!
+              </Alert>
+            </Snackbar>
+
+            {/* error */}
+            <Snackbar open={addEr} autoHideDuration={6000} onClose={(handleCloseEr)} anchorOrigin={{vertical: "top", horizontal: "center" }}>
+              <Alert onClose={handleCloseEr} variant='filled' severity="error" sx={{ width: '100%' }}>
+                An Error Occured!
+              </Alert>
+            </Snackbar>
+
+
           { 
             survFeature.length>0 
             ?
@@ -104,13 +147,17 @@ function MultiStep() {
               )
             })
             :
-            'Loading'
+            'Loading...'
           }
+          <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', margin: 10}}>
           {
-            current_survey!=="Not Selected" && current_user ? <Button variant="contained" color="secondary" onClick={Submit}>Submit</Button>
-            : <Button disabled>Submit</Button>
+            current_survey!=="Not Selected" && current_user 
+            ? 
+            <Button sx={{width: '45vw'}} variant="contained" color="secondary" onClick={Submit}>Submit</Button>
+            : 
+            <Button sx={{width: '45vw'}} disabled>Submit</Button>
           }
-
+          </Box>
           </div>
         }
       </Container>
@@ -174,13 +221,11 @@ const Guides = (props) => {
         <CardContent>
           <Typography sx={{ mb: 1.5 }} color="text.secondary">
             Guides
-            , {String(props.guide)}
+            {/* , {String(props.guide)} */}
           </Typography>
           <ul>
-            <li>vgbhskj bhjv  bjbv bhb hbv jhjvh sjs hsdhbh h f cgcg jh</li>
-            <li>vgbhskj</li>
-            <li>vgbhskj</li>
-            <li>vgbhskj</li>
+            <li>This system is for evaluating the performance of the employees of your company.</li>
+            <li>The system is based on your feedback for each of the other employee in specific features.</li>
           </ul>
         </CardContent>
         <CardActions>
