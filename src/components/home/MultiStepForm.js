@@ -18,6 +18,7 @@ function MultiStep() {
   const [survUser, setSurvUser] = useState([]);
   const [survFeature, setSurvFeature] = useState([]);
   const [guide, setGuide] = useState(true)
+  const [thanks, setThanks] = useState(false)
   const UserCtx = useContext(UserContext)
   const points = useContext(PointsCtx)
   const surveyCtx = useContext(SurveyCTx)
@@ -42,7 +43,9 @@ function MultiStep() {
       {[current_user]: true}, { merge: true }
       );
       setAddSx(true)
-      navigate('/', { replace: true });
+      // navigate('/', { replace: true });
+      handleClose()
+      setThanks(true)
     } catch (e) {
       console.error(e);
       handleClose()
@@ -89,41 +92,53 @@ function MultiStep() {
                 Submitted Sucessfully!
               </Alert>
             </Snackbar>
-
             {/* error */}
             <Snackbar open={addEr} autoHideDuration={6000} onClose={(handleCloseEr)} anchorOrigin={{vertical: "top", horizontal: "center" }}>
               <Alert onClose={handleCloseEr} variant='filled' severity="error" sx={{ width: '100%' }}>
                 An Error Occured!
               </Alert>
             </Snackbar>
-
-
-          { 
-            survFeature.length>0 
-            ?
-            survFeature.map((x, index) => {
-              return (
-                <UnitStepForm className="UnitSteps" personsList={ survUser } featureName={x} scores={2000} />
-              )
-            })
-            :
-            'Loading...'
-          }
-          <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', margin: 10}}>
-          {
-            current_survey!=="Not Selected" && current_user 
-            ? 
-            <Button sx={{width: '45vw'}} variant="contained" color="secondary" onClick={Submit}>Submit</Button>
-            : 
-            <Button sx={{width: '45vw'}} disabled>Submit</Button>
-          }
-          </Box>
+            {
+              thanks
+              ?
+              <ThankYou/>
+              :
+              <div>
+              { 
+                survFeature.length>0 
+                ?
+                survFeature.map((x, index) => {
+                  return (
+                    <UnitStepForm className="UnitSteps" personsList={ survUser } featureName={x} scores={2000} />
+                  )
+                })
+                :
+                'Loading...'
+              }
+              </div>
+            }
+            {
+              thanks
+              ?
+              null
+              :
+              <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', margin: 10}}>
+              {
+                current_survey!=="Not Selected" && current_user 
+                ? 
+                <Button sx={{width: '45vw'}} variant="contained" color="secondary" onClick={Submit}>Submit</Button>
+                : 
+                <Button sx={{width: '45vw'}} disabled>Submit</Button>
+              }
+              </Box>
+            }
           </div>
         }
       </Container>
     );  
   
   }
+
   if (UserCtx.admin && current_survey!=="Not Selected")
   {
     return (
@@ -147,35 +162,46 @@ function MultiStep() {
                 Submitted Sucessfully!
               </Alert>
             </Snackbar>
-
             {/* error */}
             <Snackbar open={addEr} autoHideDuration={6000} onClose={(handleCloseEr)} anchorOrigin={{vertical: "top", horizontal: "center" }}>
               <Alert onClose={handleCloseEr} variant='filled' severity="error" sx={{ width: '100%' }}>
                 An Error Occured!
               </Alert>
             </Snackbar>
-
-
-          { 
-            survFeature.length>0 
-            ?
-            survFeature.map((x, index) => {
-              return (
-                <UnitStepForm className="UnitSteps" personsList={ survUser } featureName={x} scores={2000} />
-              )
-            })
-            :
-            'Loading...'
-          }
-          <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', margin: 10}}>
-          {
-            current_survey!=="Not Selected" && current_user 
-            ? 
-            <Button sx={{width: '45vw'}} variant="contained" color="secondary" onClick={Submit}>Submit</Button>
-            : 
-            <Button sx={{width: '45vw'}} disabled>Submit</Button>
-          }
-          </Box>
+            {
+              thanks
+              ?
+              <ThankYou/>
+              :
+              <div>
+              { 
+                survFeature.length>0 
+                ?
+                survFeature.map((x, index) => {
+                  return (
+                    <UnitStepForm className="UnitSteps" personsList={ survUser } featureName={x} scores={2000} />
+                  )
+                })
+                :
+                'Loading...'
+              }
+              </div>
+            }
+            {
+              thanks
+              ?
+              null
+              :
+              <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', margin: 10}}>
+              {
+                current_survey!=="Not Selected" && current_user 
+                ? 
+                <Button sx={{width: '45vw'}} variant="contained" color="secondary" onClick={Submit}>Submit</Button>
+                : 
+                <Button sx={{width: '45vw'}} disabled>Submit</Button>
+              }
+              </Box>
+            }
           </div>
         }
       </Container>
@@ -194,6 +220,7 @@ function MultiStep() {
       </Container> 
     )
   }
+
   if (current_survey==="Not Selected") {
     return (
       <Container>
@@ -204,6 +231,7 @@ function MultiStep() {
       </Container> 
     )
   }
+
   else{
     return (
       <Container>
@@ -233,6 +261,7 @@ const Guides = (props) => {
       <Card
         sx={{
           padding: '10px', margin: '30px auto auto auto',
+          backgroundImage: 'linear-gradient(to right, rgba(0,255,0,.5), rgba(255,0,0,.5))',
           width: { xs: '80vw', sm: '80vw', md: '400px', lg: '400px', xl: '400px' },
           display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'
         }}
@@ -240,7 +269,6 @@ const Guides = (props) => {
         <CardContent>
           <Typography sx={{ mb: 1.5 }} color="text.secondary">
             Guides
-            {/* , {String(props.guide)} */}
           </Typography>
           <ul>
             <li>You are shown some features in the next section.</li>
@@ -252,7 +280,33 @@ const Guides = (props) => {
           </ul>
         </CardContent>
         <CardActions>
-          <Button align='center' onClick={()=>{props.setGuide(false);}} size="small">Start</Button>
+          <Button variant="contained" align='center' onClick={()=>{props.setGuide(false);}} size="small">Start</Button>
+        </CardActions>
+      </Card>
+    </Box>
+
+  )
+}
+
+const ThankYou = (props) => {
+  const navigate = useNavigate()
+  return (
+    <Box sx={{height: '60vh'}}>
+      <Card
+        sx={{
+          padding: '10px', margin: '30px auto auto auto', 
+          backgroundImage: 'linear-gradient(to right, rgba(255,0,0,.5), rgba(0,255,0,.5))',
+          width: { xs: '80vw', sm: '80vw', md: '400px', lg: '400px', xl: '400px' }, 
+          display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'
+        }}
+      >
+        <CardContent>
+          <Typography sx={{ mb: 1.5 }} color="white">
+            Thank You For Filling The Survey
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button variant='contained' sx={{color: 'white',}} align='center' onClick={()=>{navigate('/', { replace: true })}} size="small">Go to Home Page</Button>
         </CardActions>
       </Card>
     </Box>

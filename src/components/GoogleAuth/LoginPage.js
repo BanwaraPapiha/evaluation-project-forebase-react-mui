@@ -41,7 +41,6 @@ function LoginPage() {
   const handleClickOpen = async () => {
     setOpen(true);
 
-    // const q = query(collection(Db, "surveys"));
     const q = query(collection(Db, "surveys"), where("active", "==", true));
     const querySnapshot = await getDocs(q);
     var surveysTmp = []
@@ -49,8 +48,7 @@ function LoginPage() {
       // console.log(doc.id, " => ", doc.data());
       surveysTmp.push({id: doc.id, ...doc.data()})
     });
-    setSurveys(surveysTmp)
-    
+    setSurveys(surveysTmp)  
   };
 
   const handleClose = () => {
@@ -188,14 +186,19 @@ function LoginPage() {
                       {
                         surveys.map((s)=>{
                           return (
-                            <ListItemButton role={undefined} onClick={()=>{surveyCtx.setSurvey([s]);handleClose()}} dense>
+                            <ListItemButton key={s.name} role={undefined} onClick={()=>{surveyCtx.setSurvey([s]);handleClose()}} dense>
                               <ListItemText primary={String(s.name)}/>
                             </ListItemButton>
                           )
                         })
                       }
                     </List>
-                      : 'Loading'
+                    :
+                    <div>
+                      {
+                        surveys.length==0?'No active surveys found!':'Loading...'
+                      }
+                    </div> 
                   }
                 </DialogContent>
                 <DialogActions>

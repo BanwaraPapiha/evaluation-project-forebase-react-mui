@@ -81,7 +81,7 @@ export default function BasicMenu(props) {
         >
           {actSurve.map((x)=>{
             return (
-              <MenuItem onClick={()=>{handleClose(x);handleOnClose(x)}}>{x.name}</MenuItem>
+              <MenuItem key={x.name} onClick={()=>{handleClose(x);handleOnClose(x)}}>{x.name}</MenuItem>
             )
           })}
         </Menu>
