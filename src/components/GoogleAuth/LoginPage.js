@@ -140,7 +140,7 @@ function LoginPage() {
       {
           user?
           <div>
-            <img style={{"border-radius": "50%", border: "1px solid black", margin: '5px auto 5px 30%', padding: '5px', width: '100px'}} src={UserCtx.Loguser.photoURL} alt="Profile Photo"/>
+            <img style={{borderRadius: "50%", border: "1px solid black", margin: '5px auto 5px 30%', padding: '5px', width: '100px'}} src={UserCtx.Loguser.photoURL} alt="Profile Photo"/>
             <Box>
               <Typography align='center'>{UserCtx.Loguser.displayName}</Typography>
               <Typography align='center'>{UserCtx.Loguser.email}</Typography>

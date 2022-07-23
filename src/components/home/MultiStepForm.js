@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { Db } from "../../firebase-config/db";
 import { collection, getDocs, doc, setDoc, getDoc, addDoc } from "firebase/firestore";
 import UnitStepForm from "./UnitStepForm";
-import { Typography, MobileStepper, Container, Box, Card, CardContent, CardActions, Alert } from '@mui/material';
+import { Typography, Container, Box, Card, CardContent, CardActions, Alert } from '@mui/material';
 import { PointsCtx } from "../../providers/pointsctx";
 import { PointsCtxProvider } from "../../providers/pointsProvider";
 import { SurveyCTx } from "../../providers/surveyctx";
@@ -13,6 +13,12 @@ import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
+
+import MobileStepper from '@mui/material/MobileStepper';
+// import Button from '@mui/material/Button';
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import { useTheme } from '@mui/material/styles';
 
 function MultiStep() {
   const [survUser, setSurvUser] = useState([]);
@@ -33,6 +39,22 @@ function MultiStep() {
   const [addEr, setAddEr] = useState(false)
   const handleCloseSx = () => setAddSx(false)
   const handleCloseEr = () => setAddEr(false)
+
+  // Stepper
+  const [activeStep, setActiveStep] = useState(0);
+  const [stepRep, setStepRep] = useState(1);
+
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    // alert(activeStep)
+  };
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    // alert(activeStep)
+  };
+
+  const theme = useTheme();
 
   const Submit = async () => {
     handleOpen()
@@ -69,77 +91,114 @@ function MultiStep() {
     getSurveyFeatures();
   }, [current_survey]);
 
-  if (survUser.includes(UserCtx.Loguser.email) && current_survey!=="Not Selected")
-  {
-    return (
-      <Container>
-        {
-          guide===true
-          ? 
-          <Guides guide={guide} setGuide={setGuide}/>
-          : 
-          <div>
-            <Backdrop
-              sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-              open={open}
-              onClick={handleClose}
-            >
-              <CircularProgress color="inherit" />
-            </Backdrop>
-            {/* success */}
-            <Snackbar open={addSx} autoHideDuration={6000} onClose={(handleCloseSx)} anchorOrigin={{vertical: "top", horizontal: "center" }}>
-              <Alert onClose={handleCloseSx} variant='filled' severity="success" sx={{ width: '100%' }}>
-                Submitted Sucessfully!
-              </Alert>
-            </Snackbar>
-            {/* error */}
-            <Snackbar open={addEr} autoHideDuration={6000} onClose={(handleCloseEr)} anchorOrigin={{vertical: "top", horizontal: "center" }}>
-              <Alert onClose={handleCloseEr} variant='filled' severity="error" sx={{ width: '100%' }}>
-                An Error Occured!
-              </Alert>
-            </Snackbar>
-            {
-              thanks
-              ?
-              <ThankYou/>
-              :
-              <div>
-              { 
-                survFeature.length>0 
-                ?
-                survFeature.map((x, index) => {
-                  return (
-                    <UnitStepForm className="UnitSteps" personsList={ survUser } featureName={x} scores={2000} />
-                  )
-                })
-                :
-                'Loading...'
-              }
-              </div>
-            }
-            {
-              thanks
-              ?
-              null
-              :
-              <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', margin: 10}}>
-              {
-                current_survey!=="Not Selected" && current_user 
-                ? 
-                <Button sx={{width: '45vw'}} variant="contained" color="secondary" onClick={Submit}>Submit</Button>
-                : 
-                <Button sx={{width: '45vw'}} disabled>Submit</Button>
-              }
-              </Box>
-            }
-          </div>
-        }
-      </Container>
-    );  
+  // if (survUser.includes(UserCtx.Loguser.email) && current_survey!=="Not Selected")
+  // {
+  //   return (
+  //     <Container>
+  //       {
+  //         guide===true
+  //         ? 
+  //         <Guides guide={guide} setGuide={setGuide}/>
+  //         : 
+  //         <div>
+  //           <Backdrop
+  //             sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+  //             open={open}
+  //             onClick={handleClose}
+  //           >
+  //             <CircularProgress color="inherit" />
+  //           </Backdrop>
+  //           {/* success */}
+  //           <Snackbar open={addSx} autoHideDuration={6000} onClose={(handleCloseSx)} anchorOrigin={{vertical: "top", horizontal: "center" }}>
+  //             <Alert onClose={handleCloseSx} variant='filled' severity="success" sx={{ width: '100%' }}>
+  //               Submitted Sucessfully!
+  //             </Alert>
+  //           </Snackbar>
+  //           {/* error */}
+  //           <Snackbar open={addEr} autoHideDuration={6000} onClose={(handleCloseEr)} anchorOrigin={{vertical: "top", horizontal: "center" }}>
+  //             <Alert onClose={handleCloseEr} variant='filled' severity="error" sx={{ width: '100%' }}>
+  //               An Error Occured!
+  //             </Alert>
+  //           </Snackbar>
+  //           {/* Thanks You Note and MultiStepForm */}
+  //           {
+  //             thanks
+  //             ?
+  //             <ThankYou/>
+  //             :
+  //             <div>
+  //             { 
+  //               survFeature.length>0 
+  //               ?
+  //               <div>
+  //                 {
+  //                   survFeature.map((x, index) => {
+  //                     alert(index)
+  //                     return (
+  //                       <UnitStepForm //className="UnitSteps" scores={2000}
+  //                       personsList={ survUser } featureName={x}  />
+  //                     )
+  //                   })                    
+  //                 }
+  //                 <Box sx={{margin: 5, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+  //                   <MobileStepper
+  //                     variant="dots"
+  //                     steps={10}
+  //                     position="static"
+  //                     activeStep={activeStep}
+  //                     sx={{ maxWidth: 400, flexGrow: 1 }}
+  //                     nextButton={
+  //                       <Button size="small" onClick={handleNext} disabled={activeStep === 15}>
+  //                         Next
+  //                         {theme.direction === 'rtl' ? (
+  //                           <KeyboardArrowLeft />
+  //                         ) : (
+  //                           <KeyboardArrowRight />
+  //                         )}
+  //                       </Button>
+  //                     }
+  //                     backButton={
+  //                       <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+  //                         {theme.direction === 'rtl' ? (
+  //                           <KeyboardArrowRight />
+  //                         ) : (
+  //                           <KeyboardArrowLeft />
+  //                         )}
+  //                         Back
+  //                       </Button>
+  //                     }
+  //                   />
+  //                 </Box>
+  //               </div>
+  //               :
+  //               'Loading...'
+  //             }
+  //             </div>
+  //           }
+  //           {/* Submit Button shows if thanks is false */}
+  //           {
+  //             thanks
+  //             ?
+  //             null
+  //             :
+  //             <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', margin: 10}}>
+  //             {
+  //               current_survey!=="Not Selected" && current_user 
+  //               ? 
+  //               <Button sx={{width: '45vw'}} variant="contained" color="secondary" onClick={Submit}>Submit</Button>
+  //               : 
+  //               <Button sx={{width: '45vw'}} disabled>Submit</Button>
+  //             }
+  //             </Box>
+  //           }
+  //         </div>
+  //       }
+  //     </Container>
+  //   );  
   
-  }
+  // }
 
-  if (UserCtx.admin && current_survey!=="Not Selected")
+  if ((survUser.includes(UserCtx.Loguser.email) || UserCtx.admin) && current_survey!=="Not Selected")
   {
     return (
       <Container>
@@ -174,17 +233,50 @@ function MultiStep() {
               <ThankYou/>
               :
               <div>
-              { 
-                survFeature.length>0 
-                ?
-                survFeature.map((x, index) => {
-                  return (
-                    <UnitStepForm className="UnitSteps" personsList={ survUser } featureName={x} scores={2000} />
-                  )
-                })
-                :
-                'Loading...'
+                { 
+                  survFeature.length>0 
+                  ?
+                  <div>
+                    {/* <h3>survUser {JSON.stringify(survUser)}</h3>
+                    <h2>survFeature {JSON.stringify(survFeature)}</h2>
+                    <h1>activeStep {JSON.stringify(activeStep)}</h1> */}
+                    {/* <h1>Step {JSON.stringify(activeStep+1)}</h1>
+                    <h2>Feature {JSON.stringify(survFeature[activeStep])}</h2> */}
+                    
+                    <UnitStepForm className="UnitSteps" personsList={ survUser } featureName={survFeature[activeStep]} scores={2000} />
+                  </div>
+                  :
+                  'Loading...'                      
               }
+                <Box sx={{margin: 5, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                  <MobileStepper
+                    variant="dots"
+                    steps={survFeature.length}
+                    position="static"
+                    activeStep={activeStep}
+                    sx={{ maxWidth: 400, flexGrow: 1 }}
+                    nextButton={
+                      <Button size="small" onClick={handleNext} disabled={activeStep === survFeature.length-1}>
+                        Next
+                        {theme.direction === 'rtl' ? (
+                          <KeyboardArrowLeft />
+                        ) : (
+                          <KeyboardArrowRight />
+                        )}
+                      </Button>
+                    }
+                    backButton={
+                      <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+                        {theme.direction === 'rtl' ? (
+                          <KeyboardArrowRight />
+                        ) : (
+                          <KeyboardArrowLeft />
+                        )}
+                        Back
+                      </Button>
+                    }
+                  />
+                </Box>
               </div>
             }
             {
