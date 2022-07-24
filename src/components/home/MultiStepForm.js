@@ -91,113 +91,6 @@ function MultiStep() {
     getSurveyFeatures();
   }, [current_survey]);
 
-  // if (survUser.includes(UserCtx.Loguser.email) && current_survey!=="Not Selected")
-  // {
-  //   return (
-  //     <Container>
-  //       {
-  //         guide===true
-  //         ? 
-  //         <Guides guide={guide} setGuide={setGuide}/>
-  //         : 
-  //         <div>
-  //           <Backdrop
-  //             sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-  //             open={open}
-  //             onClick={handleClose}
-  //           >
-  //             <CircularProgress color="inherit" />
-  //           </Backdrop>
-  //           {/* success */}
-  //           <Snackbar open={addSx} autoHideDuration={6000} onClose={(handleCloseSx)} anchorOrigin={{vertical: "top", horizontal: "center" }}>
-  //             <Alert onClose={handleCloseSx} variant='filled' severity="success" sx={{ width: '100%' }}>
-  //               Submitted Sucessfully!
-  //             </Alert>
-  //           </Snackbar>
-  //           {/* error */}
-  //           <Snackbar open={addEr} autoHideDuration={6000} onClose={(handleCloseEr)} anchorOrigin={{vertical: "top", horizontal: "center" }}>
-  //             <Alert onClose={handleCloseEr} variant='filled' severity="error" sx={{ width: '100%' }}>
-  //               An Error Occured!
-  //             </Alert>
-  //           </Snackbar>
-  //           {/* Thanks You Note and MultiStepForm */}
-  //           {
-  //             thanks
-  //             ?
-  //             <ThankYou/>
-  //             :
-  //             <div>
-  //             { 
-  //               survFeature.length>0 
-  //               ?
-  //               <div>
-  //                 {
-  //                   survFeature.map((x, index) => {
-  //                     alert(index)
-  //                     return (
-  //                       <UnitStepForm //className="UnitSteps" scores={2000}
-  //                       personsList={ survUser } featureName={x}  />
-  //                     )
-  //                   })                    
-  //                 }
-  //                 <Box sx={{margin: 5, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-  //                   <MobileStepper
-  //                     variant="dots"
-  //                     steps={10}
-  //                     position="static"
-  //                     activeStep={activeStep}
-  //                     sx={{ maxWidth: 400, flexGrow: 1 }}
-  //                     nextButton={
-  //                       <Button size="small" onClick={handleNext} disabled={activeStep === 15}>
-  //                         Next
-  //                         {theme.direction === 'rtl' ? (
-  //                           <KeyboardArrowLeft />
-  //                         ) : (
-  //                           <KeyboardArrowRight />
-  //                         )}
-  //                       </Button>
-  //                     }
-  //                     backButton={
-  //                       <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-  //                         {theme.direction === 'rtl' ? (
-  //                           <KeyboardArrowRight />
-  //                         ) : (
-  //                           <KeyboardArrowLeft />
-  //                         )}
-  //                         Back
-  //                       </Button>
-  //                     }
-  //                   />
-  //                 </Box>
-  //               </div>
-  //               :
-  //               'Loading...'
-  //             }
-  //             </div>
-  //           }
-  //           {/* Submit Button shows if thanks is false */}
-  //           {
-  //             thanks
-  //             ?
-  //             null
-  //             :
-  //             <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', margin: 10}}>
-  //             {
-  //               current_survey!=="Not Selected" && current_user 
-  //               ? 
-  //               <Button sx={{width: '45vw'}} variant="contained" color="secondary" onClick={Submit}>Submit</Button>
-  //               : 
-  //               <Button sx={{width: '45vw'}} disabled>Submit</Button>
-  //             }
-  //             </Box>
-  //           }
-  //         </div>
-  //       }
-  //     </Container>
-  //   );  
-  
-  // }
-
   if ((survUser.includes(UserCtx.Loguser.email) || UserCtx.admin) && current_survey!=="Not Selected")
   {
     return (
@@ -236,14 +129,8 @@ function MultiStep() {
                 { 
                   survFeature.length>0 
                   ?
-                  <div>
-                    {/* <h3>survUser {JSON.stringify(survUser)}</h3>
-                    <h2>survFeature {JSON.stringify(survFeature)}</h2>
-                    <h1>activeStep {JSON.stringify(activeStep)}</h1> */}
-                    {/* <h1>Step {JSON.stringify(activeStep+1)}</h1>
-                    <h2>Feature {JSON.stringify(survFeature[activeStep])}</h2> */}
-                    
-                    <UnitStepForm className="UnitSteps" personsList={ survUser } featureName={survFeature[activeStep]} scores={2000} />
+                  <div>                    
+                    <UnitStepForm personsList={ survUser } featureName={survFeature[activeStep]} />
                   </div>
                   :
                   'Loading...'                      

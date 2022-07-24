@@ -6,13 +6,14 @@ import { Stepper, Step, StepLabel, Button, Container, Grid, Paper, Snackbar, Ale
 import { useState, useContext } from 'react';
 import {SurveyCTx} from "../../providers/surveyctx";
 import { useNavigate } from 'react-router-dom';
+import PersonAcDc from './PersonsAcDc';
 
-const steps = ['Create Survey', 'Select Persons', 'Add Features'];
+const steps = ['Create Survey', 'Manage Persons', 'Manage Categories', 'Manage Features'];
 
 export default function Admin(props) {
   const [page, setPage] = useState(0)
   const CurrentSurvey = useContext(SurveyCTx);
-    const pages = {0:<SurveyList />, 1: <PersonList/>, 2: <FeatureList/>}
+    const pages = {0:<SurveyList />, 1: <PersonList/>, 2: <PersonAcDc/>, 3: <FeatureList/>}
     const NextPage = () => {
       setPage(currPage => currPage + 1);
     };
