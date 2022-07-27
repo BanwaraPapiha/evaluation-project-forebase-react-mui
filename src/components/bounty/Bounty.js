@@ -189,7 +189,7 @@ function Bounty() {
           </Paper> 
 
           <div style={{"overflow-x": "auto"}}>
-            <BountyTable title={["Name", "Total Points", "PreDefined Multiple", "Acc/Dec Value", "New Score", "Bounty (Money)", "Actions"]} userData={surveyUsersData}
+            <BountyTable title={["Name", "Actual Points", "PreDefined Multiple", "Acc/Dec Value", "New Score", "Bounty (Money)", "Actions"]} userData={surveyUsersData}
             idSum={idSumArr} totalBounty={totalBounty} bountySum={bountySum} setBountySum={setBountySum} setAcObj={setAcObj} acObj={acObj} ac_de_Sum={ac_de_Sum} setTotalBounty={setTotalBounty}
             obj={obj} />
           </div>

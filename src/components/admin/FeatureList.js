@@ -60,7 +60,7 @@ function FeatureList() {
         <Typography variant="h4" gutterBottom component="div">Manage Features</Typography>
         <TextField fullWidth label="Search Feature" id="search-feature" onChange={handleSearch}/><br/><br/>
         <Grid container spacing={3}>
-          <Grid item xs={12} md={6} style={{"overflow-x":"auto"}}>
+          <Grid item xs={12} md={6} style={{overflowX:"auto"}}>
           <Typography variant="h6" gutterBottom component="div">All Features</Typography>
             <FeatureTable title={["Feature", "Total Sum of Scores", "Add/Remove", "Delete"]} body={body}/>
           </Grid>

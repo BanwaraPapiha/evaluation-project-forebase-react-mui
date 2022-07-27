@@ -6,7 +6,7 @@ import { Stepper, Step, StepLabel, Button, Container, Grid, Paper, Snackbar, Ale
 import { useState, useContext } from 'react';
 import {SurveyCTx} from "../../providers/surveyctx";
 import { useNavigate } from 'react-router-dom';
-import PersonAcDc from './PersonsAcDc';
+import PersonAcDc from './Category';
 
 const steps = ['Create Survey', 'Manage Persons', 'Manage Categories', 'Manage Features'];
 

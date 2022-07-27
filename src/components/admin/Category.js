@@ -3,6 +3,58 @@ import { doc, setDoc, onSnapshot } from "firebase/firestore";
 import { useEffect, useState, useContext } from "react";
 import { SurveyCTx } from "../../providers/surveyctx";
 import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
+import CategoryForm from './CategoryAdd';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+
+function TableRow(props) {
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  const [sum, setSum] = useState(1)
+  const onSubmit = data => {
+    console.log(data);
+    var summed = 0;
+    for (var key in data) {
+        console.log(data[key])
+        summed += Number(data[key]);
+    };
+    setSum(summed)
+  };
+  console.log(errors);
+  const cats = props.cats
+  
+  return (
+    <div>
+        <form onSubmit={handleSubmit(onSubmit)}>
+            {
+                cats && cats.length>0
+                ?
+                cats.map((cat)=>{
+                    return (
+                        <td style={{minWidth: "50px", overflowX:"auto"}}>
+                            <TextField type={'number'}
+                            id="cat" //helperText={cat} 
+                            label={cat} variant="standard" color="secondary" 
+                            {...register(cat, {required: true, maxLength: 80})} />
+                        </td>
+                    )
+                })
+                :
+                'Not Loaded'
+            }
+
+            <td>
+                <input type="submit" />
+                <div>
+                    {sum}
+                </div>
+
+            </td>
+        </form>
+    </div>
+  );
+}
 
 const PersonAcDc = (props) => {
     const [persons, setPersons] = useState([]);
@@ -10,6 +62,8 @@ const PersonAcDc = (props) => {
     const surveyCtx = useContext(SurveyCTx)
     const Curr_survey = surveyCtx.survey[0]['id']
     const SurveyDocRef = doc(Db, "surveys", Curr_survey)
+    const [adminScore, setAdminScore] = useState({})
+    const [dScore, setDScore] = useState({})
 
     useEffect(()=>{
         const unsub = onSnapshot(SurveyDocRef, (doc) => {
@@ -18,9 +72,6 @@ const PersonAcDc = (props) => {
             doc.data() && doc.data().cats!=='undefined'?setCats(doc.data().cats):setCats([])
         });
     }, [])
-
-    const [adminScore, setAdminScore] = useState({})
-    const [dScore, setDScore] = useState({})
 
     const submit = () => {
         try{
@@ -34,12 +85,12 @@ const PersonAcDc = (props) => {
         }
     }
     return (
-        <div>
-            <table style={{"width": "100%"}}>
+        <Stack sx={{width: "100%", overflowX:"auto"}}>
+            <table style={{width: "100%", overflowX:"auto"}}>
                 <thead>
                     <tr>
                         <th>Users</th>
-                        {
+                        {/* {
                             cats && cats.length>0
                             ?
                             cats.map((p)=>{
@@ -51,8 +102,9 @@ const PersonAcDc = (props) => {
                             })
                             :
                             'Not Loaded'
-                        }
-                        <th>Sum</th>
+                        } */}
+                        <th>Categories</th>
+                        {/* <th>Sum</th> */}
 
                     </tr>
                 </thead>
@@ -66,10 +118,8 @@ const PersonAcDc = (props) => {
                         return (
                             <tr key={p}>
                                 <td>{p}</td>
-                                <td><AcDcTool email={p} cat={'cat 1'} adminScore={adminScore} setAdminScore={setAdminScore} /></td>
-                                <td><AcDcTool email={p} cat={'cat 2'} adminScore={adminScore} setAdminScore={setAdminScore} /></td>
-                                <td><AcDcTool email={p} cat={'cat 3'} adminScore={adminScore} setAdminScore={setAdminScore} /></td>
-                                <td><Finalizer email={p} adminScore={adminScore} dScore={dScore} setDScore={setDScore} /></td>
+                                <TableRow email={p} cats={cats} cat={'cat 3'} adminScore={adminScore} setAdminScore={setAdminScore} />
+                                {/* <td><Finalizer email={p} adminScore={adminScore} dScore={dScore} setDScore={setDScore} /></td> */}
                             </tr>
                         )
                     })
@@ -83,8 +133,8 @@ const PersonAcDc = (props) => {
 
                 <Button variant="contained" fullwidth sx={{ margin: 3}} onClick={()=>{alert();submit()}}>Submit in Log</Button>
             </table>
-
-        </div>
+            <CategoryForm/>
+        </Stack>
     )
 }
 
@@ -139,7 +189,6 @@ const Finalizer = (props) => {
             total += Arr[i];
         }
         setFinalTot(total)
-
         // obj2[email] = total
         obj2[email] = finalTot
 
