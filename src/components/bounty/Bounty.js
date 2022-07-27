@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { Db } from "../../firebase-config/db";
 import { doc, setDoc, getDoc } from "firebase/firestore"; 
-import { collection, getDocs } from "firebase/firestore"; 
+import { collection, getDocs, onSnapshot } from "firebase/firestore"; 
 import { Paper, Typography, Button, TextField, Container, Stack, Grid, Divider } from '@mui/material';
 import { SurveyCTx } from "../../providers/surveyctx";
 import { UserContext } from "../../providers/userCtx";
@@ -21,14 +21,20 @@ function Bounty() {
     const Calc_Scor = {};
     const surveyCtx = useContext(SurveyCTx)
     const survey = surveyCtx.survey[0]['id']
-    const surveyUsersData = surveyCtx.survey[0]['usersdata']
-    const [multiData, setMultiData] = useState(1)
+    var surveyUsersData = surveyCtx.survey[0]['usersdata']
     const usersCollectionRef_survey = collection(Db, survey);
     const obj = {};
     let multiple = 1;
     const handleBountyValue = (e) => {
       setTotalBounty(Number(e.target.value))
     }
+
+    useEffect(()=>{
+      const unsub = onSnapshot(doc(Db, "surveys", survey), (doc) => {
+        console.log("Current data: ", doc.data());
+        surveyUsersData = doc.data().usersdata
+      });
+    }, [survey])
 
     useEffect(()=>{
       console.log("Listening Change")

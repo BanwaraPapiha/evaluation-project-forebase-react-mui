@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { MenuItem, Button, Avatar, Container, Menu, IconButton, Toolbar, Box, AppBar } from '@mui/material';
 import { useState, useEffect, useContext } from "react";
-import { collection, query, where, onSnapshot, getDocs } from "firebase/firestore";
+import { collection, query, where, doc, onSnapshot, getDocs } from "firebase/firestore";
 import { Db } from "../../firebase-config/db";
 import { SurveyCTx } from "../../providers/surveyctx";
 import { useNavigate } from "react-router-dom";
@@ -31,8 +31,8 @@ export default function BasicMenu(props) {
       surveyCtx.setSurvey([y])
       if (props.user_scope!=="admin") {
         allowd(y.users);
-        navigate("/survey")
       }
+      navigate("/survey")
       
     }
 
@@ -71,7 +71,6 @@ export default function BasicMenu(props) {
           aria-controls={open ? 'basic-menu' : undefined} id="basic-button" color='secondary' variant="contained"
           aria-expanded={open ? 'true' : undefined} aria-haspopup="true" onClick={handleClick}
         >
-          {/* {surveyCtx.survey[0]['name'] || "Choose a Survey"} */}
           {surveyCtx.survey[0]['name']}
         </Button>
         <Menu id="basic-menu" anchorEl={anchorEl} open={open} onClose={handleClose}

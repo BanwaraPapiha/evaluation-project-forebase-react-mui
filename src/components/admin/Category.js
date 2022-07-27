@@ -3,23 +3,38 @@ import { doc, setDoc, onSnapshot } from "firebase/firestore";
 import { useEffect, useState, useContext } from "react";
 import { SurveyCTx } from "../../providers/surveyctx";
 import Button from '@mui/material/Button';
+import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import CategoryForm from './CategoryAdd';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { updateDoc, arrayRemove } from "firebase/firestore";
 
 function TableRow(props) {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [sum, setSum] = useState(1)
+  const [fdata, setFdata] = useState({})
+  const email = props.email
+  var obj = props.adminScore
+
+  useEffect(()=>{
+        var summed = 0;
+        for (var key in fdata) {
+            summed += Number(fdata[key]);
+        };
+        summed<=0?setSum(1):setSum(summed)
+        // setSum(summed)
+        obj[email] = sum
+        props.setAdminScore(obj)
+        console.log(obj)
+    }, [sum, fdata])
+
   const onSubmit = data => {
     console.log(data);
-    var summed = 0;
-    for (var key in data) {
-        console.log(data[key])
-        summed += Number(data[key]);
-    };
-    setSum(summed)
+    setFdata(data)
   };
   console.log(errors);
   const cats = props.cats
@@ -32,9 +47,8 @@ function TableRow(props) {
                 ?
                 cats.map((cat)=>{
                     return (
-                        <td style={{minWidth: "50px", overflowX:"auto"}}>
-                            <TextField type={'number'}
-                            id="cat" //helperText={cat} 
+                        <td style={{minWidth: "120px", overflowX:"auto"}}>
+                            <TextField type={'number'} id="cat" 
                             label={cat} variant="standard" color="secondary" 
                             {...register(cat, {required: true, maxLength: 80})} />
                         </td>
@@ -56,14 +70,13 @@ function TableRow(props) {
   );
 }
 
-const PersonAcDc = (props) => {
+const PersonCategory = (props) => {
     const [persons, setPersons] = useState([]);
     const [cats, setCats] = useState([]);
     const surveyCtx = useContext(SurveyCTx)
     const Curr_survey = surveyCtx.survey[0]['id']
     const SurveyDocRef = doc(Db, "surveys", Curr_survey)
     const [adminScore, setAdminScore] = useState({})
-    const [dScore, setDScore] = useState({})
 
     useEffect(()=>{
         const unsub = onSnapshot(SurveyDocRef, (doc) => {
@@ -75,8 +88,9 @@ const PersonAcDc = (props) => {
 
     const submit = () => {
         try{
+            console.log(adminScore)
             const cityRef = doc(Db, 'surveys', Curr_survey);
-            setDoc(cityRef, { usersdata: dScore }, { merge: true });
+            setDoc(cityRef, { usersdata: adminScore }, { merge: true });
             console.log('done')
         }
         catch(err) {
@@ -84,28 +98,42 @@ const PersonAcDc = (props) => {
             console.log('err')
         }
     }
+
+    const deleteCat = async (x) => {
+        try{
+          await updateDoc(SurveyDocRef, {
+            cats: arrayRemove(x)
+          });   
+        }
+        catch(err) {
+          console.log(err)
+          alert('An Error Occured in deleting category')
+          console.err(err)
+        }
+      };
+  
+
     return (
-        <Stack sx={{width: "100%", overflowX:"auto"}}>
+        <Stack spacing={4} sx={{width: "100%", overflowX:"auto", display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+            <Paper style={{width: "100%", overflowX:"auto"}}>
+                <h1><u>Guides</u></h1>
+                <div style={{textAlign: 'left'}}>
+                    <ul>
+                        <li>First fill all the fields in a row and click on submit button at the end of row.</li>
+                        <li>If you dont want to accelerate or decelerate an user, you can leave its fields empty.</li>
+                        <li>After you have accelerated and decelerated all users, click on <b>Add All To Records</b>  button.</li>
+                        <li>Remember, if you dont use submit button in each row, the data will not be properly saved even on clicking <b>Add All To Records</b> button.</li>
+                        <li>Similarly, if you forget to click the <b>Add All To Records</b> button, the data will not be saved.</li>
+                        <li>If any point is going to be equal or below zero, then the point will be automatically reset to 1 and not zero or below zero.</li>
+                        <li>If you want to give no money to any user, use the post survey, bounty page</li>
+                    </ul>
+                </div>
+            </Paper>
             <table style={{width: "100%", overflowX:"auto"}}>
                 <thead>
                     <tr>
                         <th>Users</th>
-                        {/* {
-                            cats && cats.length>0
-                            ?
-                            cats.map((p)=>{
-                                return (
-                                    <th key={p}>
-                                        {p}
-                                    </th>
-                                )
-                            })
-                            :
-                            'Not Loaded'
-                        } */}
                         <th>Categories</th>
-                        {/* <th>Sum</th> */}
-
                     </tr>
                 </thead>
                 <tbody>
@@ -118,8 +146,7 @@ const PersonAcDc = (props) => {
                         return (
                             <tr key={p}>
                                 <td>{p}</td>
-                                <TableRow email={p} cats={cats} cat={'cat 3'} adminScore={adminScore} setAdminScore={setAdminScore} />
-                                {/* <td><Finalizer email={p} adminScore={adminScore} dScore={dScore} setDScore={setDScore} /></td> */}
+                                <TableRow email={p} cats={cats} adminScore={adminScore} setAdminScore={setAdminScore} />
                             </tr>
                         )
                     })
@@ -130,77 +157,38 @@ const PersonAcDc = (props) => {
             }
 
                 </tbody>
-
-                <Button variant="contained" fullwidth sx={{ margin: 3}} onClick={()=>{alert();submit()}}>Submit in Log</Button>
             </table>
+            <Button fullwidth variant="contained" sx={{ margin: 3, width: '100%'}} onClick={()=>submit()}>Add all to records</Button>
+            <h1><u>Delete Categories</u></h1>
+            <table style={{width: "100%", overflowX:"auto"}}>
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        cats && cats.map((cat)=>{
+                            return (
+                                <tr key={cat}>
+                                    <td>{cat}</td>
+                                    <td>
+                                        <IconButton aria-label="delete" onClick={()=>deleteCat(cat)}>
+                                            <DeleteIcon />
+                                        </IconButton>
+                                    </td>
+                                </tr>
+                            )
+                        })
+                    }
+                </tbody>
+            </table>
+            <h1><u>Create Categories</u></h1>
             <CategoryForm/>
         </Stack>
     )
 }
 
-export default PersonAcDc;
+export default PersonCategory;
 
-const AcDcTool = (props) => {
-    const [numVal, setNumVal] = useState(1)
-    const email = props.email
-    const cat = props.cat
-    var obj = props.adminScore
-
-    useEffect(()=>{
-        let hasKey = obj.hasOwnProperty(email); 
-
-        if (hasKey) {
-            console.log('This key exists.');
-            obj[email][cat] = numVal
-        } else {
-            console.log('This key does not exist.');
-            obj[email] = {}
-            obj[email][cat] = numVal
-        }
-        props.setAdminScore(obj)
-
-        console.log(obj)
-
-    }, [numVal])
-
-    return (
-        <div>
-            <input type='number' value={numVal} pattern="/^[0-9]+$/" required
-            onChange={(e)=>{
-                setNumVal(e.target.value);                
-            }}
-            />
-        </div>
-    )
-}
-
-const Finalizer = (props) => {
-    const adminScore = props.adminScore
-    const email = props.email
-    const obj2 = props.dScore
-    const [finalTot, setFinalTot] = useState(1)
-
-    useEffect(()=>{
-        console.log("Here problem occured if any")
-        var Arr = Object.values(adminScore[email])
-        var total = 0;
-        for (var i = 0; i < Arr.length; i++)
-        {
-            total += Arr[i];
-        }
-        setFinalTot(total)
-        // obj2[email] = total
-        obj2[email] = finalTot
-
-        props.setDScore(obj2)
-    }, [adminScore, props.dScore])
-
-    console.log('props.dScore')
-    console.log(props.dScore)
-
-    return (
-        <div>
-            Hello {finalTot && finalTot}
-        </div>
-    )
-}

@@ -35,8 +35,7 @@ export default function CategoryForm() {
   console.log(errors);
 
   return (
-    <Grid item xs={12} md={12}>
-    <Paper elevation={3}>
+    <Paper elevation={3} sx={{width: '100%'}}>
     <Container maxWidth="xl">
         <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={3}>
@@ -47,6 +46,5 @@ export default function CategoryForm() {
         </form>
     </Container>
     </Paper>
-    </Grid>
 );
 }
