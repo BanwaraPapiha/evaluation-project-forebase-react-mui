@@ -1,9 +1,8 @@
 import { Db } from "../../firebase-config/db";
-import { doc, deleteDoc, onSnapshot } from "firebase/firestore";
+import { doc, setDoc, onSnapshot } from "firebase/firestore";
 import { useEffect, useState, useContext } from "react";
 import { SurveyCTx } from "../../providers/surveyctx";
 import Button from '@mui/material/Button';
-import { jsonEval } from "@firebase/util";
 
 const PersonAcDc = (props) => {
     const [persons, setPersons] = useState([]);
@@ -23,6 +22,17 @@ const PersonAcDc = (props) => {
     const [adminScore, setAdminScore] = useState({})
     const [dScore, setDScore] = useState({})
 
+    const submit = () => {
+        try{
+            const cityRef = doc(Db, 'surveys', Curr_survey);
+            setDoc(cityRef, { usersdata: dScore }, { merge: true });
+            console.log('done')
+        }
+        catch(err) {
+            alert(err)
+            console.log('err')
+        }
+    }
     return (
         <div>
             <table style={{"width": "100%"}}>
@@ -59,7 +69,7 @@ const PersonAcDc = (props) => {
                                 <td><AcDcTool email={p} cat={'cat 1'} adminScore={adminScore} setAdminScore={setAdminScore} /></td>
                                 <td><AcDcTool email={p} cat={'cat 2'} adminScore={adminScore} setAdminScore={setAdminScore} /></td>
                                 <td><AcDcTool email={p} cat={'cat 3'} adminScore={adminScore} setAdminScore={setAdminScore} /></td>
-                                {/* <td><Finalizer email={p} cat={'cat 3'} adminScore={adminScore} setAdminScore={setAdminScore} dScore={dScore} setDScore={setDScore} /></td> */}
+                                <td><Finalizer email={p} adminScore={adminScore} dScore={dScore} setDScore={setDScore} /></td>
                             </tr>
                         )
                     })
@@ -71,7 +81,7 @@ const PersonAcDc = (props) => {
 
                 </tbody>
 
-                <Button onClick={()=>{console.log(adminScore)}}>Show in Log</Button>
+                <Button variant="contained" fullwidth sx={{ margin: 3}} onClick={()=>{alert();submit()}}>Submit in Log</Button>
             </table>
 
         </div>
@@ -105,19 +115,11 @@ const AcDcTool = (props) => {
 
     return (
         <div>
-            {/* <div>email: {email}</div> */}
-            {/* <div>cat: {cat}</div> */}
-            {/* <div>{email}: {cat}</div> */}
-            {/* <div>obj: {JSON.stringify(obj)}</div> */}
             <input type='number' value={numVal} pattern="/^[0-9]+$/" required
             onChange={(e)=>{
                 setNumVal(e.target.value);                
             }}
             />
-            {
-                // console.log('comp data' + String(email) + JSON.stringify({...obj[email]}))
-                console.log(String(email) + JSON.stringify({...obj[email]}))
-            }
         </div>
     )
 }
@@ -125,27 +127,31 @@ const AcDcTool = (props) => {
 const Finalizer = (props) => {
     const adminScore = props.adminScore
     const email = props.email
-    const reducer = (accumulator, curr) => accumulator + curr
-    // dScore, setDScore
     const obj2 = props.dScore
+    const [finalTot, setFinalTot] = useState(1)
 
     useEffect(()=>{
-        obj2[email] = Object.values(adminScore[email]).reduce(reducer)
-        props.setDScore(obj2)
+        console.log("Here problem occured if any")
+        var Arr = Object.values(adminScore[email])
+        var total = 0;
+        for (var i = 0; i < Arr.length; i++)
+        {
+            total += Arr[i];
+        }
+        setFinalTot(total)
 
-        // console.log(obj2)
-    }, [])
+        // obj2[email] = total
+        obj2[email] = finalTot
+
+        props.setDScore(obj2)
+    }, [adminScore, props.dScore])
+
+    console.log('props.dScore')
+    console.log(props.dScore)
 
     return (
         <div>
-            {String((Object.values(adminScore[email]).reduce(reducer)))}
+            Hello {finalTot && finalTot}
         </div>
     )
 }
-// {
-//     email1: {
-//         'cat1': 2,
-//         'cat2': 4,
-//         'cat3': 8,
-//     }
-// }

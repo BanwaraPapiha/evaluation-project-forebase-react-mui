@@ -7,16 +7,25 @@ import "../../styles/table.css";
 export const TableRow = (props) => {
     const [acc_value, setAcc_value] = useState(1)
     const [bounty, setBounty] = useState(0)
-    const accelerate = () => {setAcc_value(acc_value+.25);
-        // props.setTotalBounty(Number(0))
-    }
+    const accelerate = () => {setAcc_value(acc_value+.25)}
     const decelerate = () => {
         acc_value > 0 ? setAcc_value(parseFloat(Number(acc_value-.05).toFixed(2))) : setAcc_value(0)
-        // props.setTotalBounty(Number(0))
     }
-    const oneScore = parseFloat(Number(acc_value*props.data[1]).toFixed(2));
+    const [multiData, setMultiData] = useState(1)
+    const PreDefinedScore = parseFloat(Number(multiData*props.data[1]).toFixed(2));
+    // const oneScore = parseFloat(Number(acc_value*props.data[1]).toFixed(2));
+    const oneScore = parseFloat(Number(acc_value*PreDefinedScore).toFixed(2));
     props.obj[[props.data[0]]] = oneScore
     console.log(props.obj);
+
+    useEffect(()=>{
+
+        props.userData && props.userData!=='undefined' && props.data && props.data[0] !=='undefined'
+        ?
+        setMultiData(props.userData[props.data[0]])
+        :
+        setMultiData(1)
+    }, [])
 
     useEffect(()=>{
         // const oneScore = parseFloat(Number(acc_value*props.data[1]).toFixed(2));
@@ -37,8 +46,9 @@ export const TableRow = (props) => {
         <tr className="arr">
             <td style={{border: "1px solid black"}}>{props.data[0]}</td>
             <td>{props.data[1]}</td>
+            <td style={{border: "1px solid black"}}>{multiData} X {props.data[1]}: {PreDefinedScore}</td>
             <td style={{border: "1px solid black"}}>{acc_value}</td>
-            <td style={{border: "1px solid black"}}>{acc_value} X {props.data[1]}: {oneScore}</td>
+            <td style={{border: "1px solid black"}}>{acc_value} X {PreDefinedScore}: {oneScore}</td>
             <td>{bounty}</td>
             <td style={{border: "1px solid black"}}>
                 <Stack direction="row" spacing={2}>
@@ -62,7 +72,7 @@ const BountyTable = (props) => {
                 <tbody>
                 {Object.values(props.idSum).map((abc)=>{
                     return (
-                        <TableRow acObj={props.acObj} setAcObj={props.setAcObj} data={abc} obj={props.obj} 
+                        <TableRow acObj={props.acObj} setAcObj={props.setAcObj} data={abc} obj={props.obj} userData={props.userData}
                         totalBounty={props.totalBounty} setBountySum={props.setBountySum} ac_de_Sum={props.ac_de_Sum}/>
                     )
                 })}

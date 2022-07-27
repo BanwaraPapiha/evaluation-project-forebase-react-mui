@@ -21,11 +21,15 @@ function Bounty() {
     const Calc_Scor = {};
     const surveyCtx = useContext(SurveyCTx)
     const survey = surveyCtx.survey[0]['id']
+    const surveyUsersData = surveyCtx.survey[0]['usersdata']
+    const [multiData, setMultiData] = useState(1)
     const usersCollectionRef_survey = collection(Db, survey);
     const obj = {};
+    let multiple = 1;
     const handleBountyValue = (e) => {
       setTotalBounty(Number(e.target.value))
     }
+
     useEffect(()=>{
       console.log("Listening Change")
       let fm = 0;
@@ -150,94 +154,106 @@ function Bounty() {
 
     return (
       <Container>
-      <Stack spacing={4}>
-        <br />
-        <Typography variant="h6" gutterBottom component="div"       
-        style={{"text-align": "center", "min-height": "10vh", "background-color":"rgb(123, 31, 162)", "color": "rgb(248, 247, 249)", "border-radius": "10px 10px 0px 0px"}}
-        >
-            You are seeing data of: {survey} <br/>
-            Total sum of points is: {ac_de_Sum} 
-        </Typography>
+        <Stack spacing={4}>
+          <br />
+          <Typography variant="h6" gutterBottom component="div"       
+          style={{"text-align": "center", "min-height": "10vh", "background-color":"rgb(123, 31, 162)", "color": "rgb(248, 247, 249)", "border-radius": "10px 10px 0px 0px"}}
+          >
+              You are seeing data of: {survey} <br/>
+              Total sum of points is: {ac_de_Sum} 
+          </Typography>
 
-        <Paper elevation={5} >
-          <Container>
-            <Stack spacing={2}>
-              <Typography variant="h6" gutterBottom component="div">
-                  Divide Money Relatively <br/>
-              </Typography>
-              <TextField onChange={handleBountyValue}
-                fullWidth id="outlined-number" label="Number" 
-                type="number" InputLabelProps={{shrink: true,}}
-              />
-              
-              <Grid container spacing={1}>
-                <Grid item xs={12} md={6}>
-                <Button onClick={tableToCSV} fullWidth variant="contained">Download</Button>
+          <Paper elevation={5} >
+            <Container>
+              <Stack spacing={2}>
+                <Typography variant="h6" gutterBottom component="div">
+                    Divide Money Relatively <br/>
+                </Typography>
+                <TextField onChange={handleBountyValue}
+                  fullWidth id="outlined-number" label="Number" 
+                  type="number" InputLabelProps={{shrink: true,}}
+                />
+                
+                <Grid container spacing={1}>
+                  <Grid item xs={12} md={6}>
+                  <Button onClick={tableToCSV} fullWidth variant="contained">Download</Button>
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                  <Button onClick={tableToJSON} fullWidth variant="contained">Add to Records</Button>
+                  </Grid>
                 </Grid>
-                <Grid item xs={12} md={6}>
-                <Button onClick={tableToJSON} fullWidth variant="contained">Add to Records</Button>
-                </Grid>
-              </Grid>
 
-              <br/>
-            </Stack>
-          </Container>
-        </Paper> 
+                <br/>
+              </Stack>
+            </Container>
+          </Paper> 
 
-      <div style={{"overflow-x": "auto"}}>
-        <BountyTable title={["Name", "Total Points", "Acc/Dec Value", "New Score", "Bounty (Money)", "Actions"]} 
-        idSum={idSumArr} totalBounty={totalBounty} bountySum={bountySum} setBountySum={setBountySum} setAcObj={setAcObj} acObj={acObj} ac_de_Sum={ac_de_Sum} setTotalBounty={setTotalBounty}
-        obj={obj} />
-      </div>
+          <div style={{"overflow-x": "auto"}}>
+            <BountyTable title={["Name", "Total Points", "PreDefined Multiple", "Acc/Dec Value", "New Score", "Bounty (Money)", "Actions"]} userData={surveyUsersData}
+            idSum={idSumArr} totalBounty={totalBounty} bountySum={bountySum} setBountySum={setBountySum} setAcObj={setAcObj} acObj={acObj} ac_de_Sum={ac_de_Sum} setTotalBounty={setTotalBounty}
+            obj={obj} />
+          </div>
 
-      <Divider/>
+          <Divider/>
 
-      <Paper elevation={5} >
-        <Container>
-          <Stack spacing={2}>  
-            <br/>            
-            <Typography variant="button" gutterBottom component="div" style={{"text-align": "center"}}>
-              Here is last saved data
-            </Typography>
-            <Typography variant="button" gutterBottom component="div" style={{"text-align": "center"}}>
-              Total Bonus was: {prev_bonus}
-            </Typography>
-            <br/>
+          <Paper elevation={5} >
+            <Container>
+              <Stack spacing={2}>  
+                <br/>            
+                <Typography variant="button" gutterBottom component="div" style={{"text-align": "center"}}>
+                  Here is last saved data
+                </Typography>
+                <Typography variant="button" gutterBottom component="div" style={{"text-align": "center"}}>
+                  Total Bonus was: {prev_bonus}
+                </Typography>
+                <br/>
+              </Stack>
+            </Container>
+          </Paper> 
+
+          <div style={{"overflow-x": "auto"}}>
+          <table style={{width: "100%"}}>
+            <thead>
+            <tr>
+              <th>Name</th>
+              <th>Actual Points	</th>
+              <th>PreDefined Multiple	</th>
+              <th>Acc/Dec Value</th>
+              <th>New Score</th>
+              <th>Bounty (Money)</th>
+            </tr>
+            </thead>
+            {last_b_data.length>0 &&
+                <tbody>
+                {last_b_data.map((ub)=>{
+                  console.log(ub)
+                  return (
+                    <tr>
+                      <td>{ub.name}</td>
+                      <td>{ub.sum_points}</td>
+                      <td>{
+                        surveyUsersData && surveyUsersData!=='undefined' && ub.name && ub.name !=='undefined'
+                        ?
+                        <div>
+                          {ub.sum_points} X {String(surveyUsersData[ub.name])}: {parseFloat(Number(surveyUsersData[ub.name]*ub.sum_points).toFixed(2))}
+                        </div>
+                        :
+                        <div>
+                          {String(1)} x {String(ub.sum_points)} : {String(ub.sum_points)}
+                        </div>
+                      }</td>
+                      <td>{ub.a_d_ecelBy}</td>
+                      <td>{ub.new_points}</td>
+                      <td>{ub.bounty}</td>
+                    </tr>
+                  )
+                })}
+                </tbody>
+            }
+            </table>
+          </div>
           </Stack>
-        </Container>
-      </Paper> 
-
-      <div style={{"overflow-x": "auto"}}>
-      <table style={{width: "100%"}}>
-        <thead>
-        <tr>
-          <th>Name</th>
-          <th>Total Points	</th>
-          <th>Acc/Dec Value</th>
-          <th>New Score</th>
-          <th>Bounty (Money)</th>
-        </tr>
-        </thead>
-        {last_b_data.length>0 &&
-            <tbody>
-            {last_b_data.map((ub)=>{
-              console.log(ub)
-              return (
-                <tr>
-                  <td>{ub.name}</td>
-                  <td>{ub.sum_points}</td>
-                  <td>{ub.a_d_ecelBy}</td>
-                  <td>{ub.new_points}</td>
-                  <td>{ub.bounty}</td>
-                </tr>
-              )
-            })}
-            </tbody>
-        }
-        </table>
-      </div>
-    </Stack>
-    </Container>
+      </Container>
     );
   }
 
