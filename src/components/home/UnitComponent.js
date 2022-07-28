@@ -20,9 +20,36 @@ function UnitComponent(props) {
   const PersonName = props.person;
   const FeatureName = props.feature;
   const curr_user = auth.currentUser.email;
+  const [score_change, setscore_change] = useState(0)
   
   const HandleChange = (e) => {
-    let score_change = e.target.value;
+    let score_change2 = e.target.value;
+    setscore_change(score_change2)
+    console.log(score_change2-slide_score)
+    console.log('props.listData')
+    console.log(props.listData)
+    
+    // if ((score_change-slide_score)>0 && (Number(Math.abs(score_change-slide_score))+Number(props.score_done))>Number(props.fet_scor)) {
+    //   console.log("Exceeding")
+    //   props.setOpen(true)
+    // }
+
+    // if ((score_change-slide_score)>0 && (Number(Math.abs(score_change-slide_score))+Number(props.score_done))<=Number(props.fet_scor)) {
+    //   console.log("Increasing")
+    //   props.setOpen(false)
+    //   setSlide_score(score_change)
+    //   props.setListData({...props.listData, [PersonName]:score_change})  
+    // }
+
+    // if ((score_change-slide_score)<0) {
+    //   console.log("Decreasing")
+    //   props.setOpen(false)
+    //   setSlide_score(score_change)
+    //   props.setListData({...props.listData, [PersonName]:score_change})  
+    // }
+  }
+
+  useEffect(()=>{
     console.log(score_change-slide_score)
     
     if ((score_change-slide_score)>0 && (Number(Math.abs(score_change-slide_score))+Number(props.score_done))>Number(props.fet_scor)) {
@@ -43,7 +70,8 @@ function UnitComponent(props) {
       setSlide_score(score_change)
       props.setListData({...props.listData, [PersonName]:score_change})  
     }
-  }
+
+  }, [score_change])
 
   useEffect(()=>{
     const fetchName = async () => {
@@ -58,12 +86,13 @@ function UnitComponent(props) {
       setName(tmpName)
     }
     fetchName()
-  }, [])
+    setSlide_score(0)
+  }, [props.fet_scor])
 
   useEffect(() => {
     points.setPointsdata({...points.pointsdata, [props.feature]: props.listData})
     console.log(points.pointsdata)
-  }, [props.listData]);
+  }, [props.listData, props.fet_scor]);
 
   if (props.person===curr_user) {
     return null
@@ -94,8 +123,10 @@ function UnitComponent(props) {
 
         <CardActions>
           <Container>
-            <Slider defaultValue={0}  max={props.fet_scor} step={0.5} 
-              aria-label="Default" valueLabelDisplay="auto" 
+            <Slider 
+            defaultValue={0}  
+            max={props.fet_scor} step={0.5} 
+              // aria-label="Default" valueLabelDisplay="auto" 
               onChange={HandleChange} color="secondary"
               value={slide_score}
             />

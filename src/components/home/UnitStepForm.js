@@ -10,41 +10,44 @@ function Transitiondown(props) {
 }
 
 function UnitStepForm(props) {
-  const [listData, setListData] = useState({});
+  const [listData, setListData] = useState([]);
   const [score_done, setScore_done] = useState(0);
   const [open, setOpen] = useState(false);
   const [fet_scor, setFet_scor] = useState(0)
   const surveyCtx = useContext(SurveyCTx)
   const Curr_survey = surveyCtx.survey[0]['id']
-  // console.log(props.featureName)
 
   const handleClose = ()=> {
     setOpen(false)
   }
   
+  // check how much scores already given
   useEffect(()=>{
+
     let sum = 0;
     for (const value of Object.values(listData)) {
       sum += value;
     }
     console.log(sum); 
     setScore_done(sum)
-    
   }, [listData])
 
   useEffect(()=>{
       const getScore = async () => {
+        // alert('run')
+        setListData([])
           const docSnap = await getDoc(doc(Db, "all_features", props.featureName));
           if (docSnap.exists()) {
               console.log("Document data:", docSnap.data());
-              console.log("Document data Curr_survey:", docSnap.data()[Curr_survey]);
-              setFet_scor(Number(docSnap.data()[Curr_survey]))
+              console.log("Document data Curr_survey:", docSnap.data()[[Curr_survey]]);
+              // alert(docSnap.data()[[Curr_survey]])
+              setFet_scor(Number(docSnap.data()[[Curr_survey]]))
           } else {
               console.log("No such document! about current survey feature value");
           }    
       }
       getScore();
-  }, [])
+  }, [props.activeStep])
 
   return (
     <>

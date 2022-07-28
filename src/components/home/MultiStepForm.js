@@ -42,16 +42,16 @@ function MultiStep() {
 
   // Stepper
   const [activeStep, setActiveStep] = useState(0);
-  const [stepRep, setStepRep] = useState(1);
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    // alert(activeStep)
+    window.scrollTo('5', '10')
+    // window.scrollTo(x-coordinate, y-coordinate)
   };
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    // alert(activeStep)
+    window.scrollTo('5', '10')
   };
 
   const theme = useTheme();
@@ -130,7 +130,7 @@ function MultiStep() {
                   survFeature.length>0 
                   ?
                   <div>                    
-                    <UnitStepForm personsList={ survUser } featureName={survFeature[activeStep]} />
+                    <UnitStepForm personsList={ survUser } featureName={survFeature[activeStep]} activeStep={activeStep}/>
                   </div>
                   :
                   'Loading...'                      
@@ -167,10 +167,8 @@ function MultiStep() {
               </div>
             }
             {
-              thanks
+              activeStep === survFeature.length-1 && !thanks
               ?
-              null
-              :
               <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', margin: 10}}>
               {
                 current_survey!=="Not Selected" && current_user 
@@ -180,6 +178,8 @@ function MultiStep() {
                 <Button sx={{width: '45vw'}} disabled>Submit</Button>
               }
               </Box>
+              :
+              null
             }
           </div>
         }
@@ -202,12 +202,13 @@ function MultiStep() {
 
   if (current_survey==="Not Selected") {
     return (
-      <Container>
-        <Typography variant="button" gutterBottom component="div">
+      <Container style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
+        <Typography style={{padding: 10, margin: 10}} variant="h4" gutterBottom component="div">
           Survey {current_survey}<br/>
+          <br></br>
           Please Select a Survey
         </Typography>
-      </Container> 
+      </Container>
     )
   }
 
