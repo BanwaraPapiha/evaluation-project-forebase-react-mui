@@ -21,9 +21,11 @@ function TableRow(props) {
   var obj = props.adminScore
 
   useEffect(()=>{
-        var summed = 0;
-        for (var key in fdata) {
-            summed += Number(fdata[key]);
+    // var summed = 0;
+    var summed = 1;
+    for (var key in fdata) {
+            // summed += Number(fdata[key]);
+            summed = summed * (Number(fdata[key])/100).toFixed(2);
         };
         summed<=0?setSum(1):setSum(summed)
         // setSum(summed)
@@ -48,7 +50,7 @@ function TableRow(props) {
                 cats.map((cat)=>{
                     return (
                         <td style={{minWidth: "120px", overflowX:"auto"}}>
-                            <TextField type={'number'} id="cat" 
+                            <TextField type={'number'} id="cat" step={0.1}
                             label={cat} variant="standard" color="secondary" 
                             {...register(cat, {required: true, maxLength: 80})} />
                         </td>
