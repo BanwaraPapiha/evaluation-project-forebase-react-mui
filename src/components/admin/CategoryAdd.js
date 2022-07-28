@@ -22,6 +22,7 @@ export default function CategoryForm() {
         await updateDoc(SurveyDocRef, {
           cats: arrayUnion(data.Category)
         });   
+        alert("Data added successfully")
       }
       catch(err) {
         console.log(err)

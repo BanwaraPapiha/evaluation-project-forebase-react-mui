@@ -63,7 +63,7 @@ function TableRow(props) {
             <td>
                 <input type="submit" />
                 <div>
-                    {sum}
+                    {Number(sum).toFixed(2)}
                 </div>
 
             </td>
@@ -121,7 +121,9 @@ const PersonCategory = (props) => {
                 <h1><u>Guide About Managing Categories</u></h1>
                 <div style={{textAlign: 'left'}}>
                     <ul>
-                        <li>First fill all the fields in a row and click on submit button at the end of row.</li>
+                        <li>You have to write, the percent value in each cell below, for example, write simply 60 if you mean 60%</li>
+                        <li>Then you must fill all the fields in a row, if you dont want to change a specific cell, just write placeholder 100 in that cell and click on submit button at the end of row.</li>
+                        <li>Letting any cell empty in a row will not make the system work, you must write all cells in a row, no no cell in a row.</li>
                         <li>If you dont want to accelerate or decelerate an user, you can leave its fields empty.</li>
                         <li>After you have accelerated and decelerated all users, click on <b>Add All To Records</b>  button.</li>
                         <li>Remember, if you dont use submit button in each row, the data will not be properly saved even on clicking <b>Add All To Records</b> button.</li>
