@@ -65,7 +65,11 @@ function UnitStepForm(props) {
       </Snackbar>: null
       }
       <Typography variant="h6" gutterBottom component="div"    
-        style={{"text-align": "center", margin: 10, padding: 5, minHeight: "10vh", backgroundColor:"rgba(123, 31, 162, .8)", color: "rgb(248, 247, 249)", borderRadius: 10}}
+        style={{
+          textAlign: "center", margin: 10, padding: 5, minHeight: "10vh", 
+          backgroundColor:"rgba(123, 31, 162, .8)", color: "rgb(248, 247, 249)", borderRadius: 10,
+          position: 'sticky', top: '0',        
+        }}
       >
         Feature: {props.featureName}<br/>
         Total Scores Given: {score_done}<br/>

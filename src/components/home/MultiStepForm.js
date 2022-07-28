@@ -39,22 +39,22 @@ function MultiStep() {
   const [addEr, setAddEr] = useState(false)
   const handleCloseSx = () => setAddSx(false)
   const handleCloseEr = () => setAddEr(false)
-
+  const theme = useTheme();
   // Stepper
   const [activeStep, setActiveStep] = useState(0);
 
   const handleNext = () => {
+    window.scrollTo('5', '10')
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     window.scrollTo('5', '10')
     // window.scrollTo(x-coordinate, y-coordinate)
   };
 
   const handleBack = () => {
+    window.scrollTo('5', '10')
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
     window.scrollTo('5', '10')
   };
-
-  const theme = useTheme();
 
   const Submit = async () => {
     handleOpen()
@@ -76,6 +76,7 @@ function MultiStep() {
   };
 
   useEffect(() => {
+    setThanks(false)
     const getSurveyFeatures = async () => {
       const docRef = doc(Db, "surveys", current_survey);
       const docSnap = await getDoc(docRef);
@@ -129,11 +130,11 @@ function MultiStep() {
                 { 
                   survFeature.length>0 
                   ?
-                  <div>                    
+                  <div >                    
                     <UnitStepForm personsList={ survUser } featureName={survFeature[activeStep]} activeStep={activeStep}/>
                   </div>
                   :
-                  'Loading...'                      
+                  'Loading...'
               }
                 <Box sx={{margin: 5, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                   <MobileStepper
@@ -173,7 +174,7 @@ function MultiStep() {
               {
                 current_survey!=="Not Selected" && current_user 
                 ? 
-                <Button sx={{width: '45vw'}} variant="contained" color="secondary" onClick={Submit}>Submit</Button>
+                <Button sx={{width: '45vw'}} variant="contained" color="secondary" onClick={Submit} disabled={activeStep !== survFeature.length-1}>Submit</Button>
                 : 
                 <Button sx={{width: '45vw'}} disabled>Submit</Button>
               }
