@@ -162,6 +162,7 @@ function Bounty() {
       <Container>
         <Stack spacing={4}>
           <br />
+          <h1><u>Please use after refreshing the page to see updates in the current session</u></h1>
           <Typography variant="h6" gutterBottom component="div"       
           style={{"text-align": "center", "min-height": "10vh", "background-color":"rgb(123, 31, 162)", "color": "rgb(248, 247, 249)", "border-radius": "10px 10px 0px 0px"}}
           >
@@ -184,9 +185,9 @@ function Bounty() {
                   <Grid item xs={12} md={6}>
                   <Button onClick={tableToCSV} fullWidth variant="contained">Download</Button>
                   </Grid>
-                  <Grid item xs={12} md={6}>
+                  {/* <Grid item xs={12} md={6}>
                   <Button onClick={tableToJSON} fullWidth variant="contained">Add to Records</Button>
-                  </Grid>
+                  </Grid> */}
                 </Grid>
 
                 <br/>
@@ -200,7 +201,7 @@ function Bounty() {
             obj={obj} />
           </div>
 
-          <Divider/>
+          {/* <Divider/>
 
           <Paper elevation={5} >
             <Container>
@@ -216,8 +217,8 @@ function Bounty() {
               </Stack>
             </Container>
           </Paper> 
-
-          <div style={{"overflow-x": "auto"}}>
+ */}
+          {/* <div style={{overflowX: "auto"}}>
           <table style={{width: "100%"}}>
             <thead>
             <tr>
@@ -226,6 +227,7 @@ function Bounty() {
               <th>PreDefined Multiple	</th>
               <th>Acc/Dec Value</th>
               <th>New Score</th>
+              <th>Bounty (Money)</th>
               <th>Bounty (Money)</th>
             </tr>
             </thead>
@@ -237,7 +239,8 @@ function Bounty() {
                     <tr>
                       <td>{ub.name}</td>
                       <td>{ub.sum_points}</td>
-                      <td>{
+                      <td>
+                      {
                         surveyUsersData && surveyUsersData!=='undefined' && ub.name && ub.name !=='undefined'
                         ?
                         <div>
@@ -247,17 +250,19 @@ function Bounty() {
                         <div>
                           {String(1)} x {String(ub.sum_points)} : {String(ub.sum_points)}
                         </div>
-                      }</td>
+                      }
+                      </td>
                       <td>{ub.a_d_ecelBy}</td>
                       <td>{ub.new_points}</td>
                       <td>{ub.bounty}</td>
+                      <td>{ub.bountyt}</td>
                     </tr>
                   )
                 })}
                 </tbody>
             }
             </table>
-          </div>
+          </div> */}
           </Stack>
       </Container>
     );

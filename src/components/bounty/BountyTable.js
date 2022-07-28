@@ -19,7 +19,6 @@ export const TableRow = (props) => {
     console.log(props.obj);
 
     useEffect(()=>{
-
         props.userData && props.userData!=='undefined' && props.data && props.data[0] !=='undefined'
         ?
         setMultiData(props.userData[props.data[0]])

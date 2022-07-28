@@ -116,7 +116,7 @@ const PersonCategory = (props) => {
     return (
         <Stack spacing={4} sx={{width: "100%", overflowX:"auto", display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
             <Paper style={{width: "100%", overflowX:"auto"}}>
-                <h1><u>Guides</u></h1>
+                <h1><u>Guide About Managing Categories</u></h1>
                 <div style={{textAlign: 'left'}}>
                     <ul>
                         <li>First fill all the fields in a row and click on submit button at the end of row.</li>
