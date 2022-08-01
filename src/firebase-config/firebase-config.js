@@ -2,27 +2,26 @@ import { initializeApp } from "firebase/app";
 // import { getFirestore } from 'firebase/firestore'; 
 // import { getAnalytics } from "firebase/analytics";
 
-// banwara account
+// covid fighters account
 // const firebaseConfig = {
-//   apiKey: "AIzaSyC6fajoLimkYemCOoEkwjh_ux7JQz_EHBc",
-//   authDomain: "princess-sdream.firebaseapp.com",
-//   projectId: "princess-sdream",
-//   storageBucket: "princess-sdream.appspot.com",
-//   messagingSenderId: "449058243697",
-//   appId: "1:449058243697:web:0d9454ed7b6e11f97c87d0",
-//   measurementId: "G-T50VWGPMD2"
+//   apiKey: "AIzaSyAD_IA0nkyjxPwFZRugCtnVrJp18fZPvvA",
+//   authDomain: "covid-fighters-bonus-algorithm.firebaseapp.com",
+//   projectId: "covid-fighters-bonus-algorithm",
+//   storageBucket: "covid-fighters-bonus-algorithm.appspot.com",
+//   messagingSenderId: "209339362108",
+//   appId: "1:209339362108:web:27363366e407720a0f0c39"
 // };
 
-// covid fighters account
+// new secret email
 const firebaseConfig = {
-  apiKey: "AIzaSyAD_IA0nkyjxPwFZRugCtnVrJp18fZPvvA",
-  authDomain: "covid-fighters-bonus-algorithm.firebaseapp.com",
-  projectId: "covid-fighters-bonus-algorithm",
-  storageBucket: "covid-fighters-bonus-algorithm.appspot.com",
-  messagingSenderId: "209339362108",
-  appId: "1:209339362108:web:27363366e407720a0f0c39"
+  apiKey: "AIzaSyA5CP8c5Aaz0zQpdgq9L9hNScE9CrZC-oI",
+  authDomain: "peer-evaluation-system.firebaseapp.com",
+  projectId: "peer-evaluation-system",
+  storageBucket: "peer-evaluation-system.appspot.com",
+  messagingSenderId: "990182412807",
+  appId: "1:990182412807:web:65ae184dba28f3d32150a2",
+  measurementId: "G-VMWNBP0HLX"
 };
-
 
 const app = initializeApp(firebaseConfig);
 export default app;
