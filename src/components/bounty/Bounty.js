@@ -185,9 +185,6 @@ function Bounty() {
                   <Grid item xs={12} md={6}>
                   <Button onClick={tableToCSV} fullWidth variant="contained">Download</Button>
                   </Grid>
-                  {/* <Grid item xs={12} md={6}>
-                  <Button onClick={tableToJSON} fullWidth variant="contained">Add to Records</Button>
-                  </Grid> */}
                 </Grid>
 
                 <br/>
@@ -200,70 +197,7 @@ function Bounty() {
             idSum={idSumArr} totalBounty={totalBounty} bountySum={bountySum} setBountySum={setBountySum} setAcObj={setAcObj} acObj={acObj} ac_de_Sum={ac_de_Sum} setTotalBounty={setTotalBounty}
             obj={obj} />
           </div>
-
-          {/* <Divider/>
-
-          <Paper elevation={5} >
-            <Container>
-              <Stack spacing={2}>  
-                <br/>            
-                <Typography variant="button" gutterBottom component="div" style={{"text-align": "center"}}>
-                  Here is last saved data
-                </Typography>
-                <Typography variant="button" gutterBottom component="div" style={{"text-align": "center"}}>
-                  Total Bonus was: {prev_bonus}
-                </Typography>
-                <br/>
-              </Stack>
-            </Container>
-          </Paper> 
- */}
-          {/* <div style={{overflowX: "auto"}}>
-          <table style={{width: "100%"}}>
-            <thead>
-            <tr>
-              <th>Name</th>
-              <th>Actual Points	</th>
-              <th>PreDefined Multiple	</th>
-              <th>Acc/Dec Value</th>
-              <th>New Score</th>
-              <th>Bounty (Money)</th>
-              <th>Bounty (Money)</th>
-            </tr>
-            </thead>
-            {last_b_data.length>0 &&
-                <tbody>
-                {last_b_data.map((ub)=>{
-                  console.log(ub)
-                  return (
-                    <tr>
-                      <td>{ub.name}</td>
-                      <td>{ub.sum_points}</td>
-                      <td>
-                      {
-                        surveyUsersData && surveyUsersData!=='undefined' && ub.name && ub.name !=='undefined'
-                        ?
-                        <div>
-                          {ub.sum_points} X {String(surveyUsersData[ub.name])}: {parseFloat(Number(surveyUsersData[ub.name]*ub.sum_points).toFixed(2))}
-                        </div>
-                        :
-                        <div>
-                          {String(1)} x {String(ub.sum_points)} : {String(ub.sum_points)}
-                        </div>
-                      }
-                      </td>
-                      <td>{ub.a_d_ecelBy}</td>
-                      <td>{ub.new_points}</td>
-                      <td>{ub.bounty}</td>
-                      <td>{ub.bountyt}</td>
-                    </tr>
-                  )
-                })}
-                </tbody>
-            }
-            </table>
-          </div> */}
-          </Stack>
+        </Stack>
       </Container>
     );
   }
