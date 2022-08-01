@@ -2,16 +2,6 @@ import { initializeApp } from "firebase/app";
 // import { getFirestore } from 'firebase/firestore'; 
 // import { getAnalytics } from "firebase/analytics";
 
-// covid fighters account
-// const firebaseConfig = {
-//   apiKey: "AIzaSyAD_IA0nkyjxPwFZRugCtnVrJp18fZPvvA",
-//   authDomain: "covid-fighters-bonus-algorithm.firebaseapp.com",
-//   projectId: "covid-fighters-bonus-algorithm",
-//   storageBucket: "covid-fighters-bonus-algorithm.appspot.com",
-//   messagingSenderId: "209339362108",
-//   appId: "1:209339362108:web:27363366e407720a0f0c39"
-// };
-
 // new secret email
 const firebaseConfig = {
   apiKey: "AIzaSyA5CP8c5Aaz0zQpdgq9L9hNScE9CrZC-oI",
